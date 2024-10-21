@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+# Ignore all files outside src & markdown files
+/**/*.*
+!src/**/*.ts
+!src/**/*.tsx
+!src/**/*.css
+**/*.md
