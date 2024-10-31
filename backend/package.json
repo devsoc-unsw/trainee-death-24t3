@@ -3,15 +3,16 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "mongodb": "^6.10.0"
+    "mongodb": "^6.10.0",
+    "uuid": "^11.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.9",
+    "@types/node": "^22.8.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },
   "scripts": {
-    "start": "ts-node -T src/index.ts"
+    "start": "npx tsx src/index.ts"
   }
 }
