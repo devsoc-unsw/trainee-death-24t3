@@ -1,16 +1,16 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { User } from './types.ts'
+import { User, googleUser } from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
 // get mongo db uri string from enviroment file
 const uri: string | undefined = process.env.MONGODB_URI;
 const client = new MongoClient(uri!);
+const database = client.db('cotangles');
 
 async function connectDB() {
   try {
-    const database = client.db('cotangles');
     const users = database.collection('users');
 
     const query = { name: 'Jane Doe' };
@@ -24,7 +24,53 @@ async function connectDB() {
   }
 }
 
-export async function setData(collectionName: string, data: User) {
+const usersCollection = database.collection<googleUser>('users');
+
+// fetch or create google Id if not found
+export async function fetchOrCreateByGoogleId(googleId: string, email: string): Promise<googleUser> {
+  try {
+      await client.connect();
+      // tries to find user by googleId
+      let user = await usersCollection.findOne({ googleId });
+
+      // if no user create a new user
+      if (!user) {
+          const newUser: googleUser = { 
+            _id: new ObjectId(),
+            googleId: googleId,
+            email: email,
+            // add more fields if needed
+          }; 
+
+          const result = await usersCollection.insertOne(newUser);
+          user = await usersCollection.findOne({ _id: result.insertedId });
+      }
+      return user!;
+  } catch (error) {
+      console.error("no id", error);
+      throw error;
+  } finally {
+      await client.close();
+  }
+}
+
+// deserializes a user by googleId
+export async function deserializeUserById(id: string): Promise<googleUser | null> {
+  try {
+      await client.connect();
+      // tries to find id
+      const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+      return user;
+  } catch (error) {
+      console.error("not found", error);
+      throw error;
+  } finally {
+      await client.close();
+  }
+}
+
+// sets whole data of the collection
+export async function setData(collectionName: string, data: User|googleUser) {
   try {
     const db = await connectDB();
     const collection = db.collection(collectionName);
@@ -34,6 +80,7 @@ export async function setData(collectionName: string, data: User) {
   }
 }
 
+// gets whole data of the colelction
 export async function getData(collectionName: string, query = {}) {
   try {
     const db = await connectDB();

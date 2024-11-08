@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUserId } from './user.ts'
+import {} from './user.ts'
 
 const EXPRESS_PORT = 3000;
 
@@ -12,19 +12,28 @@ app.get('/', (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  const { username, password, ical } = req.body;
-    try {
-        const result = await registerUserId(username, password, ical);
-
-        if (result) {
-            res.status(201).json({message: "register success",});
-        } else {
-            res.status(400).json({message: "register fail"});
-        }
-    } catch (error) {
-        res.status(500).json({message: "server error",});
-    }
+  
 })
+
+app.post('/user/login', (req, res) => {
+
+});
+
+app.post('/user/logout', (req, res) => {
+
+});
+
+app.post('/calendar', (req, res) => {
+
+});
+
+app.get('/calendar/:calendarId', (req, res) => {
+
+});
+
+app.post('/calendar/join/:calendarId', (req, res) => {
+
+});
 
 app.listen(EXPRESS_PORT, () => {
   console.log(
