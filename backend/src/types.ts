@@ -10,6 +10,13 @@ export interface User{
     friends: string[]
 };
 
+export interface Calendar {
+    _id: ObjectId;
+    calendarId: string;
+    userList: string[];
+    name: string;
+}
+
 export interface googleUser{
     _id: ObjectId;
     googleId: string,
