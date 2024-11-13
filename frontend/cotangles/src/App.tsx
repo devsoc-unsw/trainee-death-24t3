@@ -1,5 +1,7 @@
 import "./App.css";
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { Button } from "./components/ui/button";
+import { decodeJwt } from "jose";
 
 
 function App() {
@@ -8,11 +10,18 @@ function App() {
      <GoogleLogin
         onSuccess={credentialResponse => {
           console.log(credentialResponse);
+          const payload = decodeJwt(credentialResponse!.credential ?? "");
+          console.log(payload);
         }}
         onError={() => {
           console.log('Login Failed');
         }}
       />
+      <Button
+        onClick={() => googleLogout()}
+      >
+        logout
+      </Button>
     </>
   );
 }
