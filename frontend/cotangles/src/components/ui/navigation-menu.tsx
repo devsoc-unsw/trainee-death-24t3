@@ -2,7 +2,6 @@ import * as React from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Calendar, CircleHelp, LogOut, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 
