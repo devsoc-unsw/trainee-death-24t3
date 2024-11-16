@@ -1,24 +1,31 @@
 import "./App.css";
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
 import { Button } from "./components/ui/button";
-import { decodeJwt } from "jose";
-
+import { useCookies } from "react-cookie";
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
   return (
     <>
      <GoogleLogin
-        onSuccess={credentialResponse => {
-          console.log(credentialResponse);
-          const payload = decodeJwt(credentialResponse!.credential ?? "");
-          console.log(payload);
-        }}
-        onError={() => {
-          console.log('Login Failed');
+        onSuccess={async credentialResponse => {
+          console.log(credentialResponse.credential);
+          setCookie('token', credentialResponse.credential, { path: '/', maxAge: 3600, secure: true });
+          await fetch("http://localhost:3000/user/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(credentialResponse),
+          });
         }}
       />
       <Button
-        onClick={() => googleLogout()}
+        onClick={() => {
+          googleLogout()
+          removeCookie('token', { path: '/' });
+        }}
       >
         logout
       </Button>
