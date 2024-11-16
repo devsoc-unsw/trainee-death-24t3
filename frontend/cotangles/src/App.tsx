@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import ExamplePage from "./pages/ExamplePage";
+import Login from "./pages/Login";
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element= {<ExamplePage/>}></Route>
+          <Route path="/" element= {<Login/>}></Route>
         </Routes>
       </BrowserRouter>
     </>

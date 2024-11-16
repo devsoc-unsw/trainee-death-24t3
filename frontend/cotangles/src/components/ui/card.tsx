@@ -8,7 +8,7 @@ const CardTop = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'flex flex-col align-center items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] h-[10%]',
+      'flex flex-col align-center items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] h-[15%]',
       className,
     )}
     {...props}
@@ -23,7 +23,7 @@ const CardBody = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'flex flex-col align-center items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] h-[90%] p-5',
+      'flex flex-col align-center items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] h-[85%] p-5',
       className,
     )}
     {...props}

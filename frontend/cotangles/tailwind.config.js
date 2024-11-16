@@ -4,6 +4,9 @@ export default {
     content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
   	extend: {
+		backgroundImage: {
+			'auth-decorator': "url('./assets/svg/decorators.svg')"
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
