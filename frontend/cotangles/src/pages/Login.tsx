@@ -1,13 +1,11 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader, CardAuth } from "@/components/ui/card";
 import { ContentWrapper } from "@/components/ui/content-wrapper";
-import { NavigationCotangles } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 
 function Login() {
   return (
     <>
-      <NavigationCotangles />
       <ContentWrapper>
         {/* Title */}
         <CardTop>

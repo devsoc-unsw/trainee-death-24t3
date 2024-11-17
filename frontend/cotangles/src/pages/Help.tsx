@@ -1,12 +1,10 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
 import { ContentWrapper } from "@/components/ui/content-wrapper";
-import { NavigationCotangles } from "@/components/ui/navigation-menu";
 
 function Help() {
   return (
     <>
-      <NavigationCotangles />
       <ContentWrapper>
         {/* Title */}
         <CardTop>

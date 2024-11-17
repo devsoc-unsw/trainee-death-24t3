@@ -8,21 +8,25 @@ import Settings from "./pages/Settings";
 import MyCalendars from "./pages/MyCalendars";
 import Help from "./pages/Help";
 import Calendar from "./pages/Calendar";
+import { NavigationCotangles } from "@/components/ui/navigation-menu";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
-          <Route path="/" element={<Login />}></Route>
-          <Route path="login" element={<Login />}></Route>
-          <Route path="my-calendars" element={<MyCalendars />}>
-            <Route path=":calendarId" element={<Calendar />} />
-          </Route>
-          <Route path="settings" element={<Settings />}></Route>
-          <Route path="help" element={<Help />}></Route>
-        </Routes>
+        <div>
+          <NavigationCotangles />
+          <Routes>
+            {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
+            <Route path="/" element={<Login />}></Route>
+            <Route path="login" element={<Login />}></Route>
+            <Route path="my-calendars" element={<MyCalendars />}>
+              <Route path=":calendarId" element={<Calendar />} />
+            </Route>
+            <Route path="settings" element={<Settings />}></Route>
+            <Route path="help" element={<Help />}></Route>
+          </Routes>
+        </div>
       </BrowserRouter>
     </>
   );
