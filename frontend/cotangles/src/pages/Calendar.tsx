@@ -11,7 +11,7 @@ function Calendar() {
         {/* Title */}
         <CardTop>
           <CardHeader>
-            <h1>My Calendars</h1>
+            <h1>Calendars</h1>
           </CardHeader>
         </CardTop>
         {/* Body */}
