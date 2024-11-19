@@ -1,11 +1,9 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
-import { ContentWrapper } from "@/components/ui/content-wrapper";
 
 function Settings() {
   return (
     <>
-      <ContentWrapper>
         {/* Title */}
         <CardTop>
           <CardHeader>
@@ -16,7 +14,6 @@ function Settings() {
         <CardBody>
           <h1>owo</h1>
         </CardBody>
-      </ContentWrapper>
     </>
   );
 }

@@ -1,13 +1,11 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
-import { ContentWrapper } from "@/components/ui/content-wrapper";
 // import { useParams } from "react-router-dom";
 function Calendar() {
   // let { calendarId } = useParams();
   // return <h1>Calendar ID {calendarId}</h1>;
   return (
     <>
-      <ContentWrapper>
         {/* Title */}
         <CardTop>
           <CardHeader>
@@ -18,7 +16,6 @@ function Calendar() {
         <CardBody>
           <p>Pretend there's a calendar here</p>
         </CardBody>
-      </ContentWrapper>
     </>
   );
 }

@@ -1,9 +1,9 @@
-import * as React from "react";
+import { Outlet } from "react-router-dom";
 
-const ContentWrapper = ({ children }: { children?: React.ReactNode }) => {
+const ContentWrapper = () => {
   return (
     <div className="relative top-[60px] flex flex-col align-center items-center gap-y-[1.5rem] h-[80vh]">
-      {children}
+      <Outlet/>
     </div>
   );
 };
