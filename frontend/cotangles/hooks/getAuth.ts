@@ -1,9 +1,10 @@
 import axios from "axios"
 import { CredentialResponse } from "@react-oauth/google";
+import { AxiosHeaders } from 'axios'
 
+import { RawAxiosRequestHeaders} from "axios";
 
-
-const fetcher = (url: string, data: any) =>
+const fetcher = (url: string, data:  (RawAxiosRequestHeaders) | AxiosHeaders) =>
   axios.post(url, {}, {headers: data}).then((res) => res.data);
 
 async function useAuth(credentials: CredentialResponse) {
