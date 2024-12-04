@@ -7,7 +7,6 @@ import { fetchOrCreateByGoogleId, deserializeUserById } from './dbInterface.ts';
 import { User } from './types.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import connectDatabase from "./dbConfig.ts";
 
 const EXPRESS_PORT = 3000;
 const app = express();
@@ -59,9 +58,10 @@ app.post('/register', async (req, res): Promise<any> => {
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
-      expiresIn: '1h', // Adjust expiration time as needed
+      expiresIn: '1h', // EXPIRATION TIME !!!
     });
     
+    // Return the user payload, send token as cookie, etc
     res
       .cookie('token', token, {
         httpOnly: true,
