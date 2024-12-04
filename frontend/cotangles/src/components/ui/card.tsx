@@ -34,7 +34,7 @@ const CardAuth = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     <div
       ref={ref}
       className={cn(
-        "flex flex-col align-center items-center justify-center rounded-[2.5em] border-2 bg-primary text-black w-[60%] h-[80%] p-5",
+        "flex flex-col align-center text-left justify-between text-black w-[60%] h-[100%] p-5",
         className
       )}
       {...props}
