@@ -1,17 +1,16 @@
 import express from "express";
+import { Request, Response } from 'express';
 import {} from './user.ts'
 import cors from 'cors';
-
-const { OAuth2Client } = require('google-auth-library');
-import jwt from 'jsonwebtoken';
-const mongoose = require('mongoose');
-import cookieParser from 'cookie-parser';
-const connectDatabase = require("./dbConfig.js");
+import { OAuth2Client } from 'google-auth-library';
+import { fetchOrCreateByGoogleId, deserializeUserById } from './dbInterface.ts';
+import { User } from './types.ts';
 
 const EXPRESS_PORT = 3000;
+const app = express();
+const client = new OAuth2Client();
 const JWT_SECRET = process.env.JWT_SECRET;
 
-const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -24,32 +23,53 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/register', (req, res) => {
-  const token = req.body.credential;
-  console.log(token);
-  // Process the token (e.g., verify and register user)
-  if (token) {
-    // Registration logic here, then respond
-    res.json({ message: "User registered successfully" });
-  } else {
-    res.status(400).json({ error: "Token not provided" });
+app.post('/register', async (req, res): Promise<any> => {
+  try {
+    const { credential } = req.headers;
+    console.log(req.headers);
+    console.log(credential);
+
+    if (!credential) {
+      return res.status(400).json({ error: "no id" });
+    }
+    if (typeof credential !== "string") {
+      return res.status(400).json({ error: "no id" });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      return res.status(400).json({ error: "no payload" });
+    }
+
+    const { email, sub: googleId } = payload;
+
+    // Fetch or create the user using Google ID
+    const user = await fetchOrCreateByGoogleId(googleId, email);
+
+    if (!user) {
+      return res.status(500).json({ error: "no user" });
+    }
+
+    // Return the user payload or relevant response
+    res.status(200).json({
+      message: "success",
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
+  } catch (err) {
+    console.error("error:", err);
+    res.status(400).json({ error: "failed", details: err.message });
   }
 
-  // Generate JWT token
-  const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
-    expiresIn: '1h', // EXPIRATION TIME POOKIE!!!
-  });
+});
 
-  res
-    .status(200)
-    .cookie('token', token, {
-      httpOnly: true,
-      secure: false, // PRODUCTION: set to true when using HTTPS
-      maxAge: 3600000, // 1h
-      sameSite: 'lax',
-    })
-    .json({ message: 'Authentication successful', user });
-})
 
 app.post('/user/login', (req, res) => {
 

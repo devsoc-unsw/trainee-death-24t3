@@ -5,7 +5,6 @@ export interface User{
     googleId: string,
     email: string,
     name: string,
-    password: string,
     ical: string
     friends: string[]
 };
@@ -17,8 +16,3 @@ export interface Calendar {
     name: string;
 }
 
-export interface googleUser{
-    _id: ObjectId;
-    googleId: string,
-    email: string,
-}
