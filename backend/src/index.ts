@@ -5,6 +5,9 @@ import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
 import { fetchOrCreateByGoogleId, deserializeUserById } from './dbInterface.ts';
 import { User } from './types.ts';
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
+import connectDatabase from "./dbConfig.ts";
 
 const EXPRESS_PORT = 3000;
 const app = express();
@@ -54,15 +57,27 @@ app.post('/register', async (req, res): Promise<any> => {
       return res.status(500).json({ error: "no user" });
     }
 
-    // Return the user payload or relevant response
-    res.status(200).json({
-      message: "success",
-      user: {
-        id: user._id,
-        email: user.email,
-        name: user.name,
-      },
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
+      expiresIn: '1h', // Adjust expiration time as needed
     });
+    
+    res
+      .cookie('token', token, {
+        httpOnly: true,
+        secure: false, // Set to true in production when using HTTPS
+        maxAge: 3600000, // 1 hour in milliseconds
+        sameSite: "lax",
+      })
+      .status(200)
+      .json({
+        message: "success",
+        user: {
+          id: user._id,
+          email: user.email,
+          name: user.name,
+      },
+      })
   } catch (err) {
     console.error("error:", err);
     res.status(400).json({ error: "failed", details: err.message });
