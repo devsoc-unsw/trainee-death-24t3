@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { User, googleUser } from './types.ts'
+import { User } from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -24,10 +24,10 @@ async function connectDB() {
   }
 }
 
-const usersCollection = database.collection<googleUser>('users');
+const usersCollection = database.collection<User>('users');
 
 // fetch or create google Id if not found
-export async function fetchOrCreateByGoogleId(googleId: string, email: string): Promise<googleUser> {
+export async function fetchOrCreateByGoogleId(googleId: string, email: string): Promise<User> {
   try {
       await client.connect();
       // tries to find user by googleId
@@ -35,10 +35,13 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
 
       // if no user create a new user
       if (!user) {
-          const newUser: googleUser = { 
+          const newUser: User = { 
             _id: new ObjectId(),
             googleId: googleId,
             email: email,
+            name: "",
+            ical: "",
+            friends: []
             // add more fields if needed
           }; 
 
@@ -55,7 +58,7 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
 }
 
 // deserializes a user by googleId
-export async function deserializeUserById(id: string): Promise<googleUser | null> {
+export async function deserializeUserById(id: string): Promise<User | null> {
   try {
       await client.connect();
       // tries to find id
@@ -70,7 +73,7 @@ export async function deserializeUserById(id: string): Promise<googleUser | null
 }
 
 // sets whole data of the collection
-export async function setData(collectionName: string, data: User|googleUser) {
+export async function setData(collectionName: string, data: User) {
   try {
     const db = await connectDB();
     const collection = db.collection(collectionName);

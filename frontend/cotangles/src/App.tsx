@@ -1,28 +1,36 @@
 import "./App.css";
-import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
-import getAuth from '../hooks/getAuth'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// Documentation: https://reactrouter.com/en/v6.3.0/getting-started/overview#navigation
 
+import Login from "./pages/Login";
+import Settings from "./pages/Settings";
+import MyCalendars from "./pages/MyCalendars";
+import Help from "./pages/Help";
+import Calendar from "./pages/Calendar";
+import { NavigationCotangles } from "@/components/ui/navigation-menu";
+import { ContentWrapper } from "./components/ui/content-wrapper";
 
 function App() {
-  const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
-    try {
-      const response = await getAuth(credentialResponse);
-      console.log("Server Response:", response);
-    } catch (error) {
-      console.error("Registration failed:", error);
-    }
-  };
-
   return (
-    <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}>
-     <GoogleLogin
-        onSuccess={handleLoginSuccess}
-        onError={() => {
-          console.log('Login Failed');
-        }}
-      />
-    </GoogleOAuthProvider>
+    <>
+      <BrowserRouter>
+        <div>
+          <NavigationCotangles />
+          <Routes>
+            {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
+            <Route element={<ContentWrapper/>}>
+              <Route path="login" element={<Login />}></Route>
+              <Route path="/" element={<Login />}></Route>
+              <Route path="my-calendars" element={<MyCalendars />}></Route>
+              <Route path="my-calendars/:calendarId" element={<Calendar />}></Route>
+              <Route path="settings" element={<Settings />}></Route>
+              <Route path="help" element={<Help />}></Route>
+            </Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
