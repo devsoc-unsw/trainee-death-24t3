@@ -2,7 +2,7 @@ import { getData, setData } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
 import { User } from './types.ts';
 
-// changing function later since idk what to return currently jsut returning booleans
+/*
 export async function registerUserId(username: string, password: string, ical: string): Promise<boolean>{
     if (!username || !password || !ical) {
         console.error("bruh");
@@ -17,6 +17,7 @@ export async function registerUserId(username: string, password: string, ical: s
         ical: ical,
         friends: []
     };
+    
 
     try {
         const existingUser = await getData('users', { name: username });
@@ -33,6 +34,7 @@ export async function registerUserId(username: string, password: string, ical: s
         return false;
     }
 }
+*/
 
 function generateRandomNumber(): number {
     return Math.floor(Math.random() * 1000000); 
