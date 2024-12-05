@@ -10,7 +10,7 @@ function Login() {
         {/* Title */}
         <CardTop>
           <CardHeader>
-            <h1>Login</h1>
+            <h1>Register & Login</h1>
           </CardHeader>
         </CardTop>
         {/* Body */}
@@ -20,13 +20,13 @@ function Login() {
         >
           <CardAuth>
             <h1 className="text-center">Collaborative calendar management made <b>simple</b>.</h1>
-              <p>See all your calendars in <b>one place</b>.</p>
-              <p>Join your friends with <b>one click</b>.</p>
-              <p>It's as easy as logging in with Google.</p>
+            <p>See all your calendars in <b>one place</b>.</p>
+            <p>Join your friends with <b>one click</b>.</p>
+            <p>It's as easy as logging in with Google.</p>
             <div className="flex justify-center items-center h-[20%]">
               <img src={squiggle_arrow} className="scale-50" alt="squiggly arrow"/>
               <Button className="rotate-3 w-[200px]">Login with Google</Button>
-              <img src={sparkle} className="scale-50 mb-8" alt="sparkle"/>
+              <img src={sparkle} className="scale-50 mb-10" alt="sparkle"/>
             </div>
           </CardAuth>
         </CardBody>
