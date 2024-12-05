@@ -7,6 +7,9 @@ import { fetchOrCreateByGoogleId, deserializeUserById } from './dbInterface.ts';
 import { User } from './types.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const EXPRESS_PORT = 3000;
 const app = express();
@@ -16,7 +19,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-connectDatabase();
 
 app.use(cors())
 
