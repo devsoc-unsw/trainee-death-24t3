@@ -1,10 +1,8 @@
 import express from "express";
-import { Request, Response } from 'express';
 import {} from './user.ts'
 import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
-import { fetchOrCreateByGoogleId, deserializeUserById } from './dbInterface.ts';
-import { User } from './types.ts';
+import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";

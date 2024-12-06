@@ -4,11 +4,11 @@ import { AxiosHeaders } from 'axios'
 
 import { RawAxiosRequestHeaders} from "axios";
 
+// set withCredentials option to true to get http only cookie
 const fetcher = (url: string, data:  (RawAxiosRequestHeaders) | AxiosHeaders) =>
-  axios.post(url, {}, {headers: data}).then((res) => res.data);
+  axios.post(url, {}, {headers: data, withCredentials: true}).then((res) => res.data);
 
 async function useAuth(credentials: CredentialResponse) {
-  console.log("anythinf");
   try {
     const response = await fetcher("http://localhost:3000/register", {
       credential: credentials.credential, 
