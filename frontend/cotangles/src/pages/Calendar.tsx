@@ -1,9 +1,11 @@
+import MyCalendar from "@/components/ui/calender";
 import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
+
 // import { useParams } from "react-router-dom";
 function Calendar() {
-  // let { calendarId } = useParams();
-  // return <h1>Calendar ID {calendarId}</h1>;
+  // let { CalendarId } = useParams();
+  // return <h1>Calendar ID {CalendarId}</h1>;
   return (
     <>
         {/* Title */}
@@ -14,7 +16,7 @@ function Calendar() {
         </CardTop>
         {/* Body */}
         <CardBody>
-          <p>Pretend there's a calendar here</p>
+          <MyCalendar/>
         </CardBody>
     </>
   );

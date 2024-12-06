@@ -1,5 +1,5 @@
 import "../App.css";
-import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
+import { CardTop, CardHeader, CardCalendar, CardBodyCalendar, CardCalendarInfo } from "@/components/ui/card";
 function MyCalendars() {
   return (
     <>
@@ -10,9 +10,15 @@ function MyCalendars() {
           </CardHeader>
         </CardTop>
         {/* Body */}
-        <CardBody>
-          <p>This card body background will be made transparent & filled up with calendar cards.</p>
-        </CardBody>
+        <CardBodyCalendar>
+          <CardCalendarInfo/>
+          <CardCalendar calendarName="aaaaa"/>
+          <CardCalendar calendarName="owo"/>
+          <CardCalendar calendarName="omg"/>
+          <CardCalendar calendarName="mmm"/>
+          <CardCalendar calendarName="aasd"/>
+          <CardCalendar calendarName="fhqwgads"/>
+        </CardBodyCalendar>
     </>
   );
 }

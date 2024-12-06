@@ -18,13 +18,13 @@ function Login() {
         {/* Title */}
         <CardTop>
           <CardHeader>
-            <h1>Login</h1>
+            <h1>Register & Login</h1>
           </CardHeader>
         </CardTop>
         {/* Body */}
         <CardBody
           className="bg-auth-decorator bg-contain bg-no-repeat bg-center"
-          style={{ backgroundColor: "#fff8e1" }}
+          style={{ backgroundColor: "#fff8e1"}}
         >
           <CardAuth>
             <Button>
