@@ -24,16 +24,42 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+/* react big calendar custom styling below */
   .rbc-event {
-    background-color: #646cff;
+    background-color: #2e6f40;
     border-radius: 0px;
+    border: 1px solid black;
   }
-
-  .rbc-toolbar {
   
+  .rbc-toolbar button {
+    background: #FFDC58;
+    margin: 4px;
+    border-radius: 6px;
+    box-shadow: 3px 3px 0px 0px #000;
+    outline-style: solid;
+
+    /* background-color: var(--color-main); */
+    /* box-shadow: var(--shadow-light); */
+    /* border: 2px solid black; */
   }
 
+  .rbc-toolbar button.rbc-active {
+    background: #FFF8E1;
+    box-shadow: none;
+  }
 
+  .rbc-toolbar button:hover {
+    box-shadow: none;
+  }
+
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .rbc-header {
+    margin-bottom: 3px;
+  }
 }
 
 a {
