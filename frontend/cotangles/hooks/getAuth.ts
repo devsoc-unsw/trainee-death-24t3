@@ -11,7 +11,6 @@ const fetcher = (url: string, data: AxiosHeaderValue | undefined) =>
 async function useAuth(credentials: CredentialResponse) {
   try {
     const response = await fetcher("http://localhost:3000/register", credentials.credential);
-
     return { response };
   } catch (error) {
     console.error("Registration failed:", error);
