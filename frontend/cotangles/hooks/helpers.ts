@@ -1,5 +1,4 @@
 import axios, { AxiosHeaderValue } from "axios"
-import { url } from "inspector";
 
 axios.defaults.withCredentials = true;
 

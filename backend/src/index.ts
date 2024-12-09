@@ -94,8 +94,11 @@ app.post('/user/logout', (req, res) => {
 app.post('/calendar/new', (req, res) => {
   // create helper function for verifying session
   if (req.cookies.token) {
-    const tokenEncoded = jwtDecode(req.cookies.token);
-    console.log(tokenEncoded);
+    const tokenDecoded: any = jwtDecode(req.cookies.token);
+    const userId = tokenDecoded.userId;
+    const { calendarName } = req.body;
+
+    console.log(tokenDecoded);
     // decrypt
     // insert new calendar object in db + add calendar id to user's calendar list
   }

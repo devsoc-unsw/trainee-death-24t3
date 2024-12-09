@@ -15,10 +15,15 @@ export interface User{
     invites: string[]
 };
 
+export interface UserList {
+    userId: string,
+    color: string
+}
+
 export interface Calendar {
     _id: ObjectId;
     calendarId: string;
-    userList: string[];
+    userList: UserList[];
     name: string;
 }
 

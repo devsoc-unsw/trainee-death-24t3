@@ -11,12 +11,6 @@ const database = client.db('cotangles');
 
 async function connectDB() {
   try {
-    const users = database.collection('users');
-
-    const query = { name: 'Jane Doe' };
-    const user = await users.findOne(query);
-    console.log(user);
-
     return client.db('cotangles'); 
   } catch (error) {
     console.error("failed to connect", error);
@@ -100,5 +94,3 @@ process.on("SIGINT", async () => {
   console.log("MongoDB connection closed");
   process.exit(0);
 });
-
-connectDB().catch(console.dir);
