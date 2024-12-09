@@ -1,11 +1,12 @@
 import express from "express";
-import {} from './user.ts'
 import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
 import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { jwtDecode } from "jwt-decode";
+
 
 dotenv.config();
 
@@ -32,8 +33,6 @@ app.post('/register', async (req, res): Promise<any> => {
   try {
     const { credential } = req.headers;
     console.log(req.cookies);
-    // console.log(req.headers.data);
-    // console.log(credential);
 
     if (!credential) {
       return res.status(400).json({ error: "no id" });
@@ -71,7 +70,7 @@ app.post('/register', async (req, res): Promise<any> => {
         httpOnly: true,
         secure: false, // Set to true in production when using HTTPS
         maxAge: 3600000, // 1 hour in milliseconds
-        sameSite: "none",
+        sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
       })
       .status(200)
       .json({
@@ -86,20 +85,22 @@ app.post('/register', async (req, res): Promise<any> => {
     console.error("error:", err);
     res.status(400).json({ error: "failed", details: err.message });
   }
-
-});
-
-
-app.post('/user/login', (req, res) => {
-
 });
 
 app.post('/user/logout', (req, res) => {
 
 });
 
-app.post('/calendar', (req, res) => {
+app.post('/calendar/new', (req, res) => {
+  // create helper function for verifying session
+  if (req.cookies.token) {
+    const tokenEncoded = jwtDecode(req.cookies.token);
+    console.log(tokenEncoded);
+    // decrypt
+    // insert new calendar object in db + add calendar id to user's calendar list
+  }
 
+  // unauthorized
 });
 
 app.get('/calendar/:calendarId', (req, res) => {
