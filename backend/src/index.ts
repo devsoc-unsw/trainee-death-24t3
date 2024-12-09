@@ -2,6 +2,7 @@ import express from "express";
 import {} from './user.ts'
 import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
+import { createCalendar } from './calendar.ts'
 import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
@@ -97,8 +98,21 @@ app.post('/user/logout', (req, res) => {
 
 });
 
-app.post('/calendar/new', (req, res) => {
+app.post('/calendar/new', async (req, res): Promise<any> => {
+  const { userId, calendarName } = req.body;
 
+    try {
+        const success = await createCalendar(userId, calendarName);
+
+        if (success) {
+            return res.status(201).json({ message: 'Calendar created successfully.' });
+        } else {
+            return res.status(400).json({ error: 'Failed to create calendar. It may already exist.' });
+        }
+    } catch (error) {
+        console.error('Error creating calendar:', error);
+        return res.status(500).json({ error: 'Internal server error.' });
+    }
 });
 
 app.get('/calendar/:calendarId', (req, res) => {
@@ -110,7 +124,7 @@ app.post('/calendar/join/:calendarId', (req, res) => {
 });
 
 app.listen(EXPRESS_PORT, () => {
-  console.log(
+  (
     `🤝📆 cotangles backend listening on port ${EXPRESS_PORT} 📆🤝`
   );
 });

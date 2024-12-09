@@ -16,7 +16,6 @@ export async function createCalendar(userId: string, calendarName: string): Prom
         name: calendarName,
     };
     
-
     try {
         const existingCalendar = await getData('calendars', { name: calendarName });
         if (existingCalendar && existingCalendar.length > 0) {
