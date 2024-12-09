@@ -72,7 +72,7 @@ const CardCalendar = ({ calendarName }: CardCalendarProps) => {
 };
 
 const newCalendar = () => {
-  createCalendar("test");
+  createCalendar("test2");
 }
 
 // Todo, link this to back end , below component will have the invites prop

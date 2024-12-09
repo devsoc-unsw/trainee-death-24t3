@@ -5,7 +5,6 @@ import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { jwtDecode } from "jwt-decode";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
 import { createCalendar } from "./calendar.ts";
@@ -101,6 +100,23 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
       error: "Unauthorized request"
     })
   }
+  try {
+    const { calendarName } = req.body;
+    const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+});
+
+app.post('/calendar/invite', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
 
   try {
     const { calendarName } = req.body;
@@ -110,8 +126,8 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
     console.error("error:", err);
     return res.status(400).json({ error: "failed", details: err.message });
   }
- 
 });
+
 
 app.get('/calendar/:calendarId', (req, res) => {
 

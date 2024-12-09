@@ -1,4 +1,4 @@
-import { getData, setData } from './dbInterface.ts';
+import { getData, setData, updateUserCalendarList } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
 import { Calendar, UserList } from './types.ts';
 import { generateId } from './utils.ts';
@@ -27,6 +27,8 @@ export async function createCalendar(userId: string | undefined, calendarName: s
     
     try {
         const existingCalendar = await getData('calendars', { name: calendarName });
+        console.log(existingCalendar);
+
         if (existingCalendar && existingCalendar.length > 0) {
             throw HTTPError(400, "Invalid calendar name");
         }
@@ -37,6 +39,8 @@ export async function createCalendar(userId: string | undefined, calendarName: s
         }
 
         newCalendar.userList.push(newUserList);
+        // add this newly added calendar to user's calendar list
+        await updateUserCalendarList(newCalendar.calendarId, userId);
         await setData('calendars', newCalendar); 
 
         return newCalendar.calendarId;

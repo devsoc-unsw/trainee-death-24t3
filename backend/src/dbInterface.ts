@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { Calendar, User } from './types.ts'
+import { Calendar, CalendarList, User } from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -42,22 +42,38 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
   }
 }
 
-// deserializes a user by googleId
-export async function deserializeUserById(id: string): Promise<User | null> {
+// update a user's calendar list
+export async function updateUserCalendarList(calendarId: string, userId: string) {
   try {
-      await client.connect();
-      // tries to find id
-      const user = await usersCollection.findOne({ _id: new ObjectId(id) });
-      return user;
+    await client.connect();
+    const existingCalendar: any[] = await getData('calendars', { calendarId: calendarId });
+    const currentCalendar: Calendar = existingCalendar[0];
+
+    const calendarObject: CalendarList = {
+      calendarName: currentCalendar.name,
+      calendarId: currentCalendar.calendarId
+    }
+
+    const exisitingUser: any[] = await getData('users', { userId: userId });
+    const currentUser: User = exisitingUser[0];
+
+    const filter = { userId: currentUser._id };
+    const options = {
+      upsert: true,
+    };
+
+    // push calendar object to user's calendar list
+    await usersCollection.updateOne(
+      filter,
+      { $push: { calendars: calendarObject } },
+      options
+    );
   } catch (error) {
-      console.error("not found", error);
-      throw error;
-  } finally {
-      await client.close();
+    console.error("failed update data", error);
   }
 }
 
-// sets whole data of the collection
+// insert new document to a collection (calendars or users)
 export async function setData(collectionName: string, data: User | Calendar) {
   try {
     await client.connect();
@@ -68,7 +84,7 @@ export async function setData(collectionName: string, data: User | Calendar) {
   }
 }
 
-// gets whole data of the colelction
+// query a document from a collection (calendars or users)
 export async function getData(collectionName: string, query = {}) {
   try {
     await client.connect();
