@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { User } from './types.ts'
+import { User, Calendar} from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -41,7 +41,8 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
             email: email,
             name: "",
             ical: "",
-            friends: []
+            calendars: [],
+            invites: []
             // add more fields if needed
           }; 
 
@@ -73,7 +74,7 @@ export async function deserializeUserById(id: string): Promise<User | null> {
 }
 
 // sets whole data of the collection
-export async function setData(collectionName: string, data: User) {
+export async function setData(collectionName: string, data: User| Calendar) {
   try {
     const db = await connectDB();
     const collection = db.collection(collectionName);

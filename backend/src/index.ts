@@ -86,7 +86,6 @@ app.post('/register', async (req, res): Promise<any> => {
     console.error("error:", err);
     res.status(400).json({ error: "failed", details: err.message });
   }
-
 });
 
 
@@ -98,7 +97,7 @@ app.post('/user/logout', (req, res) => {
 
 });
 
-app.post('/calendar', (req, res) => {
+app.post('/calendar/new', (req, res) => {
 
 });
 

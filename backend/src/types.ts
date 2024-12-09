@@ -17,7 +17,7 @@ export interface User{
 
 export interface Calendar {
     _id: ObjectId;
-    calendarId: string;
+    calendarId: number;
     userList: string[];
     name: string;
 }
