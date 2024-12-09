@@ -11,10 +11,14 @@ export async function createCalendar(token: string, calendarName: string): Promi
         return -1; 
     }
 
+    if (!maxCalendarName(calendarName)) {
+        console.error('max');
+        return -1;
+    }
     const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
     if (!decoded || !decoded.userId) {
         console.error("missing token");
-        return null;
+        return -1;
     }
 
     const userId = decoded.userId;
@@ -42,6 +46,13 @@ export async function createCalendar(token: string, calendarName: string): Promi
         console.error("failed to register", error);
         return -1;
     }
+}
+
+function maxCalendarName(calendarName: string): boolean {
+    if (calendarName.length > 20) {
+        return false;
+    }
+    return true;
 }
 
 function generateRandomNumber(): number {
