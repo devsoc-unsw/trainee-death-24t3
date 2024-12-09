@@ -104,14 +104,13 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
     try {
         const success = await createCalendar(userId, calendarName);
 
-        if (success) {
-            return res.status(201).json({ message: 'Calendar created successfully.' });
+        if (success == -1) {
+          return res.status(400).json({ error: 'calendar exists' });
         } else {
-            return res.status(400).json({ error: 'Failed to create calendar. It may already exist.' });
+          return res.status(201).json({ message: 'calendar success' });
         }
     } catch (error) {
-        console.error('Error creating calendar:', error);
-        return res.status(500).json({ error: 'Internal server error.' });
+        return res.status(500).json({ error: 'error' });
     }
 });
 
@@ -124,7 +123,7 @@ app.post('/calendar/join/:calendarId', (req, res) => {
 });
 
 app.listen(EXPRESS_PORT, () => {
-  (
+  console.log(
     `🤝📆 cotangles backend listening on port ${EXPRESS_PORT} 📆🤝`
   );
 });

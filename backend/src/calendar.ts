@@ -3,10 +3,10 @@ import { ObjectId } from 'mongodb';
 import { Calendar } from './types.ts';
 
 
-export async function createCalendar(userId: string, calendarName: string): Promise<boolean>{
+export async function createCalendar(userId: string, calendarName: string): Promise<number>{
     if (!userId || !calendarName) {
         console.error("bruh");
-        return false; 
+        return -1; 
     }
 
     const newCalendar: Calendar = {
@@ -20,17 +20,17 @@ export async function createCalendar(userId: string, calendarName: string): Prom
         const existingCalendar = await getData('calendars', { name: calendarName });
         if (existingCalendar && existingCalendar.length > 0) {
             console.error("existing calendar");
-            return false; 
+            return -1; 
         }
 
         newCalendar.userList.push(userId);
 
         const result = await setData('calendars', newCalendar); 
         console.log("new user registered", result);
-        return true;
+        return newCalendar.calendarId;
     } catch (error) {
         console.error("failed to register", error);
-        return false;
+        return -1;
     }
 }
 
