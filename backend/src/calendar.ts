@@ -1,13 +1,23 @@
 import { getData, setData } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
 import { Calendar } from './types.ts';
+import jwt from 'jsonwebtoken';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
-export async function createCalendar(userId: string, calendarName: string): Promise<number>{
-    if (!userId || !calendarName) {
+export async function createCalendar(token: string, calendarName: string): Promise<number>{
+    if (!token|| !calendarName) {
         console.error("bruh");
         return -1; 
     }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    if (!decoded || !decoded.userId) {
+        console.error("missing token");
+        return null;
+    }
+
+    const userId = decoded.userId;
 
     const newCalendar: Calendar = {
         _id: new ObjectId(),

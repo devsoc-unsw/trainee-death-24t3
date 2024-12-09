@@ -99,19 +99,23 @@ app.post('/user/logout', (req, res) => {
 });
 
 app.post('/calendar/new', async (req, res): Promise<any> => {
-  const { userId, calendarName } = req.body;
+  try {
+    const token = req.cookies.token;
+    const { calendarName } = req.body;
 
-    try {
-        const success = await createCalendar(userId, calendarName);
-
-        if (success == -1) {
-          return res.status(400).json({ error: 'calendar exists' });
-        } else {
-          return res.status(201).json({ message: 'calendar success' });
-        }
-    } catch (error) {
-        return res.status(500).json({ error: 'error' });
+    if (!token) {
+        return res.status(401).json({ error: "missing token" });
     }
+    const calendarId = await createCalendar(token, calendarName);
+
+    if (calendarId === -1) {
+        return res.status(400).json({ error: "existing calendar" });
+    }
+
+    res.status(201).json({ message: "calendar created", calendarId });
+  } catch (error) {
+      res.status(500).json({ error: "error" });
+  }
 });
 
 app.get('/calendar/:calendarId', (req, res) => {
