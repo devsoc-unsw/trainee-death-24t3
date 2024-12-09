@@ -2,6 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { Button } from "./button";
+import createCalendar from "../../../hooks/createCalendar"
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -70,12 +71,16 @@ const CardCalendar = ({ calendarName }: CardCalendarProps) => {
   );
 };
 
+const newCalendar = () => {
+  createCalendar("test");
+}
+
 // Todo, link this to back end , below component will have the invites prop
 // type CardCalendarInfoProps = { invites: calendarInvite[] }
 const CardCalendarInfo = () => {
   return (
     <div className="flex flex-col align-center items-center justify-between rounded-[2.5em] bg-transparent text-black w-[15.5em] h-[70%]">
-        <Button className="w-[100%] rounded-[2.5em] bg-secondary h-[20%]"><Plus/></Button>
+        <Button className="w-[100%] rounded-[2.5em] bg-secondary h-[20%]" onClick={newCalendar}><Plus/></Button>
         <div className="flex flex-col align-center items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[100%] h-[70%] p-5">
           <h1><b>Pending</b></h1>
         </div>

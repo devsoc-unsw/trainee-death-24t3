@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { User } from './types.ts'
+import { Calendar, User } from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -8,16 +8,6 @@ dotenv.config({ path: "src/.env.local" });
 const uri: string | undefined = process.env.MONGODB_URI;
 const client = new MongoClient(uri!);
 const database = client.db('cotangles');
-
-async function connectDB() {
-  try {
-    return client.db('cotangles'); 
-  } catch (error) {
-    console.error("failed to connect", error);
-    throw error; 
-  }
-}
-
 const usersCollection = database.collection<User>('users');
 
 // fetch or create google Id if not found
@@ -68,10 +58,10 @@ export async function deserializeUserById(id: string): Promise<User | null> {
 }
 
 // sets whole data of the collection
-export async function setData(collectionName: string, data: User) {
+export async function setData(collectionName: string, data: User | Calendar) {
   try {
-    const db = await connectDB();
-    const collection = db.collection(collectionName);
+    await client.connect();
+    const collection = database.collection(collectionName);
     return await collection.insertOne(data);  // insert data in collection
   } catch (error) {
     console.error("failed set data", error);
@@ -81,8 +71,8 @@ export async function setData(collectionName: string, data: User) {
 // gets whole data of the colelction
 export async function getData(collectionName: string, query = {}) {
   try {
-    const db = await connectDB();
-    const collection = db.collection(collectionName); 
+    await client.connect();
+    const collection = database.collection(collectionName);
     return await collection.find(query).toArray(); // finds data in collection
   } catch (error) {
     console.error("failed fetching data", error);

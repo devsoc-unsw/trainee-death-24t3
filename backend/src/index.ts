@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { jwtDecode } from "jwt-decode";
+import { UserToken } from "./types.ts";
+import { verifySessionToken } from "./utils.ts";
+import { createCalendar } from "./calendar.ts";
 
 
 dotenv.config();
@@ -65,7 +68,7 @@ app.post('/register', async (req, res): Promise<any> => {
     });
     
     // Return the user payload, send token as cookie, etc
-    res
+    return res
       .cookie('token', token, {
         httpOnly: true,
         secure: false, // Set to true in production when using HTTPS
@@ -83,7 +86,7 @@ app.post('/register', async (req, res): Promise<any> => {
       })
   } catch (err) {
     console.error("error:", err);
-    res.status(400).json({ error: "failed", details: err.message });
+    return res.status(400).json({ error: "failed", details: err.message });
   }
 });
 
@@ -91,19 +94,23 @@ app.post('/user/logout', (req, res) => {
 
 });
 
-app.post('/calendar/new', (req, res) => {
-  // create helper function for verifying session
-  if (req.cookies.token) {
-    const tokenDecoded: any = jwtDecode(req.cookies.token);
-    const userId = tokenDecoded.userId;
-    const { calendarName } = req.body;
-
-    console.log(tokenDecoded);
-    // decrypt
-    // insert new calendar object in db + add calendar id to user's calendar list
+app.post('/calendar/new', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
   }
 
-  // unauthorized
+  try {
+    const { calendarName } = req.body;
+    const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+ 
 });
 
 app.get('/calendar/:calendarId', (req, res) => {
