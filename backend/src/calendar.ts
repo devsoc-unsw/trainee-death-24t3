@@ -45,9 +45,10 @@ export async function createCalendar(userId: string | undefined, calendarName: s
         }
 
         newCalendar.userList.push(newUserList);
+        await setData('calendars', newCalendar); 
+
         // add this newly added calendar to user's calendar list
         await updateUserCalendarList(newCalendar.calendarId, userId);
-        await setData('calendars', newCalendar); 
 
         return newCalendar.calendarId;
     } catch (error) {

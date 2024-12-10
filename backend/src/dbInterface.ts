@@ -57,6 +57,7 @@ export async function updateUserCalendarList(calendarId: string, userId: string)
       calendarId: currentCalendar.calendarId
     }
 
+    console.log("test", userId);
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 

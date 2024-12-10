@@ -35,7 +35,6 @@ app.get('/', (req, res) => {
 app.post('/register', async (req, res): Promise<any> => {
   try {
     const { credential } = req.headers;
-    console.log(req.cookies);
 
     if (!credential) {
       return res.status(400).json({ error: "no id" });
@@ -63,7 +62,7 @@ app.post('/register', async (req, res): Promise<any> => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.userId, email: user.email }, JWT_SECRET, {
       expiresIn: '1h', // EXPIRATION TIME !!!
     });
     
@@ -79,7 +78,7 @@ app.post('/register', async (req, res): Promise<any> => {
       .json({
         message: "success",
         user: {
-          id: user._id,
+          id: user.userId,
           email: user.email,
           name: user.name,
       },
