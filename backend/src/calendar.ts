@@ -1,6 +1,6 @@
 import { getData, setData, updateUserCalendarList } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
-import { Calendar, UserList, CalendarList } from './types.ts';
+import { Calendar, UserList, CalendarList, CalendarInfo } from './types.ts';
 import { generateId } from './utils.ts';
 import HTTPError from 'http-errors';
 
@@ -104,6 +104,33 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
         }));
 
         return calendarNames;
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
+}
+
+/**
+ * 
+ * @param calendarId 
+ */
+export async function calendarInfo(calendarId: string|undefined): Promise<CalendarInfo[]> {
+    if (!calendarId) {
+        throw HTTPError(400, "Invalid request");
+    }
+    try {
+        const existingCalendar = await getData('calendars', { calendarId: calendarId });
+        // check if calendar exists
+        if (!existingCalendar || existingCalendar.length == 0) {
+            throw HTTPError(400, "Invalid request");
+        }
+        
+        const calendarInfo = existingCalendar.map((calendar) => ({
+            name: calendar.name,
+            userList: calendar.userList,
+            ical: calendar.ical
+        }));
+
+        return calendarInfo;
     } catch (error) {
         throw HTTPError(400, "Bad request");
     }

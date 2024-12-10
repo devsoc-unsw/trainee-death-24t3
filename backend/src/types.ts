@@ -20,6 +20,12 @@ export interface User{
     invites: CalendarList[]
 };
 
+export interface CalendarInfo {
+    userList: UserList[];
+    name: string;
+    ical: string,
+}
+
 export interface UserList {
     userId: string,
     color: string
