@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar, inviteCalendar } from "./calendar.ts";
+import { createCalendar, inviteCalendar, removeUserFromCalendar, updateUser } from "./calendar.ts";
 
 
 dotenv.config();
@@ -89,8 +89,49 @@ app.post('/register', async (req, res): Promise<any> => {
   }
 });
 
-app.post('/user/logout', (req, res) => {
+app.put('/user/update', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
 
+  const { userId, name, ical } = req.body;
+  if (tokenDecoded.userId !== userId) {
+    return res.status(403).json({ 
+      error: "Unauthorized request" 
+    });
+  }
+
+  try {
+    await updateUser(userId, { name, ical });
+    return res.status(200).json({ message: "success" });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+});
+
+app.post('/user/logout', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.clearCookie('token').status(200).json({ 
+      message: "User already logged out" 
+    });
+  }
+
+  const { userId } = req.body;
+  if (tokenDecoded.userId != userId) {
+    return res.status(403).json({ 
+      error: "Unauthorized request" 
+    });
+  }
+
+  return res
+    .clearCookie('token')
+    .status(200)
+    .json({ message: "success"});
 });
 
 app.post('/calendar/new', async (req, res): Promise<any> => {
@@ -136,6 +177,24 @@ app.get('/calendar/:calendarId', (req, res) => {
 
 app.post('/calendar/join/:calendarId', (req, res) => {
 
+});
+
+app.delete('/calendar/remove', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
+
+  try {
+    const { calendarId, deleteUserId } = req.body;
+    await removeUserFromCalendar(calendarId, deleteUserId);
+    return res.status(200).json({ message: "success" });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
 });
 
 app.listen(EXPRESS_PORT, () => {
