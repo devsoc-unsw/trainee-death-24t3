@@ -1,6 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
-import { User, Calendar} from './types.ts'
+import { Calendar, CalendarList, User } from './types.ts'
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -8,22 +8,6 @@ dotenv.config({ path: "src/.env.local" });
 const uri: string | undefined = process.env.MONGODB_URI;
 const client = new MongoClient(uri!);
 const database = client.db('cotangles');
-
-async function connectDB() {
-  try {
-    const users = database.collection('users');
-
-    const query = { name: 'Jane Doe' };
-    const user = await users.findOne(query);
-    console.log(user);
-
-    return client.db('cotangles'); 
-  } catch (error) {
-    console.error("failed to connect", error);
-    throw error; 
-  }
-}
-
 const usersCollection = database.collection<User>('users');
 
 // fetch or create google Id if not found
@@ -58,37 +42,85 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
   }
 }
 
-// deserializes a user by googleId
-export async function deserializeUserById(id: string): Promise<User | null> {
+// update a user's calendar list
+export async function updateUserCalendarList(calendarId: string, userId: string) {
   try {
-      await client.connect();
-      // tries to find id
-      const user = await usersCollection.findOne({ _id: new ObjectId(id) });
-      return user;
+    await client.connect();
+    const existingCalendar: any[] = await getData('calendars', { calendarId: calendarId });
+    const currentCalendar: Calendar = existingCalendar[0];
+
+    const calendarObject: CalendarList = {
+      calendarName: currentCalendar.name,
+      calendarId: currentCalendar.calendarId
+    }
+
+    const exisitingUser: any[] = await getData('users', { userId: userId });
+    const currentUser: User = exisitingUser[0];
+
+    const filter = { userId: currentUser._id };
+    const options = {
+      upsert: true,
+    };
+
+    // push calendar object to user's calendar list
+    await usersCollection.updateOne(
+      filter,
+      { $push: { calendars: calendarObject } },
+      options
+    );
   } catch (error) {
-      console.error("not found", error);
-      throw error;
-  } finally {
-      await client.close();
+    console.error("failed update data", error);
   }
 }
 
-// sets whole data of the collection
-export async function setData(collectionName: string, data: User| Calendar) {
+
+// add a calendar to a user's invite list
+export async function updateUserInviteList(calendarId: string, userId: string) {
   try {
-    const db = await connectDB();
-    const collection = db.collection(collectionName);
+    await client.connect();
+    const existingCalendar: any[] = await getData('calendars', { calendarId: calendarId });
+    const currentCalendar: Calendar = existingCalendar[0];
+
+    const calendarObject: CalendarList = {
+      calendarName: currentCalendar.name,
+      calendarId: currentCalendar.calendarId
+    }
+
+    const exisitingUser: any[] = await getData('users', { userId: userId });
+    const currentUser: User = exisitingUser[0];
+
+    const filter = { userId: currentUser._id };
+    const options = {
+      upsert: true,
+    };
+
+    // push calendar object to user's calendar list
+    await usersCollection.updateOne(
+      filter,
+      { $push: { invites: calendarObject } },
+      options
+    );
+  } catch (error) {
+    console.error("failed update data", error);
+  }
+}
+
+// insert new document to a collection (calendars or users)
+export async function setData(collectionName: string, data: User | Calendar) {
+  try {
+    await client.connect();
+    const collection = database.collection(collectionName);
     return await collection.insertOne(data);  // insert data in collection
   } catch (error) {
     console.error("failed set data", error);
   }
 }
 
-// gets whole data of the colelction
+// query a document from a collection (calendars or users)
 export async function getData(collectionName: string, query = {}) {
   try {
-    const db = await connectDB();
-    const collection = db.collection(collectionName); 
+    await client.connect();
+    const collection = database.collection(collectionName);
     return await collection.find(query).toArray(); // finds data in collection
   } catch (error) {
     console.error("failed fetching data", error);
@@ -100,5 +132,3 @@ process.on("SIGINT", async () => {
   console.log("MongoDB connection closed");
   process.exit(0);
 });
-
-connectDB().catch(console.dir);

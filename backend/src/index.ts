@@ -1,12 +1,14 @@
 import express from "express";
-import {} from './user.ts'
 import cors from 'cors';
 import { OAuth2Client } from 'google-auth-library';
-import { createCalendar } from './calendar.ts'
 import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { UserToken } from "./types.ts";
+import { verifySessionToken } from "./utils.ts";
+import { createCalendar, inviteCalendar } from "./calendar.ts";
+
 
 dotenv.config();
 
@@ -33,8 +35,6 @@ app.post('/register', async (req, res): Promise<any> => {
   try {
     const { credential } = req.headers;
     console.log(req.cookies);
-    // console.log(req.headers.data);
-    // console.log(credential);
 
     if (!credential) {
       return res.status(400).json({ error: "no id" });
@@ -67,12 +67,12 @@ app.post('/register', async (req, res): Promise<any> => {
     });
     
     // Return the user payload, send token as cookie, etc
-    res
+    return res
       .cookie('token', token, {
         httpOnly: true,
         secure: false, // Set to true in production when using HTTPS
         maxAge: 3600000, // 1 hour in milliseconds
-        sameSite: "none",
+        sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
       })
       .status(200)
       .json({
@@ -85,13 +85,8 @@ app.post('/register', async (req, res): Promise<any> => {
       })
   } catch (err) {
     console.error("error:", err);
-    res.status(400).json({ error: "failed", details: err.message });
+    return res.status(400).json({ error: "failed", details: err.message });
   }
-});
-
-
-app.post('/user/login', (req, res) => {
-
 });
 
 app.post('/user/logout', (req, res) => {
@@ -99,23 +94,51 @@ app.post('/user/logout', (req, res) => {
 });
 
 app.post('/calendar/new', async (req, res): Promise<any> => {
-  try {
-    const token = req.cookies.token;
-    const { calendarName } = req.body;
-
-    if (!token) {
-        return res.status(401).json({ error: "missing token" });
-    }
-    const calendarId = await createCalendar(token, calendarName);
-
-    if (calendarId === -1) {
-        return res.status(400).json({ error: "existing calendar" });
-    }
-
-    res.status(201).json({ message: "calendar created", calendarId });
-  } catch (error) {
-      res.status(500).json({ error: "error" });
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
   }
+  try {
+    const { calendarName } = req.body;
+    const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+});
+
+app.post('/calendar/invite', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
+
+  try {
+    const { inviteEmail, calendarId } = req.body;
+    // returns calendarId if successful
+    const ret = await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
+    return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+});
+
+app.get('/calendar/list/:userId', (req, res) => {
+
+});
+
+app.get('/calendar/info/:calendarId', (req, res) => {
+
+});
+
+app.get('/calendar/accept', (req, res) => {
+
 });
 
 app.get('/calendar/:calendarId', (req, res) => {
