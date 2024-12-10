@@ -113,18 +113,12 @@ app.put('/user/update', async (req, res): Promise<any> => {
   }
 });
 
+// TODO: this implementation might change based on google oauth's logout system
 app.post('/user/logout', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
   if (tokenDecoded == null) {
     return res.clearCookie('token').status(200).json({ 
       message: "User already logged out" 
-    });
-  }
-
-  const { userId } = req.body;
-  if (tokenDecoded.userId != userId) {
-    return res.status(403).json({ 
-      error: "Unauthorized request" 
     });
   }
 
