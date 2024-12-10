@@ -93,7 +93,7 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
         throw HTTPError(403, "Unauthorized access");  
     }
     try {
-        const exisitingUser = await getData("users", { _id: userId });
+        const exisitingUser = await getData("users", { userId: userId });
         // check if user exists
         if (!exisitingUser || exisitingUser.length == 0) {
             throw HTTPError(400, "Invalid request");
@@ -165,7 +165,7 @@ export async function removeUserFromCalendar(calendarId: string, deleteUserId: s
 
         // Remove calendar from the user's calendars list
         const userUpdate = await usersCollection.updateOne(
-            { _id: new ObjectId(deleteUserId) },
+            { userId: deleteUserId },
             { $pull: { calendars: { calendarId } } }
         );
 
@@ -174,6 +174,19 @@ export async function removeUserFromCalendar(calendarId: string, deleteUserId: s
         throw HTTPError(400, "Bad request");
     }
 }
+
+// export async function removeInvite(calendarId: string, userId: string) {
+//     if (!calendarId || !userId) {
+//         throw HTTPError(400, "Invalid request");
+//     }
+//     try {
+//         // Remove invite from the user's calendars list
+//         const userUpdate = await usersCollection.updateOne(
+//             { userId: userId },
+//             { $pull: { calendars: { calendarId } } }
+//         );
+//     }
+// }
 
 export async function updateUser(userId: string, updates: { name?: string; ical?: string }) {
     const { name, ical } = updates;
@@ -187,7 +200,7 @@ export async function updateUser(userId: string, updates: { name?: string; ical?
 
     try {
         const result = await usersCollection.updateOne(
-            { _id: new ObjectId(userId) },
+            { userId: userId },
             { $set: updateFields }
         );
         

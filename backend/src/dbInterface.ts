@@ -1,6 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import dotenv from "dotenv";
 import { Calendar, CalendarList, User } from './types.ts'
+import { generateId } from "./utils.ts";
 
 dotenv.config({ path: "src/.env.local" });
 
@@ -22,6 +23,7 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
       if (!user) {
           const newUser: User = { 
             _id: new ObjectId(),
+            userId: generateId(),
             googleId: googleId,
             email: email,
             name: "",
@@ -58,7 +60,7 @@ export async function updateUserCalendarList(calendarId: string, userId: string)
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 
-    const filter = { userId: currentUser._id };
+    const filter = { userId: currentUser.userId };
     const options = {
       upsert: true,
     };
@@ -90,7 +92,7 @@ export async function updateUserInviteList(calendarId: string, userId: string) {
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 
-    const filter = { userId: currentUser._id };
+    const filter = { userId: currentUser.userId };
     const options = {
       upsert: true,
     };

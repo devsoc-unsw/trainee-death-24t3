@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// TODO: change this if deployed
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
@@ -203,8 +204,21 @@ app.put('/calendar/accept', (req, res) => {
 
 });
 
-app.put('/calendar/reject', (req, res) => {
+app.put('/calendar/reject', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
 
+  try {
+    const { calendarId, deleteUserId } = req.body;
+    // delete invite from intive list
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
 });
 
 app.delete('/calendar/remove', async (req, res): Promise<any> => {

@@ -12,6 +12,7 @@ export interface CalendarList {
 
 export interface User{
     _id: ObjectId;
+    userId: string;
     googleId: string,
     email: string,
     name: string,
