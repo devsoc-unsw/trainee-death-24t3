@@ -1,4 +1,4 @@
-import { getData, setData, updateUserCalendarList } from './dbInterface.ts';
+import { getData, setData, updateUserCalendarList, calendarsCollection, usersCollection } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
 import { Calendar, UserList, CalendarList, CalendarInfo } from './types.ts';
 import { generateId } from './utils.ts';
@@ -148,4 +148,49 @@ function generateRandomColor(): string {
     const randomIndex = Math.floor(Math.random()) * (colorList.length - 1);
 
     return colorList[randomIndex];
+}
+
+export async function removeUserFromCalendar(calendarId: string, deleteUserId: string) {
+    try {
+        // Remove user from the calendar's user list
+        const calendarUpdate = await calendarsCollection.updateOne(
+            { calendarId },
+            { $pull: { userList: { userId: deleteUserId } } }
+        );
+
+        // Remove calendar from the user's calendars list
+        const userUpdate = await usersCollection.updateOne(
+            { _id: new ObjectId(deleteUserId) },
+            { $pull: { calendars: { calendarId } } }
+        );
+
+        return { calendarUpdate, userUpdate };
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
+}
+
+export async function updateUser(userId: string, updates: { name?: string; ical?: string }) {
+    const { name, ical } = updates;
+    const updateFields: any = {};
+    if (name !== undefined) {
+        updateFields.name = name;
+    }
+    if (ical !== undefined) {
+        updateFields.ical = ical;
+    }
+
+    try {
+        const result = await usersCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            { $set: updateFields }
+        );
+        
+        if (result.modifiedCount === 0) {
+            throw HTTPError(400, "Bad request");
+        }
+        return result;
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
 }
