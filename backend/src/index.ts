@@ -146,7 +146,7 @@ app.get('/calendar/list/:userId', async (req, res): Promise<any> => {
   }
 });
 
-app.get('/calendar/info/:calendarId', (req, res) => {
+app.get('/calendar/info/:calendarId', async (req, res): Promise<any> => {
 
 });
 

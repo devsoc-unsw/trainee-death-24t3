@@ -1,6 +1,6 @@
 import { getData, setData, updateUserCalendarList } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
-import { Calendar, UserList } from './types.ts';
+import { Calendar, UserList, CalendarList } from './types.ts';
 import { generateId } from './utils.ts';
 import HTTPError from 'http-errors';
 
@@ -87,7 +87,7 @@ export async function inviteCalendar(inviteEmail: string | undefined, userId: st
  * 
  * @param userId 
  */
-export async function calendarList(userId: string|undefined): Promise<string[]> {
+export async function calendarList(userId: string|undefined): Promise<CalendarList[]> {
     if (!userId) {
         throw HTTPError(403, "Unauthorized access");  
     }
@@ -98,7 +98,11 @@ export async function calendarList(userId: string|undefined): Promise<string[]> 
             throw HTTPError(400, "Invalid request");
         }
         
-        const calendarNames = existingCalendar.map(calendar => calendar.name);
+        const calendarNames = existingCalendar.map((calendar) => ({
+            calendarName: calendar.name,
+            calendarId: calendar.calendarId,
+        }));
+
         return calendarNames;
     } catch (error) {
         throw HTTPError(400, "Bad request");
