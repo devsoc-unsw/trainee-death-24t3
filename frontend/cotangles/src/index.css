@@ -49,6 +49,12 @@ h1 {
   line-height: 1.1;
 }
 
+h2 {
+  font-family: "lexend-mega";
+  font-size: 1.5em;
+  line-height: 1.1;
+}
+
 p {
   font-family: "public-sans";
   font-size: 1em;

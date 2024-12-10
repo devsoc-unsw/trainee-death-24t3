@@ -1,8 +1,9 @@
 import * as React from "react";
 import { Button } from "./button";
-import { Check, Plus, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { CalendarCreateForm } from "./calendar-create";
 
 
 // Components specifically related to the my calendar page
@@ -28,7 +29,7 @@ const CardCalendarInfo = () => {
     return (
       <div className="flex flex-col content-center items-center justify-between rounded-[2.5em] bg-transparent text-black w-[30%] h-[70%]">
         {/* Todo: clicking this button creates a pop up to create a calendar */}
-          <Button className="w-[100%] rounded-[2.5em] bg-secondary h-[20%]"><Plus/></Button>
+        <CalendarCreateForm/>
           <div className="flex flex-col align-center items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[100%] h-[70%] overflow-y-auto">
             <h1 className="break-words w-[100%] text-md py-2">Pending</h1>
             <CalendarInvite calendarId={1} calendarName="This is20 characters"/>
