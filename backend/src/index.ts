@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar, inviteCalendar } from "./calendar.ts";
+import { createCalendar, inviteCalendar, calendarList } from "./calendar.ts";
 
 
 dotenv.config();
@@ -129,8 +129,21 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 });
 
-app.get('/calendar/list/:userId', (req, res) => {
-
+app.get('/calendar/list/:userId', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
+  try {
+    const userId = req.params.userId;
+    const calendarNames = await calendarList(userId);
+    return res.status(200).json({ message: "success", calendarNames });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
 });
 
 app.get('/calendar/info/:calendarId', (req, res) => {
