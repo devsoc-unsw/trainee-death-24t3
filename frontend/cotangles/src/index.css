@@ -36,11 +36,8 @@
     margin: 4px;
     border-radius: 6px;
     box-shadow: 3px 3px 0px 0px #000;
-    outline-style: solid;
-
-    /* background-color: var(--color-main); */
-    /* box-shadow: var(--shadow-light); */
-    /* border: 2px solid black; */
+    outline: none;
+    border: solid;
   }
 
   .rbc-toolbar button.rbc-active {
@@ -59,6 +56,10 @@
 
   .rbc-header {
     margin-bottom: 3px;
+  }
+
+  .rbc-day-slot .rbc-time-column {
+    border: 1px solid black;
   }
 }
 
