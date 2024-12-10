@@ -1,6 +1,6 @@
 import { getData, setData, updateUserCalendarList, calendarsCollection, usersCollection } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
-import { Calendar, UserList, CalendarList, CalendarInfo } from './types.ts';
+import { Calendar, UserList, CalendarList, CalendarInfo, User } from './types.ts';
 import { generateId } from './utils.ts';
 import HTTPError from 'http-errors';
 
@@ -34,8 +34,9 @@ export async function createCalendar(userId: string | undefined, calendarName: s
         const existingCalendar = await getData('calendars', { name: calendarName });
         console.log(existingCalendar);
 
+        // calendar name already exists
         if (existingCalendar && existingCalendar.length > 0) {
-            throw HTTPError(400, "Invalid calendar name");
+            throw HTTPError(400, "Calendar name exists");
         }
 
         const newUserList: UserList = {
@@ -92,14 +93,15 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
         throw HTTPError(403, "Unauthorized access");  
     }
     try {
-        const existingCalendar = await getData('calendars', { userList: userId });
-        // check if calendar exists
-        if (!existingCalendar || existingCalendar.length == 0) {
+        const exisitingUser = await getData("users", { _id: userId });
+        // check if user exists
+        if (!exisitingUser || exisitingUser.length == 0) {
             throw HTTPError(400, "Invalid request");
         }
-        
-        const calendarNames = existingCalendar.map((calendar) => ({
-            calendarName: calendar.name,
+
+        const user = exisitingUser[0];
+        const calendarNames = user.calendars.map((calendar: CalendarList) => ({
+            calendarName: calendar.calendarName,
             calendarId: calendar.calendarId,
         }));
 
@@ -151,6 +153,9 @@ function generateRandomColor(): string {
 }
 
 export async function removeUserFromCalendar(calendarId: string, deleteUserId: string) {
+    if (!deleteUserId || !calendarId) {
+        throw HTTPError(400, "Invalid request");
+    }
     try {
         // Remove user from the calendar's user list
         const calendarUpdate = await calendarsCollection.updateOne(
