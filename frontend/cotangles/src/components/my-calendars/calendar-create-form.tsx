@@ -1,10 +1,10 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./alert-dialog";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ControllerRenderProps, useForm } from "react-hook-form"
 import { z } from "zod"
 import { Input } from "@/components/ui/input"
-import { Button } from "./button"
+import { Button } from "../ui/button"
 import { Plus } from "lucide-react";
 
 export function CalendarCreateForm() {
@@ -59,7 +59,6 @@ export function CalendarCreateForm() {
               )}
             />
             <div className="flex w-[100%] justify-end gap-x-3">
-              {/* Todo: reset field when cancelled */}
               <AlertDialogCancel asChild>
                 <Button variant="destructive" onClick={() => {calendarCreateForm.reset()}}>Cancel</Button>
               </AlertDialogCancel>

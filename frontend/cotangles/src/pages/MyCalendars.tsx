@@ -1,6 +1,6 @@
 import "../App.css";
 import { CardTop, CardHeader } from "@/components/ui/card";
-import { CardCalendar, CardBodyCalendar, CardCalendarInfo } from "@/components/ui/calendar-list"
+import { CardCalendar, CardBodyCalendar, CardCalendarInfo } from "@/components/my-calendars/calendar-list"
 function MyCalendars() {
   return (
     <>

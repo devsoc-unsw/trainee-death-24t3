@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Button } from "./button";
+import { Button } from "../ui/button";
 import { Check, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { CalendarCreateForm } from "./calendar-create";
+import { CalendarCreateForm } from "./calendar-create-form";
 
 
 // Components specifically related to the my calendar page
@@ -14,7 +14,7 @@ const CardBodyCalendar = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
       <div
         ref={ref}
         className={cn(
-          "flex flex-wrap align-center justify-start rounded-[2.5em] bg-transparent text-black w-[70vw] h-[85%] p-5 gap-[5%] overflow-auto",
+          "flex flex-wrap justify-start rounded-[2.5em] bg-transparent text-black w-[70vw] h-[85%] p-5 gap-[5%] overflow-auto",
           className
         )}
         {...props}
@@ -28,9 +28,8 @@ const CardBodyCalendar = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 const CardCalendarInfo = () => {
     return (
       <div className="flex flex-col content-center items-center justify-between rounded-[2.5em] bg-transparent text-black w-[30%] h-[70%]">
-        {/* Todo: clicking this button creates a pop up to create a calendar */}
         <CalendarCreateForm/>
-          <div className="flex flex-col align-center items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[100%] h-[70%] overflow-y-auto">
+          <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[100%] h-[70%] overflow-y-auto">
             <h1 className="break-words w-[100%] text-md py-2">Pending</h1>
             <CalendarInvite calendarId={1} calendarName="This is20 characters"/>
             <CalendarInvite calendarId={2} calendarName="omg"/>
@@ -64,7 +63,7 @@ const CalendarInvite = ({ calendarName, calendarId }: CardCalendarProps) => {
 const CardCalendar = ({ calendarName, calendarId }: CardCalendarProps) => {
     const navigate = useNavigate()
     return (
-        <Button onClick={() => {navigate(`./${calendarId}`)}} className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[30%] h-[70%] p-5 text-center">
+        <Button onClick={() => {navigate(`./${calendarId}`)}} className="flex flex-col items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[30%] h-[70%] p-5 text-center">
             <h1 className="break-words w-[100%]">{calendarName}</h1>
             {/* Needs to redirect to a link */}
             {/* Could add something here like a calendar / person preview , also calendar settings (leave calendar and whatnot) */}

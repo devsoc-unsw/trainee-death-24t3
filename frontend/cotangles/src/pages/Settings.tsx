@@ -1,3 +1,4 @@
+import { DefaultCalendarForm } from "@/components/settings/default-calendar-form";
 import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
 
@@ -11,8 +12,9 @@ function Settings() {
           </CardHeader>
         </CardTop>
         {/* Body */}
-        <CardBody>
-          <h1>owo</h1>
+        <CardBody className="flex justify-start items-start gap-y-2">
+          <p><b>My calendar</b></p>
+          <DefaultCalendarForm/>
         </CardBody>
     </>
   );

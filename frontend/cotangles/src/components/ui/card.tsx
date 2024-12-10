@@ -7,7 +7,7 @@ const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
     <div
       ref={ref}
       className={cn(
-        "flex flex-col align-center items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] h-[15%]",
+        "flex flex-col items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] h-[15%]",
         className
       )}
       {...props}
@@ -21,7 +21,7 @@ const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     <div
       ref={ref}
       className={cn(
-        "flex flex-col align-center items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] h-[85%] p-5",
+        "flex flex-col items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] h-[85%] p-5",
         className
       )}
       {...props}
@@ -37,7 +37,7 @@ const CardAuth = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     <div
       ref={ref}
       className={cn(
-        "flex flex-col align-center text-left justify-between text-black w-[60%] h-[100%] p-5",
+        "flex flex-col text-left justify-between text-black w-[60%] h-[100%] p-5",
         className
       )}
       {...props}
