@@ -73,6 +73,38 @@ export async function updateUserCalendarList(calendarId: string, userId: string)
   }
 }
 
+
+// add a calendar to a user's invite list
+export async function updateUserInviteList(calendarId: string, userId: string) {
+  try {
+    await client.connect();
+    const existingCalendar: any[] = await getData('calendars', { calendarId: calendarId });
+    const currentCalendar: Calendar = existingCalendar[0];
+
+    const calendarObject: CalendarList = {
+      calendarName: currentCalendar.name,
+      calendarId: currentCalendar.calendarId
+    }
+
+    const exisitingUser: any[] = await getData('users', { userId: userId });
+    const currentUser: User = exisitingUser[0];
+
+    const filter = { userId: currentUser._id };
+    const options = {
+      upsert: true,
+    };
+
+    // push calendar object to user's calendar list
+    await usersCollection.updateOne(
+      filter,
+      { $push: { invites: calendarObject } },
+      options
+    );
+  } catch (error) {
+    console.error("failed update data", error);
+  }
+}
+
 // insert new document to a collection (calendars or users)
 export async function setData(collectionName: string, data: User | Calendar) {
   try {

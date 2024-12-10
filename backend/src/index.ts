@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar } from "./calendar.ts";
+import { createCalendar, inviteCalendar } from "./calendar.ts";
 
 
 dotenv.config();
@@ -119,8 +119,9 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 
   try {
-    const { calendarName } = req.body;
-    const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    const { inviteEmail, calendarId } = req.body;
+    // returns calendarId if successful
+    const ret = await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
     console.error("error:", err);

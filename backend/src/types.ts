@@ -17,7 +17,7 @@ export interface User{
     name: string,
     ical: string,
     calendars: CalendarList[],
-    invites: string[]
+    invites: CalendarList[]
 };
 
 export interface UserList {
