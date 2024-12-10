@@ -8,7 +8,8 @@ dotenv.config({ path: "src/.env.local" });
 const uri: string | undefined = process.env.MONGODB_URI;
 const client = new MongoClient(uri!);
 const database = client.db('cotangles');
-const usersCollection = database.collection<User>('users');
+export const usersCollection = database.collection<User>('users');
+export const calendarsCollection = database.collection<Calendar>('calendars');
 
 // fetch or create google Id if not found
 export async function fetchOrCreateByGoogleId(googleId: string, email: string): Promise<User> {
