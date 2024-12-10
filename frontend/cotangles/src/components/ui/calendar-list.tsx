@@ -61,7 +61,7 @@ const CalendarInvite = ({ calendarName, calendarId }: CardCalendarProps) => {
 }
 
 const CardCalendar = ({ calendarName, calendarId }: CardCalendarProps) => {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
     return (
         <Button onClick={() => {navigate(`./${calendarId}`)}} className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[30%] h-[70%] p-5 text-center">
             <h1 className="break-words w-[100%]">{calendarName}</h1>
