@@ -29,8 +29,8 @@ const CardCalendarInfo = () => {
     return (
       <div className="flex flex-col content-center items-center justify-between rounded-[2.5em] bg-transparent text-black w-[30%] h-[70%]">
         <CalendarCreateForm/>
-          <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[100%] h-[70%] overflow-y-auto">
-            <h1 className="break-words w-[100%] text-md py-2">Pending</h1>
+          <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-full h-[70%] overflow-y-auto">
+            <h1 className="break-words w-full text-md py-2">Pending</h1>
             <CalendarInvite calendarId={1} calendarName="This is20 characters"/>
             <CalendarInvite calendarId={2} calendarName="omg"/>
             <CalendarInvite calendarId={3} calendarName="Gigachad meetups"/>
@@ -64,7 +64,7 @@ const CardCalendar = ({ calendarName, calendarId }: CardCalendarProps) => {
     const navigate = useNavigate()
     return (
         <Button onClick={() => {navigate(`./${calendarId}`)}} className="flex flex-col items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[30%] h-[70%] p-5 text-center">
-            <h1 className="break-words w-[100%]">{calendarName}</h1>
+            <h1 className="break-words w-full">{calendarName}</h1>
             {/* Needs to redirect to a link */}
             {/* Could add something here like a calendar / person preview , also calendar settings (leave calendar and whatnot) */}
             <div>

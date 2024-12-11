@@ -30,8 +30,6 @@ const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 );
 CardBody.displayName = "CardBody";
 
-
-
 const CardAuth = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div

@@ -8,7 +8,6 @@ import { Button } from "../ui/button"
 import { Plus } from "lucide-react";
 
 export function CalendarCreateForm() {
-
   // valid form
   // cannot have an existing form of the same name
   // calendar names must be at least > 1 character < 20 characters
@@ -35,7 +34,7 @@ export function CalendarCreateForm() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="w-[100%] rounded-[2.5em] bg-secondary h-[20%]"><Plus/></Button>
+        <Button className="w-full rounded-[2.5em] bg-secondary h-[20%]"><Plus/></Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -58,7 +57,7 @@ export function CalendarCreateForm() {
                 </FormItem>
               )}
             />
-            <div className="flex w-[100%] justify-end gap-x-3">
+            <div className="flex w-full justify-end gap-x-3">
               <AlertDialogCancel asChild>
                 <Button variant="destructive" onClick={() => {calendarCreateForm.reset()}}>Cancel</Button>
               </AlertDialogCancel>

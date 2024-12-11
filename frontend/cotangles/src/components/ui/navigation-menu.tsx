@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./button-variants";
+import { Button } from "./button";
+import { logout } from "@/utils/accountSettings";
 
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
@@ -146,9 +148,7 @@ const NavigationCotangles = () => {
         </NavigationMenuItem>
         {/* Logout */}
         <NavigationMenuItem>
-          <Link to={"../login"} className={buttonVariants({ variant: "default" })}>
-            <LogOut />
-          </Link>
+          <Button onClick={logout}><LogOut /></Button>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
