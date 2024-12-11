@@ -176,18 +176,21 @@ export async function removeUserFromCalendar(calendarId: string, deleteUserId: s
     }
 }
 
-// export async function removeInvite(calendarId: string, userId: string) {
-//     if (!calendarId || !userId) {
-//         throw HTTPError(400, "Invalid request");
-//     }
-//     try {
-//         // Remove invite from the user's calendars list
-//         const userUpdate = await usersCollection.updateOne(
-//             { userId: userId },
-//             { $pull: { calendars: { calendarId } } }
-//         );
-//     }
-// }
+export async function removeInvite(calendarId: string, userId: string) {
+    if (!calendarId || !userId) {
+        throw HTTPError(400, "Invalid request");
+    }
+    try {
+        // Remove invite from the user's invite list
+        const userUpdate = await usersCollection.updateOne(
+            { userId: userId },
+            { $pull: { invites: { calendarId } } }
+        );
+        return { userUpdate };
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
+}
 
 export async function updateUser(userId: string, updates: { name?: string; ical?: string }) {
     const { name, ical } = updates;

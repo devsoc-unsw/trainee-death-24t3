@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo } from "./calendar.ts";
+import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo, removeInvite } from "./calendar.ts";
 
 
 dotenv.config();
@@ -214,6 +214,7 @@ app.put('/calendar/reject', async (req, res): Promise<any> => {
   try {
     const { calendarId, deleteUserId } = req.body;
     // delete invite from intive list
+    removeInvite(calendarId, deleteUserId);
   } catch (err) {
     console.error("error:", err);
     return res.status(400).json({ error: "failed", details: err.message });
