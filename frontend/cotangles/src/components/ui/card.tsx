@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-
+import { Button } from "./button";
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -91,6 +91,52 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = "CardFooter";
 
+
+// type CardSidebarProps = { userName: string, userId: number }
+
+// const CardSidebar = ({ userName,  userId}[]: CardSidebarProps[]) => {
+//   return (
+//     <div
+//       className="flex-column align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[80%] p-5 text-center"
+//     >
+//       <Button className=" w-full">+</Button>
+
+//       <ul className="flex-col space-y-4">
+//         {CardSidebarProps.map((user) => (
+//           <li key={user.id}>
+//             <Button className=" w-full">{user.name}</Button>
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+
+type CardSidebarProps = {
+  users: { userName: string; userId: number }[]; // Array of users?
+};
+
+const CardSidebar = ({ users }: CardSidebarProps) => {
+  return (
+    <div className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[80%] p-5 text-center">
+      <Button className="w-full" onClick={() => {}}>+</Button> {/* Invite user on click? */}
+
+      <ul className="flex-col space-y-4 w-full">
+        {users.map((user) => (
+          <li key={user.userId}>
+            <Button className="w-full">
+              {user.userName}
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+CardSidebar.displayName = "CardSidebar";
+
+
 export {
   CardTop,
   CardBody,
@@ -99,5 +145,6 @@ export {
   CardFooter,
   CardTitle,
   CardDescription,
-  CardContent
+  CardContent,
+  CardSidebar,
 };
