@@ -140,9 +140,10 @@ export async function calendarInfo(calendarId: string|undefined): Promise<Calend
 }
 
 function maxCalendarName(calendarName: string): boolean {
-    if (calendarName.length > 20) {
+    if (calendarName.length == 0 || calendarName.length > 20) {
         return false;
     }
+
     return true;
 }
 
