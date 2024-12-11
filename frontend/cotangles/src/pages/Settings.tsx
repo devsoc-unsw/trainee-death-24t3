@@ -15,7 +15,7 @@ function Settings() {
         </CardTop>
         {/* Body */}
         <CardBody className="flex justify-between items-start">
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 w-full">
             <DefaultCalendarForm/>
               <a href="../help" className="flex gap-x-1">
               <p className="text-left text-[0.8em]">Need help getting your iCal link? Go to the help page for more information.</p>
