@@ -119,7 +119,7 @@ type CardSidebarProps = {
 
 const CardSidebar = ({ users }: CardSidebarProps) => {
   return (
-    <div className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[80%] p-5 text-center">
+    <div className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[100%] p-5 text-center">
       <Button className="w-full" onClick={() => {}}>+</Button> {/* Invite user on click? */}
 
       <ul className="flex-col space-y-4 w-full">

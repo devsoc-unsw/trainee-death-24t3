@@ -8,17 +8,22 @@ function Calendar() {
   // return <h1>Calendar ID {CalendarId}</h1>;
   return (
     <>
+      <div className="flex h-screen">
       {/* Title */}
       <CardSidebar users={[{ userId: 1, userName: "Alice" }, { userId: 2, userName: "Bob" }]}></CardSidebar>
-        <CardTop>
-          <CardHeader>
-            <h1>Calendars</h1>
-          </CardHeader>
-        </CardTop>
-        {/* Body */}
-        <CardBody>
-          <MyCalendar/>
-        </CardBody>
+
+        <div>
+          <CardTop>
+            <CardHeader>
+              <h1>Calendars</h1>
+            </CardHeader>
+          </CardTop>
+          {/* Body */}
+          <CardBody>
+            <MyCalendar/>
+          </CardBody>
+        </div>
+      </div>
     </>
   );
 }
