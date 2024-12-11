@@ -3,6 +3,7 @@ import { CardTop, CardBody, CardHeader, CardAuth } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import sparkle from "@/assets/svg/sparkle.svg";
 import squiggle_arrow from "@/assets/svg/squiggle_arrow.svg"
+import { login } from "@/utils/accountSettings";
 
 function Login() {
   return (
@@ -25,7 +26,7 @@ function Login() {
             <p>It's as easy as logging in with Google.</p>
             <div className="flex justify-center items-center h-[20%]">
               <img src={squiggle_arrow} className="scale-50" alt="squiggly arrow"/>
-              <Button className="rotate-3 w-[200px]">Login with Google</Button>
+              <Button className="rotate-3 w-[200px]" onClick={login}>Login with Google</Button>
               <img src={sparkle} className="scale-50 mb-10" alt="sparkle"/>
             </div>
           </CardAuth>
