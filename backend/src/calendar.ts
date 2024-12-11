@@ -79,6 +79,50 @@ export async function inviteCalendar(inviteEmail: string | undefined, userId: st
 
 /**
  * 
+ * @param inviteEmail 
+ * @param userId 
+ * @param calendarId 
+ */
+export async function acceptCalendar(userId: string | undefined, calendarId: string | undefined) {
+    if (!userId) {
+        throw HTTPError(403, "Unauthorized access");  
+    }
+
+    if (!calendarId) {
+        throw HTTPError(400, "Invalid request");
+    }
+
+    try {
+        const existingUser = await getData("users", { userId: userId }) as User[];
+        // check if user exists
+        if (!existingUser || existingUser.length == 0) {
+            throw HTTPError(400, "Invalid request");
+        }
+        const existingCalendar = await getData('calendars', { calendarId: calendarId }) as Calendar[];
+        // check if calendar exists
+        if (!existingCalendar || existingCalendar.length == 0) {
+            throw HTTPError(400, "Invalid request");
+        }
+        const userExists = existingCalendar[0].userList.some(user => user.userId === userId);
+        if (userExists) {
+          throw HTTPError(400, "User already part of the calendar");
+        }
+
+        const color = generateRandomColor();
+
+        // Add current user to calendar object userList
+        await calendarsCollection.updateOne(
+            { calendarId },
+            { $push: { userList: { userId: existingUser[0].userId, color: color } } }
+        );
+        return calendarId;
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
+}
+
+/**
+ * 
  * @param userId 
  */
 export async function calendarList(userId: string|undefined): Promise<CalendarList[]> {

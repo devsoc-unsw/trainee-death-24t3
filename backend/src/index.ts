@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo, removeInvite } from "./calendar.ts";
+import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo, removeInvite, acceptCalendar } from "./calendar.ts";
 
 
 dotenv.config();
@@ -199,8 +199,22 @@ app.get('/calendar/info/:calendarId', async (req, res): Promise<any> => {
   }
 });
 
-app.put('/calendar/accept', (req, res) => {
-
+app.put('/calendar/accept', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
+  try {
+    const { userId, calendarId } = req.body;
+    // returns calendarId if successful
+    const ret = await acceptCalendar(userId, calendarId)
+    return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
 });
 
 app.put('/calendar/reject', async (req, res): Promise<any> => {
