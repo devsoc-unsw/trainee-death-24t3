@@ -1,6 +1,7 @@
 import "../App.css";
 import { CardTop, CardHeader } from "@/components/ui/card";
-import { CardCalendar, CardBodyCalendar, CardCalendarInfo } from "@/components/my-calendars/calendar-list"
+import { CardCalendar, CardBodyCalendar } from "@/components/my-calendars/calendar-list"
+import { CardCalendarInvite } from "@/components/my-calendars/calendar-invite";
 function MyCalendars() {
   return (
     <>
@@ -12,7 +13,7 @@ function MyCalendars() {
         </CardTop>
         {/* Body */}
         <CardBodyCalendar>
-          <CardCalendarInfo/>
+          <CardCalendarInvite/>
           {/* 
           Todo make sure calendarnames are less than 20 characters
           Probs get function to validate this in the frontend
