@@ -51,9 +51,9 @@ export function DeleteAccountForm() {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            <p>Deleting your account is an <span className="text-destructive">irreversible action</span>.</p><br/>
-            <p>You will be removed from all calendars and your data will be wiped.</p><br/>
-            <p>Enter your current email to proceed.</p>
+            Deleting your account is an <span className="text-destructive">irreversible action</span>.<br/><br/>
+            You will be removed from all calendars and your data will be wiped.<br/><br/>
+            Enter your current email to proceed.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div>
