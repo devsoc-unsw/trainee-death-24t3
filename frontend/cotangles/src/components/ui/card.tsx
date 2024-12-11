@@ -91,41 +91,34 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = "CardFooter";
 
-
-// type CardSidebarProps = { userName: string, userId: number }
-
-// const CardSidebar = ({ userName,  userId}[]: CardSidebarProps[]) => {
-//   return (
-//     <div
-//       className="flex-column align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[80%] p-5 text-center"
-//     >
-//       <Button className=" w-full">+</Button>
-
-//       <ul className="flex-col space-y-4">
-//         {CardSidebarProps.map((user) => (
-//           <li key={user.id}>
-//             <Button className=" w-full">{user.name}</Button>
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
-
+// TODO: COLOR ENUMS
+// const ColorEnum = {
+//   COLOR1: '',
+//   COLOR2: '',
+//   COLOR3: '',
+//   COLOR4: '',
+//   COLOR5: '',
+//   COLOR6: '',
+// }
+// #A7DBD8 #BAFCA2 #FFDB58 #FFA07A #FFC0CB #C4A1FF
 
 type CardSidebarProps = {
   users: { userName: string; userId: number }[]; // Array of users?
 };
 
+// type CardSidebarProps = { userName: string, userId: number }
+
+// const CardSidebar = ({ userName,  userId}[]: CardSidebarProps[]) => {
+
 const CardSidebar = ({ users }: CardSidebarProps) => {
   return (
-    <div className="flex flex-col align-center items-center justify-evenly rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[100%] p-5 text-center">
-      <Button className="w-full" onClick={() => {}}>+</Button> {/* Invite user on click? */}
+    <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[20%] h-[100%] p-5 text-center space-y-4">
+      <Button className="w-[100%] focus:outline-1 focus:outline-chart-2" onClick={() => {}}>+</Button> {/* Invite user on click? */}
 
       <ul className="flex-col space-y-4 w-full">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-full">
+            <Button className="w-[100%] focus:outline-1 focus:outline-destructive">
               {user.userName}
             </Button>
           </li>
