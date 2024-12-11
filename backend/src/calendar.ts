@@ -31,14 +31,6 @@ export async function createCalendar(userId: string | undefined, calendarName: s
     };
     
     try {
-        const existingCalendar = await getData('calendars', { name: calendarName });
-        console.log(existingCalendar);
-
-        // calendar name already exists
-        if (existingCalendar && existingCalendar.length > 0) {
-            throw HTTPError(400, "Calendar name exists");
-        }
-
         const newUserList: UserList = {
             userId: userId,
             color: generateRandomColor()
