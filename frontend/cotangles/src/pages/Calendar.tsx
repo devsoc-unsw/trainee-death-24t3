@@ -8,11 +8,10 @@ function Calendar() {
   // return <h1>Calendar ID {CalendarId}</h1>;
   return (
     <>
-      <div className="flex h-screen">
+      <div className="max-w-full min-w-full h-full flex gap-x-10">
       {/* Title */}
       <CardSidebar users={[{ userId: 1, userName: "Alice" }, { userId: 2, userName: "Bob" }]}></CardSidebar>
-
-        <div>
+        <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>
               <h1>Calendars</h1>
