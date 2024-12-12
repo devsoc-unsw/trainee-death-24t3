@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+  height: 80%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #434343;
+}
+
 @font-face {
   font-family: "lexend-mega";
   src: url("./assets/fonts/lexend-mega.ttf");
@@ -23,11 +46,70 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+/* react big calendar custom styling below */
+  .rbc-event {
+    background-color: #2e6f40;
+    border-radius: 0px;
+    border: 1px solid black;
+  }
+  
+  .rbc-toolbar button {
+    background: #FFDC58;
+    margin: 4px;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 0px 0px #000;
+    outline: none;
+    border: solid;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    border: 1px solid black;
+  }
+
+  .rbc-toolbar button.rbc-active {
+    background: #FFF8E1;
+    border: 1px solid black;
+    box-shadow: none;
+  }
+
+  .rbc-toolbar button:hover {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+  }
+
+  .rbc-toolbar button:active {
+    background: #FFDC58;
+    border: 1px solid black;
+    transform: translate(6px, 6px);
+  }
+
+  .rbc-toolbar button.rbc-active:hover {
+    transform: translate(0px, 0px)
+  }
+
+  .rbc-toolbar button.rbc-active:active {
+    background: #FFF8E1;
+    transform: translate(2px, 2px)
+  }
+
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .rbc-header {
+    margin-bottom: 3px;
+  }
+
+  .rbc-day-slot .rbc-time-column {
+    border: 1px solid black;
+  }
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: black;
   text-decoration: inherit;
 }
 
@@ -49,8 +131,15 @@ h1 {
   line-height: 1.1;
 }
 
+h2 {
+  font-family: "lexend-mega";
+  font-size: 1.5em;
+  line-height: 1.1;
+}
+
 p {
   font-family: "public-sans";
+  font-size: 1em;
 }
 
 button {
@@ -62,12 +151,13 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px solid black;
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -75,9 +165,7 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
+  
   button {
     background-color: #f9f9f9;
   }
@@ -99,8 +187,9 @@ button:focus-visible {
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 11.04 100% 68.04%;
     --destructive-foreground: 0 0% 98%;
+    --affirmative: 120 73.44% 74.9%;
     --border: 0 0% 0%;
     --input: 240 5.9% 90%;
     --ring: 0 0% 0%;
@@ -128,7 +217,7 @@ button:focus-visible {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
+    --border:  0 0% 0%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;

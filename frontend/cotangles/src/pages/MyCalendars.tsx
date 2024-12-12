@@ -1,5 +1,7 @@
 import "../App.css";
-import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
+import { CardTop, CardHeader } from "@/components/ui/card";
+import { CardCalendar, CardBodyCalendar } from "@/components/my-calendars/calendar-list"
+import { CardCalendarInvite } from "@/components/my-calendars/calendar-invite";
 function MyCalendars() {
   return (
     <>
@@ -10,9 +12,19 @@ function MyCalendars() {
           </CardHeader>
         </CardTop>
         {/* Body */}
-        <CardBody>
-          <p>This card body background will be made transparent & filled up with calendar cards.</p>
-        </CardBody>
+        <CardBodyCalendar>
+          <CardCalendarInvite/>
+          {/* 
+          Todo make sure calendarnames are less than 20 characters
+          Probs get function to validate this in the frontend
+          */}
+          <CardCalendar calendarName="Calendar Name" calendarId={1}/>
+          <CardCalendar calendarName="CS Alliance" calendarId={2}/>
+          <CardCalendar calendarName="COMM1140 Team" calendarId={3}/>
+          <CardCalendar calendarName="Team 1: Death" calendarId={4}/>
+          <CardCalendar calendarName="MATH1081 Study Group" calendarId={5}/>
+          <CardCalendar calendarName="wow" calendarId={6}/>
+        </CardBodyCalendar>
     </>
   );
 }
