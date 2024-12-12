@@ -3,11 +3,16 @@ import crypto from 'crypto';
 import { CalendarData } from './types.ts';
 
 
+// NOTE: all ical links with webcal protocol should be replaced with http and webcals be replaced with https
+// turns link string from webcal to http for axios request
+// function parseLink(link: string): string {
+//    return link;
+// }
+
+
 function generateEventId(): number {
     return crypto.randomInt(4194304);
 }
-
-
 
 // lowkey kinda cursed - create date from event start time
 function convertIcalToDate(icalDate: DateWithTimeZone): Date {

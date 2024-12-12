@@ -29,10 +29,17 @@ export interface User{
     invites: CalendarList[]
 };
 
+export interface CalendarUserData {
+    userId: string,
+    name: string,
+    calendarData: CalendarData[],
+}
+
 export interface CalendarInfo {
-    userList: UserList[];
-    name: string;
-    ical: string,
+    calendarId: string,
+    name: string,
+    userList: UserList[],
+    calendarUserData: CalendarUserData[]
 }
 
 export interface UserList {
