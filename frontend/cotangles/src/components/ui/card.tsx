@@ -7,7 +7,7 @@ const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
     <div
       ref={ref}
       className={cn(
-        "flex flex-col items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] h-[15%]",
+        "flex flex-col align-center items-center justify-center rounded-full shadow-light border-2 border-border bg-secondary py-0 text-black w-[70vw] min-h-[15%] max-h-[15%]",
         className
       )}
       {...props}
@@ -21,7 +21,7 @@ const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     <div
       ref={ref}
       className={cn(
-        "flex flex-col items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] h-[85%] p-5",
+        "flex flex-col align-center items-center justify-center rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[70vw] min-h-[80%] max-h-[80%] p-5",
         className
       )}
       {...props}
@@ -30,12 +30,14 @@ const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 );
 CardBody.displayName = "CardBody";
 
+
+
 const CardAuth = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "flex flex-col text-left justify-between text-black w-[60%] h-[100%] p-5",
+        "flex flex-col align-center text-left justify-between text-black w-[60%] h-[100%] p-5",
         className
       )}
       {...props}
@@ -111,12 +113,12 @@ type CardSidebarProps = {
 const CardSidebar = ({ users }: CardSidebarProps) => {
   return (
     <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] p-5 text-center space-y-4">
-      <Button className="w-[100%] focus:outline-1 focus:outline-chart-2" onClick={() => {}}>+</Button> {/* Invite user on click? */}
+      <Button className="w-[100%]" onClick={() => {}}>+</Button> {/* Invite user on click? */}
 
       <ul className="flex-col space-y-4 w-full">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-[100%] focus:outline-1 focus:outline-destructive">
+            <Button className="w-[100%] focus:outline-2 focus:outline-black">
               {user.userName}
             </Button>
           </li>
