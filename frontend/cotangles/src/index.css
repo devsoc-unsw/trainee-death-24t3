@@ -57,19 +57,29 @@
   .rbc-toolbar button {
     background: #FFDC58;
     margin: 4px;
-    border-radius: 6px;
+    border-radius: 0.5rem;
     box-shadow: 3px 3px 0px 0px #000;
     outline: none;
     border: solid;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    border: 1px solid black;
   }
 
   .rbc-toolbar button.rbc-active {
     background: #FFF8E1;
+    border: 1px solid black;
     box-shadow: none;
   }
 
   .rbc-toolbar button:hover {
     box-shadow: none;
+    transform: translate(4px, 4px);
+  }
+
+  .rbc-toolbar button.rbc-active:hover {
+    transform: translate(0px, 0px)
   }
 
   .rbc-toolbar .rbc-toolbar-label {
