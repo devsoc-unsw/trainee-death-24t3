@@ -38,7 +38,7 @@
   font-family: "public-sans", "lexend-mega";
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  color-scheme: light;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
@@ -63,7 +63,7 @@
     border: solid;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
+    transition-duration: 300ms;
     border: 1px solid black;
   }
 
@@ -113,6 +113,28 @@ a {
   text-decoration: inherit;
 }
 
+.S9gUrf-YoZ4jf {
+  outline: 1px solid black;
+  border-radius: 1.5rem;
+  box-shadow: 3px 3px 0px 0px #000;
+  rotate: 3deg;
+  background-color: white;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+
+  &:hover {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+  }
+  
+  &:focus {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+  }
+}
+
+
 body {
   margin: 0;
   padding: 0;
@@ -151,7 +173,6 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-
 }
 
 button:focus,
