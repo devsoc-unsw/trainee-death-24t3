@@ -5,6 +5,13 @@ export interface UserToken {
     email: string
 }
 
+export interface CalendarData {
+    id: number,
+    title: string,
+    start: Date,
+    end: Date
+}
+
 export interface CalendarList {
     calendarName: string,
     calendarId: string
@@ -17,6 +24,7 @@ export interface User{
     email: string,
     name: string,
     ical: string,
+    calendarData: CalendarData[],
     calendars: CalendarList[],
     invites: CalendarList[]
 };
