@@ -10,7 +10,7 @@ function Calendar() {
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
       {/* Title */}
-      <CardSidebar users={[{ userId: 1, userName: "Alice" }, { userId: 2, userName: "Bob" }]}></CardSidebar>
+      <CardSidebar users={[{ userId: 1, userName: "Aron", isOwner: true, color: "#A7DBD8"}, { userId: 2, userName: "Bron", isOwner: false, color: "#BAFCA2"}, { userId: 2, userName: "Cron", isOwner: false, color: "#FFDB58"}, { userId: 2, userName: "Dron", isOwner: false, color: "#FFA07A"}, { userId: 2, userName: "Eron", isOwner: false, color: "#FFC0CB"}, { userId: 2, userName: "Fron", isOwner: false, color: "#C4A1FF"}, { userId: 2, userName: "Chad", isOwner: false, color: "#BAFCA2"}]}></CardSidebar>
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>

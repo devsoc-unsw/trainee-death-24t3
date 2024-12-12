@@ -1,6 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
+import { Crown } from 'lucide-react';
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -91,24 +92,29 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = "CardFooter";
 
-// TODO: COLOR ENUMS
-// const ColorEnum = {
-//   COLOR1: '',
-//   COLOR2: '',
-//   COLOR3: '',
-//   COLOR4: '',
-//   COLOR5: '',
-//   COLOR6: '',
+// export enum UserColor {
+//   Blue = "#A7DBD8",
+//   Green = "#BAFCA2",
+//   Yellow = "#FFDB58",
+//   Salmon = "#FFA07A",
+//   Pink = "#FFC0CB",
+//   Purple = "#C4A1FF",
 // }
-// #A7DBD8 #BAFCA2 #FFDB58 #FFA07A #FFC0CB #C4A1FF
 
-type CardSidebarProps = {
-  users: { userName: string; userId: number }[]; // Array of users?
+// type CardSidebarProps = {
+//   users: { userName: string; userId: number; color: string; isOwner: boolean; }[]; 
+// };
+
+type User = {
+  userName: string;
+  userId: number;
+  color: string; 
+  isOwner: boolean; 
 };
 
-// type CardSidebarProps = { userName: string, userId: number }
-
-// const CardSidebar = ({ userName,  userId}[]: CardSidebarProps[]) => {
+type CardSidebarProps = {
+  users: User[];
+};
 
 const CardSidebar = ({ users }: CardSidebarProps) => {
   return (
@@ -118,8 +124,11 @@ const CardSidebar = ({ users }: CardSidebarProps) => {
       <ul className="flex-col space-y-4 w-full">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-[100%] focus:outline-2 focus:outline-black">
+            <Button className="w-[100%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.color }}>
+
               {user.userName}
+              {user.isOwner && <Crown className="w-4 h-4" />}
+              
             </Button>
           </li>
         ))}
