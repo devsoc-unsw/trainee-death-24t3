@@ -2,6 +2,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Crown } from 'lucide-react';
+// import { useState } from "react";
+// import { RemoveUserPopup } from "../calendar/calendar-remove-user.tsx";
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -92,23 +94,10 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = "CardFooter";
 
-// export enum UserColor {
-//   Blue = "#A7DBD8",
-//   Green = "#BAFCA2",
-//   Yellow = "#FFDB58",
-//   Salmon = "#FFA07A",
-//   Pink = "#FFC0CB",
-//   Purple = "#C4A1FF",
-// }
-
-// type CardSidebarProps = {
-//   users: { userName: string; userId: number; color: string; isOwner: boolean; }[]; 
-// };
-
 type User = {
   userName: string;
   userId: number;
-  color: string; 
+  userColor: string; 
   isOwner: boolean; 
 };
 
@@ -117,14 +106,26 @@ type CardSidebarProps = {
 };
 
 const CardSidebar = ({ users }: CardSidebarProps) => {
+  // ignore this:
+  // const [selectedUser, setSelectedUser] = useState<User | null>(null); 
+  // const [showModal, setShowModal] = useState(false);
+  // const handleUserClick = (user: User) => {
+  //   setSelectedUser(user);
+  //   setShowModal(true); 
+  // };
+
   return (
     <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] p-5 text-center space-y-4">
-      <Button className="w-[100%]" onClick={() => {}}>+</Button> {/* Invite user on click? */}
+      <Button className="w-[100%]" onClick={() => {}}>+</Button> 
 
       <ul className="flex-col space-y-4 w-full">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-[100%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.color }}>
+            <Button className="w-[100%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.userColor }}
+              // ignore this:
+              // onClick={() => handleUserClick(user)}
+            >
+              
 
               {user.userName}
               {user.isOwner && <Crown className="w-4 h-4" />}
@@ -133,6 +134,19 @@ const CardSidebar = ({ users }: CardSidebarProps) => {
           </li>
         ))}
       </ul>
+
+      {/* ignore this */}
+      {/* If a user is selected */}
+      {/* {showModal && selectedUser && (
+        <div
+          className="absolute left-[130px] top-[50px]"
+        >
+          <RemoveUserPopup
+            userName={selectedUser.userName} userColor={selectedUser.userColor}
+            onClose={() => setShowModal(false)}
+          />
+        </div>
+      )} */}
     </div>
   );
 };
