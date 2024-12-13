@@ -2,7 +2,25 @@ import "../App.css";
 import { CardTop, CardHeader } from "@/components/ui/card";
 import { CardCalendar, CardBodyCalendar } from "@/components/my-calendars/calendar-list"
 import { CardCalendarInvite } from "@/components/my-calendars/calendar-invite";
+import getCalendarList from "../../hooks/getCalendarList"
+
+// import { useState } from "react";
+// import { CalendarList } from "@/types";
+
 function MyCalendars() {
+
+  // const [ calendarList, setCalendarList ] = useState<CalendarList[]>([]);
+  getCalendarList().response.then((data) => {
+    console.log(data);
+    // const calendarInput = data.calendarInfos.calendarUserData[0].calendarData
+    // calendarInput.map((event: CalendarData) => {
+    //   event.start = new Date(event.start)
+    //   event.end = new Date(event.end)
+    // })
+    // // console.log(data.calendarInfos.calendarUserData[0].calendarData)
+    // setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
+  });
+
   return (
     <>
         {/* Title */}

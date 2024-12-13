@@ -165,15 +165,17 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 });
 
-app.get('/calendar/list/:userId', async (req, res): Promise<any> => {
+app.get('/calendar/list/', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  const userId = tokenDecoded.userId;
+
   if (tokenDecoded == null) {
     return res.status(403).json({
       error: "Unauthorized request"
     })
   }
+
   try {
-    const userId = req.params.userId;
     const calendarNames = await calendarList(userId);
     return res.status(200).json({ message: "success", calendarNames });
   } catch (err) {
