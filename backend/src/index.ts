@@ -168,6 +168,7 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
 app.get('/calendar/list/', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
   const userId = tokenDecoded.userId;
+  console.log("TEST", userId);
 
   if (tokenDecoded == null) {
     return res.status(403).json({

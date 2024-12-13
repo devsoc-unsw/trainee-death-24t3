@@ -3,6 +3,7 @@ import "../App.css";
 import { CardTop, CardBody, CardHeader } from "@/components/ui/card";
 import { SquareArrowOutUpRight } from "lucide-react";
 import { DeleteAccountForm } from "@/components/settings/delete-account-form";
+import { ChangeNameForm } from "@/components/settings/change-name-form";
 
 function Settings() {
   return (
@@ -16,6 +17,7 @@ function Settings() {
         {/* Body */}
         <CardBody className="flex justify-between items-start">
           <div className="flex flex-col gap-y-4 w-full">
+            <ChangeNameForm/>
             <DefaultCalendarForm/>
               <a href="../help" className="flex gap-x-1">
               <p className="text-left text-[0.8em]">Need help getting your iCal link? Go to the help page for more information.</p>

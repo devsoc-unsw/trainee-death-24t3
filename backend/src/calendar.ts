@@ -132,6 +132,7 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
     }
     try {
         const exisitingUser = await getData("users", { userId: userId });
+        console.log(exisitingUser);
         // check if user exists
         if (!exisitingUser || exisitingUser.length == 0) {
             throw HTTPError(400, "Invalid request");
