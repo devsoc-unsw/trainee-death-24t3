@@ -16,7 +16,7 @@ export type CalendarSetter = (calendarToAdd: CalendarProp) => void
 const CardBodyCalendar = () => {
   // Todo set this to use state instead
   const [calendarList, setCalendarList] = React.useState<CalendarProp[]>([
-    { calendarName: "AAAA", calendarId: "1" },
+    { calendarName: "Test Calendar", calendarId: "6cd6b53c-b84b-43c1-bab4-79cc98770a7d" },
     { calendarName: "CS Alliance", calendarId: "yourmother" },
     { calendarName: "COMM1140 Team", calendarId: "asdasd" },
   ])
