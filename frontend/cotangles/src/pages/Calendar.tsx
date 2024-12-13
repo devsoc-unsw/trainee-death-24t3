@@ -14,7 +14,7 @@ function Calendar() {
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>
-              <h1>Calendars</h1>
+              <h1>Calendar Name Here</h1>
             </CardHeader>
           </CardTop>
           {/* Body */}
