@@ -38,7 +38,7 @@
   font-family: "public-sans", "lexend-mega";
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
+  color-scheme: light;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
@@ -46,6 +46,65 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+/* react big calendar custom styling below */
+  .rbc-event {
+    background-color: #2e6f40;
+    border-radius: 0px;
+    border: 1px solid black;
+  }
+  
+  .rbc-toolbar button {
+    background: #FFDC58;
+    margin: 4px;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 0px 0px #000;
+    outline: none;
+    border: solid;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    border: 1px solid black;
+  }
+
+  .rbc-toolbar button.rbc-active {
+    background: #FFF8E1;
+    border: 1px solid black;
+    box-shadow: none;
+  }
+
+  .rbc-toolbar button:hover {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+  }
+
+  .rbc-toolbar button:active {
+    background: #FFDC58;
+    border: 1px solid black;
+    transform: translate(6px, 6px);
+  }
+
+  .rbc-toolbar button.rbc-active:hover {
+    transform: translate(0px, 0px)
+  }
+
+  .rbc-toolbar button.rbc-active:active {
+    background: #FFF8E1;
+    transform: translate(2px, 2px)
+  }
+
+  .rbc-toolbar .rbc-toolbar-label {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .rbc-header {
+    margin-bottom: 3px;
+  }
+
+  .rbc-day-slot .rbc-time-column {
+    border: 1px solid black;
+  }
 }
 
 a {
@@ -53,6 +112,28 @@ a {
   color: black;
   text-decoration: inherit;
 }
+
+.S9gUrf-YoZ4jf {
+  outline: 1px solid black;
+  border-radius: 1.5rem;
+  box-shadow: 3px 3px 0px 0px #000;
+  rotate: 3deg;
+  background-color: white;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+
+  &:hover {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+  }
+  
+  &:focus {
+    box-shadow: none;
+    transform: translate(2px, 2px);
+  }
+}
+
 
 body {
   margin: 0;
@@ -92,12 +173,12 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 4px solid black;
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -157,7 +238,7 @@ button:focus-visible {
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
+    --border:  0 0% 0%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
