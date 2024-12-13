@@ -91,6 +91,7 @@ app.post('/register', async (req, res): Promise<any> => {
 
 app.put('/user/update', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+
   if (tokenDecoded == null) {
     return res.status(403).json({
       error: "Unauthorized request"
