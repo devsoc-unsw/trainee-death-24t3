@@ -12,7 +12,15 @@ function Calendar() {
   const params = useParams();
   if (params.calendarId) {
     // TODO: change to all users
-    getCalendarInfo(params.calendarId).response.then((data) => setCalendarData(data.calendarInfos.calendarUserData[0].calendarData));
+    getCalendarInfo(params.calendarId).response.then((data) => {
+      const calendarInput = data.calendarInfos.calendarUserData[0].calendarData
+      calendarInput.map((event: CalendarData) => {
+        event.start = new Date(event.start)
+        event.end = new Date(event.end)
+      })
+      // console.log(data.calendarInfos.calendarUserData[0].calendarData)
+      setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
+    });
   }
 
   return (

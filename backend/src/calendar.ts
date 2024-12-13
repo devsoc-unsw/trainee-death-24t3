@@ -188,7 +188,7 @@ export async function calendarInfo(calendarId: string|undefined): Promise<Calend
             calendarUserData: calendarUserData
         }
 
-        console.log(calendarInfoRet);
+        // console.log(calendarInfoRet);
         return calendarInfoRet;
     } catch (error) {
         throw HTTPError(400, "Bad request");
