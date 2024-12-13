@@ -6,6 +6,7 @@ import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react";
+import createCalendar from '../../../hooks/createCalendar';
 
 export function CalendarCreateForm() {
   // valid form
@@ -26,9 +27,14 @@ export function CalendarCreateForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof calendarSchema>) {
-    // Do something with the form values.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof calendarSchema>) {
+    try {
+      const response = await createCalendar(values.calendarName);
+      console.log("Calendar created successfully:", response);
+      calendarCreateForm.reset();
+    } catch (error) {
+      console.error("Error in creating calendar:", error);
+    }
   }
 
   return (

@@ -6,7 +6,7 @@ async function createCalendar(calendarName: string) {
     const response = await fetcher(API_URL + "/calendar/new", "POST", null, payload);
     return { response };
   } catch (error) {
-    console.error("Registration failed:", error);
+    console.error("Create calender failed:", error);
     throw error;
   }
 }

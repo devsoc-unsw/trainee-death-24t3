@@ -2,7 +2,7 @@ import "../App.css";
 import { CardTop, CardBody, CardHeader, CardAuth } from "@/components/ui/card";
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
 import getAuth from '../../hooks/getAuth';
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import sparkle from "@/assets/svg/sparkle.svg";
 import squiggle_arrow from "@/assets/svg/squiggle_arrow.svg"
 
