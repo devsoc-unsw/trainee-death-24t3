@@ -159,6 +159,7 @@ export async function calendarInfo(calendarId: string|undefined): Promise<Calend
     }
     try {
         const existingCalendar: Calendar[] = await getData('calendars', { calendarId: calendarId }) as Calendar[];
+
         // check if calendar exists
         if (!existingCalendar || existingCalendar.length == 0) {
             throw HTTPError(400, "Invalid request");
@@ -187,6 +188,7 @@ export async function calendarInfo(calendarId: string|undefined): Promise<Calend
             calendarUserData: calendarUserData
         }
 
+        console.log(calendarInfoRet);
         return calendarInfoRet;
     } catch (error) {
         throw HTTPError(400, "Bad request");

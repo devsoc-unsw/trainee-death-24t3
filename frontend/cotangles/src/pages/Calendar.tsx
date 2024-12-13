@@ -1,11 +1,20 @@
 import MyCalendar from "@/components/ui/calender";
 import "../App.css";
 import { CardTop, CardBody, CardHeader, CardSidebar } from "@/components/ui/card";
+import { useParams } from "react-router-dom";
+import getCalendarInfo from "../../hooks/getCalendarInfo"
+import { useState } from "react";
+import {CalendarData} from "../types";
 
-// import { useParams } from "react-router-dom";
+
 function Calendar() {
-  // let { CalendarId } = useParams();
-  // return <h1>Calendar ID {CalendarId}</h1>;
+  const [ calendarData, setCalendarData ] = useState<CalendarData[]>([]);
+  const params = useParams();
+  if (params.calendarId) {
+    // TODO: change to all users
+    getCalendarInfo(params.calendarId).response.then((data) => setCalendarData(data.calendarInfos.calendarUserData[0].calendarData));
+  }
+
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
@@ -19,7 +28,7 @@ function Calendar() {
           </CardTop>
           {/* Body */}
           <CardBody>
-            <MyCalendar/>
+            <MyCalendar calendarData={calendarData}/>
           </CardBody>
         </div>
       </div>
