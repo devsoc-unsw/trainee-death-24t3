@@ -1,5 +1,5 @@
 import { CredentialResponse } from '@react-oauth/google';
-import getAuth from '../../hooks/getAuth';
+import getAuth from '../hooks/getAuth';
 
 
 export const logout = () => {

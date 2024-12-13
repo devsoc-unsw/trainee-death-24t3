@@ -105,6 +105,27 @@
   .rbc-day-slot .rbc-time-column {
     border: 1px solid black;
   }
+
+  .rbc-button-link {
+    &:active {
+      border-radius: 0.25rem;
+      outline-width: 1px;
+    }
+    &:focus {
+      border-radius: 0.25rem;
+      outline-width: 1px;
+    }
+  }
+
+  .rbc-month-view .rbc-day-bg.expanded-day {
+    height: 150px; /* Increase height of the clicked day */
+    background-color: #f0f8ff; /* Optional: Highlight the day */
+    transition: height 0.3s ease;
+  }
+  
+  .rbc-month-view .rbc-day-bg {
+    transition: height 0.3s ease;
+  }
 }
 
 a {
@@ -173,12 +194,9 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px solid black;
-
+  &:focus :focus-visible {
+    outline: 4px solid black;
+  }
 }
 
 @media (prefers-color-scheme: light) {

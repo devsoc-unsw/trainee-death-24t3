@@ -28,6 +28,7 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
             email: email,
             name: "",
             ical: "",
+            calendarData: [],
             calendars: [],
             invites: []
             // add more fields if needed
