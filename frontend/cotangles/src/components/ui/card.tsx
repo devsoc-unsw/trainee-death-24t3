@@ -1,6 +1,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
+import { Crown } from 'lucide-react';
+// import { useState } from "react";
+// import { RemoveUserPopup } from "../calendar/calendar-remove-user.tsx";
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -91,39 +94,59 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardFooter.displayName = "CardFooter";
 
-// TODO: COLOR ENUMS
-// const ColorEnum = {
-//   COLOR1: '',
-//   COLOR2: '',
-//   COLOR3: '',
-//   COLOR4: '',
-//   COLOR5: '',
-//   COLOR6: '',
-// }
-// #A7DBD8 #BAFCA2 #FFDB58 #FFA07A #FFC0CB #C4A1FF
-
-type CardSidebarProps = {
-  users: { userName: string; userId: number }[]; // Array of users?
+type User = {
+  userName: string;
+  userId: number;
+  userColor: string; 
+  isOwner: boolean; 
 };
 
-// type CardSidebarProps = { userName: string, userId: number }
-
-// const CardSidebar = ({ userName,  userId}[]: CardSidebarProps[]) => {
+type CardSidebarProps = {
+  users: User[];
+};
 
 const CardSidebar = ({ users }: CardSidebarProps) => {
+  // ignore this:
+  // const [selectedUser, setSelectedUser] = useState<User | null>(null); 
+  // const [showModal, setShowModal] = useState(false);
+  // const handleUserClick = (user: User) => {
+  //   setSelectedUser(user);
+  //   setShowModal(true); 
+  // };
+
   return (
-    <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] p-5 text-center space-y-4">
-      <Button className="w-[100%]" onClick={() => {}}>+</Button> {/* Invite user on click? */}
+    <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] p-5 text-center space-y-4 overflow-y-auto p-y-4">
+      <Button className="w-[100%]" onClick={() => {}}>+</Button> 
 
       <ul className="flex-col space-y-4 w-full">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-[100%] focus:outline-2 focus:outline-black">
+            <Button className="w-[100%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.userColor }}
+              // ignore this:
+              // onClick={() => handleUserClick(user)}
+            >
+              
+
               {user.userName}
+              {user.isOwner && <Crown className="w-4 h-4" />}
+              
             </Button>
           </li>
         ))}
       </ul>
+
+      {/* ignore this */}
+      {/* If a user is selected */}
+      {/* {showModal && selectedUser && (
+        <div
+          className="absolute left-[130px] top-[50px]"
+        >
+          <RemoveUserPopup
+            userName={selectedUser.userName} userColor={selectedUser.userColor}
+            onClose={() => setShowModal(false)}
+          />
+        </div>
+      )} */}
     </div>
   );
 };

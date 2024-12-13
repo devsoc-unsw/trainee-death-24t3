@@ -1,7 +1,7 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader, CardAuth } from "@/components/ui/card";
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
-import getAuth from '../../hooks/getAuth';
+import getAuth from '../hooks/getAuth';
 import sparkle from "@/assets/svg/sparkle.svg";
 import squiggle_arrow from "@/assets/svg/squiggle_arrow.svg"
 
