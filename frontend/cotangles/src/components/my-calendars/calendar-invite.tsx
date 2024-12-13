@@ -8,8 +8,7 @@ import * as React from "react";
 import { CalendarSetter } from "./calendar-list";
 import { CalendarList } from "@/types";
 import acceptInviteFetcher from "../../hooks/acceptInvite";
-import { jwtDecode } from "jwt-decode"; // Install with `npm install jwt-decode`
-
+import { jwtDecode } from "jwt-decode"; 
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
   const [calendarInvites, setCalendarInvites] = React.useState([
