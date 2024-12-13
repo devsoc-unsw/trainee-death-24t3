@@ -1,6 +1,6 @@
 import { fetcher, API_URL } from "./helpers";
 
-async function acceptInvite(userId: string, calendarId: string) {
+async function acceptInviteFetcher(userId: string, calendarId: string) {
     try {
     const payload = { userId, calendarId }
       const response = fetcher(API_URL + "/calendar/accept", "PUT", null, payload);
@@ -12,4 +12,4 @@ async function acceptInvite(userId: string, calendarId: string) {
     }
 }
   
-export default acceptInvite;
+export default acceptInviteFetcher;

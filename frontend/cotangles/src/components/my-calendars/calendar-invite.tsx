@@ -5,35 +5,54 @@ import { Check, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { CalendarCreateForm } from "./calendar-create-form";
 import * as React from "react";
-import { CalendarProp, CalendarSetter } from "./calendar-list";
+import { CalendarSetter } from "./calendar-list";
+import { CalendarList } from "@/types";
+import acceptInviteFetcher from "../../hooks/acceptInvite";
+import { jwtDecode } from "jwt-decode"; // Install with `npm install jwt-decode`
+
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
-  // Todo load the below value from the backend
   const [calendarInvites, setCalendarInvites] = React.useState([
     {
       calendarName: "Gigachad Meetups",
-      calendarId: "1"
+      calendarId: "1",
     },
     {
       calendarName: "AAAAAA",
-      calendarId: "yourmother"
+      calendarId: "yourmother",
     },
     {
       calendarName: "ayo",
-      calendarId: "asdasd"
+      calendarId: "asdasd",
     },
     {
       calendarName: "Gigachad Meetups",
-      calendarId: "2"
+      calendarId: "2",
     },
   ]);
-
-  const acceptInvite = (calendarToAccept: CalendarProp) => {
-    removeInvite(calendarToAccept)
-    addCalendar(calendarToAccept)
+  
+  // Todo load the below value from the backend
+  function getUserIdFromToken() {
+    const token = localStorage.getItem("authToken"); 
+    console.log(token);
+    if (!token) throw new Error("No token found");
+    const decoded: { userId: string } = jwtDecode(token); 
+    return decoded.userId;
   }
 
-  const removeInvite = (calendarToRemove: CalendarProp) => {
+  const acceptInvite = async (calendarToAccept: CalendarList) => {
+    try {
+      const userId = getUserIdFromToken(); // Fetch userId from token
+      await acceptInviteFetcher(userId, calendarToAccept.calendarId);
+      removeInvite(calendarToAccept)
+      addCalendar(calendarToAccept)
+    } 
+    catch (error) {
+      console.error("Error accepting invite:", error);
+    }
+  }
+
+  const removeInvite = (calendarToRemove: CalendarList) => {
     setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
   }
 

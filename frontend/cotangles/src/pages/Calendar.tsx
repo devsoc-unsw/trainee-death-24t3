@@ -13,13 +13,18 @@ function Calendar() {
   if (params.calendarId) {
     // TODO: change to all users
     getCalendarInfo(params.calendarId).response.then((data) => {
-      const calendarInput = data.calendarInfos.calendarUserData[0].calendarData
-      calendarInput.map((event: CalendarData) => {
-        event.start = new Date(event.start)
-        event.end = new Date(event.end)
-      })
-      // console.log(data.calendarInfos.calendarUserData[0].calendarData)
-      setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
+      if (data) {
+        const calendarInput = data.calendarInfos.calendarUserData[0].calendarData
+        calendarInput.map((event: CalendarData) => {
+          event.start = new Date(event.start)
+          event.end = new Date(event.end)
+        })
+        // console.log(data.calendarInfos.calendarUserData[0].calendarData)
+        setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
+      }
+      else {
+        console.error("Request failed");
+      }
     });
   }
 
