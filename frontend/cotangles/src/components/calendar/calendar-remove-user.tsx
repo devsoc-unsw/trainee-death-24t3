@@ -26,8 +26,7 @@
 //           </AlertDialogHeader>
 //           <div className="flex w-full justify-end gap-x-3">
 //           <AlertDialogCancel asChild>
-//             {/* TODO: add  */}
-//                 <Button variant="destructive" onClick={() => {onClose}}
+//                 <Button variant="destructive" onClick={() => {}}
 //                     >Cancel</Button>
 //               </AlertDialogCancel>
 //               <Button variant="affirmative" onClick={() => {onClose}}>Confirm</Button>
