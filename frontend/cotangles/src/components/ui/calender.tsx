@@ -21,7 +21,8 @@ const MyCalendar: React.FC<MyCalendarProps> = ({ calendarData }) => {
         events={calendarData} 
         startAccessor="start" 
         endAccessor="end"
-        views={[views.MONTH, views.WEEK]}
+        views={[views.MONTH, views.WEEK, views.DAY]}
+        selectable
         />
     </div>
   );
