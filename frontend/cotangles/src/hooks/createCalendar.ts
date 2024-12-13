@@ -3,7 +3,8 @@ import { fetcher, API_URL } from "./helpers";
 async function createCalendar(calendarName: string) {
   try {
     const payload = {calendarName: calendarName};
-    const response = await fetcher(API_URL + "/calendar/new", "POST", null, payload);
+    const response = fetcher(API_URL + "/calendar/new", "POST", null, payload);
+    console.log("TEST", response);
     return { response };
   } catch (error) {
     console.error("Registration failed:", error);

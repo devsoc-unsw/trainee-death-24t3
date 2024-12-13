@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb';
-
 export interface UserToken {
     userId: string,
     email: string
@@ -17,18 +15,6 @@ export interface CalendarList {
     calendarId: string
 }
 
-export interface User{
-    _id: ObjectId;
-    userId: string;
-    googleId: string,
-    email: string,
-    name: string,
-    ical: string,
-    calendarData: CalendarData[],
-    calendars: CalendarList[],
-    invites: CalendarList[]
-};
-
 export interface CalendarUserData {
     userId: string,
     name: string,
@@ -45,11 +31,4 @@ export interface CalendarInfo {
 export interface UserList {
     userId: string,
     color: string
-}
-
-export interface Calendar {
-    _id: ObjectId;
-    calendarId: string;
-    userList: UserList[];
-    name: string;
 }
