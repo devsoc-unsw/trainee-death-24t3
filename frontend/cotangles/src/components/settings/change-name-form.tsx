@@ -5,7 +5,8 @@ import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react";
-import { useState } from "react"
+import { useState } from "react";
+import userUpdate from "../../hooks/userUpdate";
 
 export function ChangeNameForm() {
   const [labelText, setLabelText] = useState("Display name");
@@ -30,11 +31,19 @@ export function ChangeNameForm() {
 
   function onSubmit(values: z.infer<typeof nameSchema>) {
     // Do something with the form values.
-    console.log(values)
-    setLabelText("Display name - changes saved!")
-    setTimeout(() => {
-      setLabelText("Display name")
-    }, 3000)
+    userUpdate({ name: values.displayName }).response
+      .then(() => {
+        setLabelText("Display name - changes saved!");
+      })
+      .catch((err) => {
+        console.error("Failed to update name:", err);
+        setLabelText("Display name - update failed!");
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLabelText("Display name");
+        }, 3000);
+    });
   }
 
   return (

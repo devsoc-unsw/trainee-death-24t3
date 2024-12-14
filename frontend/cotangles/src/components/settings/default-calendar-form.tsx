@@ -5,7 +5,8 @@ import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button";
 import { Save } from "lucide-react"
-import { useState } from "react"
+import { useState } from "react";
+import userUpdate from "../../hooks/userUpdate";
 
 export function DefaultCalendarForm() {
   const [labelText, setLabelText] = useState("My calendar");
@@ -23,11 +24,19 @@ export function DefaultCalendarForm() {
 
   function onSubmit(values: z.infer<typeof icalSchema>) {
     // Do something with the form values.
-    console.log(values)
-    setLabelText("My calendar - changes saved!")
-    setTimeout(() => {
-      setLabelText("My calendar")
-    }, 3000)
+    userUpdate({ ical: values.defaultIcalLink }).response
+      .then(() => {
+        setLabelText("My calendar - changes saved!");
+      })
+      .catch((err) => {
+        console.error("Failed to update iCal:", err);
+        setLabelText("My calendar - update failed!");
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLabelText("My calendar");
+        }, 3000);
+    });
   }
 
   return (

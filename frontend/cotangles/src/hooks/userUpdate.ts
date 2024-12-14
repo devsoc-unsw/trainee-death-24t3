@@ -1,13 +1,12 @@
 import { API_URL } from "./helpers";
 import axios from "axios";
 
-const fetcher = (url: string) =>
-    axios.put(url, {}).then((res) => res.data);
-    
-const userUpdate = () => {
-    const response = fetcher(API_URL + "/user/update");
+const userUpdate = (updates: { name?: string; ical?: string }) => {
+    const response = axios.put(API_URL + "/user/update", updates, { withCredentials: true })
+      .then((res) => res.data);
+  
     return {
-        response
+      response
     };
 };
   
