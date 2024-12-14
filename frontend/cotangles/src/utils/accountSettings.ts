@@ -1,11 +1,17 @@
 import { CredentialResponse } from '@react-oauth/google';
 import getAuth from '../hooks/getAuth';
+import doLogout from '@/hooks/logout';
 
 
-export const logout = () => {
+export const logout = async () => {
     // Do backend stuff here to logout
-    console.log("logged out")
-    window.location.replace('../login')
+    try {
+        await doLogout();
+        console.log("Logged out successfully");
+        window.location.replace("../login");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
 }
 
 export const login = async (credentialResponse: CredentialResponse) => {
