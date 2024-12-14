@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Crown } from 'lucide-react';
 import { RemoveUserPopup } from "../calendar/calendar-remove-user.tsx";
-import { InviteUserForm } from "../calendar/calendar-invite-user.tsx";
+import { InviteUserForm } from "../calendar/calendar-invite-user-form.tsx";
 import { useState } from "react";
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(

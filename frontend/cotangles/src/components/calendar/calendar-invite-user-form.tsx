@@ -31,6 +31,7 @@ import {
   
     async function onSubmit(values: z.infer<typeof emailSchema>) {
       await onInvite(values.email);
+      // TODO: do something
       inviteForm.reset();
       onClose();
     }
