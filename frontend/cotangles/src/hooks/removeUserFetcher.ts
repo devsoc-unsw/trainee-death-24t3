@@ -1,15 +1,20 @@
-import { fetcher, API_URL } from "./helpers";
+import axios from "axios";
+import { API_URL } from "./helpers";
 
-async function removeUserFetcher(calendarId: string, deleteUserId: string) {
-    try {
-    const payload = { calendarId, deleteUserId };
-      const response = await fetcher(API_URL + "/calendar/remove", "DELETE", null, payload);
-      console.log("TEST", response);
-      return { response };
-    } catch (error) {
-      console.error("Registration failed:", error);
-      throw error;
-    }
+
+const fetcher = (url: string, payload: {calendarId: string, deleteUserId: string}) =>
+    axios.delete(url, {
+        data: payload, // Pass payload in the `data` field for DELETE requests
+      }).then((res) => res.data);
+
+
+function removeUserFetcher(calendarId: string, deleteUserId: string) {
+    const payload = {calendarId: calendarId, deleteUserId: deleteUserId};
+    const response = fetcher(API_URL + "/calendar/remove", payload);
+
+    return {
+        response
+    };
 }
-  
+
 export default removeUserFetcher;

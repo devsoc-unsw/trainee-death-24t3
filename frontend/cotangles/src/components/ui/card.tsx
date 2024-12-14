@@ -103,11 +103,12 @@ type User = {
 
 type CardSidebarProps = {
   users: User[];
-  calendarId: string; 
   onKickUser: (userId: number) => void;
+  onInviteUser: (email: string) => void;
 };
 
-const CardSidebar = ({ users, calendarId, onKickUser }: CardSidebarProps) => {
+
+const CardSidebar = ({ users, onInviteUser, onKickUser }: CardSidebarProps) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false); 
@@ -152,7 +153,7 @@ const CardSidebar = ({ users, calendarId, onKickUser }: CardSidebarProps) => {
       {showInviteModal && (
         <InviteUserForm
           onClose={() => setShowInviteModal(false)}
-          calendarId={calendarId} // Pass the calendarId prop
+          onInvite={onInviteUser}
         />
       )}
     </div>

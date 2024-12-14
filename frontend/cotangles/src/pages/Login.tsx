@@ -1,21 +1,24 @@
 import "../App.css";
 import { CardTop, CardBody, CardHeader, CardAuth } from "@/components/ui/card";
 import { GoogleLogin, GoogleOAuthProvider, CredentialResponse } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom";
 import getAuth from '../hooks/getAuth';
 import sparkle from "@/assets/svg/sparkle.svg";
 import squiggle_arrow from "@/assets/svg/squiggle_arrow.svg"
 
 function Login() {
+  const navigate = useNavigate();
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     try {
       const response = await getAuth(credentialResponse);
+      navigate('/my-calendars');
       console.log("Server Response:", response);
     } catch (error) {
       console.error("Registration failed:", error);
     }
   };
   return (
-    <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}> 
+    <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}>
         {/* Title */}
         <CardTop>
           <CardHeader>

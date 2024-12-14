@@ -52,7 +52,7 @@ app.post('/register', async (req, res): Promise<any> => {
       return res.status(400).json({ error: "no payload" });
     }
 
-    const { email, sub: googleId } = payload;
+    const { email, name, sub: googleId } = payload;
 
     // Fetch or create the user using Google ID
     const user = await fetchOrCreateByGoogleId(googleId, email);
@@ -65,7 +65,7 @@ app.post('/register', async (req, res): Promise<any> => {
     const token = jwt.sign({ userId: user.userId, email: user.email }, JWT_SECRET, {
       expiresIn: '1h', // EXPIRATION TIME !!!
     });
-    
+
     // Return the user payload, send token as cookie, etc
     return res
       .cookie('token', token, {
@@ -74,6 +74,16 @@ app.post('/register', async (req, res): Promise<any> => {
         maxAge: 3600000, // 1 hour in milliseconds
         sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
       })
+      .cookie('userinfo', {
+        name: name,
+        email: email
+      }, {
+        httpOnly: false,
+        secure: false, // Set to true in production when using HTTPS
+        maxAge: 3600000, // 1 hour in milliseconds
+        sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
+      }
+    )
       .status(200)
       .json({
         message: "success",
@@ -98,12 +108,9 @@ app.put('/user/update', async (req, res): Promise<any> => {
     })
   }
 
-  const { userId, name, ical } = req.body;
-  if (tokenDecoded.userId !== userId) {
-    return res.status(403).json({ 
-      error: "Unauthorized request" 
-    });
-  }
+  const userId = tokenDecoded.userId;
+
+  const { name, ical } = req.body;
 
   try {
     await updateUser(userId, { name, ical });
@@ -118,8 +125,8 @@ app.put('/user/update', async (req, res): Promise<any> => {
 app.post('/user/logout', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
   if (tokenDecoded == null) {
-    return res.clearCookie('token').status(200).json({ 
-      message: "User already logged out" 
+    return res.clearCookie('token').status(200).json({
+      message: "User already logged out"
     });
   }
 
@@ -139,6 +146,7 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
   try {
     const { calendarName } = req.body;
     const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    console.log(calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
     console.error("error:", err);
@@ -252,6 +260,7 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
   }
 
   try {
+    console.log(req.body);
     const { calendarId, deleteUserId } = req.body;
     await removeUserFromCalendar(calendarId, deleteUserId);
     return res.status(200).json({ message: "success" });

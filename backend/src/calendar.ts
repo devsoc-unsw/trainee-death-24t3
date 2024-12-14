@@ -216,18 +216,17 @@ export async function removeUserFromCalendar(calendarId: string, deleteUserId: s
     }
     try {
         // Remove user from the calendar's user list
-        const calendarUpdate = await calendarsCollection.updateOne(
+        await calendarsCollection.updateOne(
             { calendarId },
             { $pull: { userList: { userId: deleteUserId } } }
         );
 
         // Remove calendar from the user's calendars list
-        const userUpdate = await usersCollection.updateOne(
+        await usersCollection.updateOne(
             { userId: deleteUserId },
             { $pull: { calendars: { calendarId } } }
         );
 
-        return { calendarUpdate, userUpdate };
     } catch (error) {
         throw HTTPError(400, "Bad request");
     }
@@ -252,30 +251,22 @@ export async function removeInvite(calendarId: string, userId: string) {
 export async function updateUser(userId: string, updates: { name?: string; ical?: string }) {
     const { name, ical } = updates;
     const updateFields: any = {};
-    if (name !== undefined) {
+    if (name !== null) {
         updateFields.name = name;
     }
-    if (ical !== undefined) {
+    if (ical !== null) {
         updateFields.ical = ical;
-        readIcalLink(ical, (err, data) => {
-            if (err) {
-                console.error('Failed to read iCal link:', err);
-            }
-            else {
-                updateFields.calendarData = data;
-            }
-        })
+        const calendarData = await readIcalLink(ical);
+        updateFields.calendarData = calendarData;
     }
 
     try {
+        console.log(updateFields);
         const result = await usersCollection.updateOne(
             { userId: userId },
             { $set: updateFields }
         );
         
-        if (result.modifiedCount === 0) {
-            throw HTTPError(400, "Bad request");
-        }
         return result;
     } catch (error) {
         throw HTTPError(400, "Bad request");

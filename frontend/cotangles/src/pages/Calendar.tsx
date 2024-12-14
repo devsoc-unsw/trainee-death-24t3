@@ -6,6 +6,7 @@ import getCalendarInfo from "../hooks/getCalendarInfo"
 import { useState } from "react";
 import { CalendarData } from "../types";
 import removeUserFetcher from "@/hooks/removeUserFetcher";
+import inviteCalendar from "@/hooks/inviteCalendar"
 // import { Button } from "@/components/ui/button";
 // import { Copy } from "lucide-react";
 
@@ -70,11 +71,18 @@ function Calendar() {
     setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
   };
 
+  const inviteUser = async (email: string) => {
+    // TODO: connect backend to send user invite
+    await inviteCalendar(params.calendarId!, email);
+    console.log(`Inviting user with email: ${email}`); //
+  };
+
+ 
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
       {/* Title */}
-      <CardSidebar users={users} calendarId={params.calendarId!} onKickUser={kickUser}></CardSidebar>
+      <CardSidebar users={users} onInviteUser={inviteUser} onKickUser={kickUser}></CardSidebar>
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>
