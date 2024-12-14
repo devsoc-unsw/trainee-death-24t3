@@ -53,9 +53,10 @@ app.post('/register', async (req, res): Promise<any> => {
     }
 
     const { email, name, sub: googleId } = payload;
+    console.log(payload);
 
     // Fetch or create the user using Google ID
-    const user = await fetchOrCreateByGoogleId(googleId, email);
+    const user = await fetchOrCreateByGoogleId(googleId, email, name);
 
     if (!user) {
       return res.status(500).json({ error: "no user" });

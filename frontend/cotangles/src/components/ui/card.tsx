@@ -96,14 +96,14 @@ CardFooter.displayName = "CardFooter";
 
 type User = {
   userName: string;
-  userId: number;
+  userId: string;
   userColor: string; 
   isOwner: boolean; 
 };
 
 type CardSidebarProps = {
   users: User[];
-  onKickUser: (userId: number) => void;
+  onKickUser: (userId: string) => void;
   onInviteUser: (email: string) => void;
 };
 

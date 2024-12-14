@@ -13,7 +13,7 @@ export const usersCollection = database.collection<User>('users');
 export const calendarsCollection = database.collection<Calendar>('calendars');
 
 // fetch or create google Id if not found
-export async function fetchOrCreateByGoogleId(googleId: string, email: string): Promise<User> {
+export async function fetchOrCreateByGoogleId(googleId: string, email: string, name: string): Promise<User> {
   try {
       await client.connect();
       // tries to find user by googleId
@@ -26,7 +26,7 @@ export async function fetchOrCreateByGoogleId(googleId: string, email: string): 
             userId: generateId(),
             googleId: googleId,
             email: email,
-            name: "",
+            name: name,
             ical: "",
             calendarData: [],
             calendars: [],

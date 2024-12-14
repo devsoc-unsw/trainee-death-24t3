@@ -6,58 +6,59 @@ import getCalendarInfo from "../hooks/getCalendarInfo"
 import { useState } from "react";
 import { CalendarData, CalendarUserData } from "../types";
 import removeUserFetcher from "@/hooks/removeUserFetcher";
-import inviteCalendar from "@/hooks/inviteCalendar"
-// import { Button } from "@/components/ui/button";
-// import { Copy } from "lucide-react";
+import inviteCalendar from "@/hooks/inviteCalendar";
 
-// const CopyLinkButton = () => {
-//   const [isCopied, setIsCopied] = useState(false);
-
-//   const handleCopyLink = async () => {
-//     try {
-//       await navigator.clipboard.writeText(window.location.href);
-//       setIsCopied(true);
-//       setTimeout(() => setIsCopied(false), 1000);
-//     } catch (err) {
-//       console.error('error:', err);
-//     }
-//   };
-
-//   return (
-//     <Button
-//       className="h-[8%] focus:outline-2 focus:outline-black gap-1 align-self-end mt-3 ml-auto mr-5"
-//       onClick={handleCopyLink}
-//     >
-//       {isCopied ? 'Copied!' : 'Copy link'}
-//       <Copy className="w-4 h-4" />
-//     </Button>
-//   );
-// };
+type User = {
+  userName: string;
+  userId: string;
+  userColor: string; 
+  isOwner: boolean; 
+};
 
 function Calendar() {
   const [ calendarData, setCalendarData ] = useState<CalendarData[]>([]);
+  const [ users, setUsers ] = useState<User[]>([]);
+  const [ calendarName, setCalendarName ] = useState("Calendar Name");
+
+
   const params = useParams();
+
+  // CODE BELOW IS SUPER CURSED
   if (params.calendarId) {
-    // TODO: change to all users
+    const userColors = ["#A7DBD8", "#BAFCA2", "#FFDB58", "#FFA07A", "#FFC0CB", "#C4A1FF", "#BAFCA2"];
+    let count = 0;
+
     getCalendarInfo(params.calendarId).response.then((data) => {
       if (data) {
-        const calendarInput = data.calendarInfos.calendarUserData[0].calendarData
-        calendarInput.map((event: CalendarData) => {
-          event.start = new Date(event.start)
-          event.end = new Date(event.end)
-        })
-
         const userDataList: CalendarData[] = [];
+        const usersList: User[] = [];
+
+        setCalendarName(data.calendarInfos.name);
 
         // console.log(data.calendarInfos.calendarUserData[0].calendarData)
         data.calendarInfos.calendarUserData.forEach((userData: CalendarUserData) => {
+          const color = userColors[count % userColors.length];
+          const newUser: User = {
+            userId: userData.userId,
+            userName: userData.name,
+            isOwner: false,
+            userColor: color
+          }
+
+          usersList.push(newUser);
+          count++;
+
           if (userData) {
             userData.calendarData.forEach((data: CalendarData) => {
+              data.start = new Date(data.start);
+              data.end = new Date(data.end);
               userDataList.push(data);
             })
           }
         })
-        setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
+
+        setUsers(usersList);
+        setCalendarData(userDataList);
       }
       else {
         console.error("Request failed");
@@ -65,19 +66,9 @@ function Calendar() {
     });
   }
 
-  const [users, setUsers] = useState([
-    { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
-    { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
-    { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
-    { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
-    { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
-    { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
-    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" },
-  ]);
-
-  const kickUser = async (userId: number) => {
+  const kickUser = async (userId: string) => {
     // TODO: connect backend to remove user from calendar
-    await removeUserFetcher(params.calendarId!, userId.toString())
+    await removeUserFetcher(params.calendarId!, userId)
     setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
   };
 
@@ -96,7 +87,7 @@ function Calendar() {
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>
-              <h1>Calendar Name Here</h1>
+              <h1>{calendarName}</h1>
             </CardHeader>
           </CardTop>
           {/* Body */}
