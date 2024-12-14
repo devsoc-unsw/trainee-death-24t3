@@ -1,5 +1,4 @@
 
 
 cd frontend/cotangles
-npm run build
 npm run lint
