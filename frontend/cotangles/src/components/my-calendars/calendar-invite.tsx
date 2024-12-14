@@ -13,7 +13,7 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
   const [calendarInvites, setCalendarInvites] = React.useState([
     {
       calendarName: "Gigachad Meetups",
-      calendarId: "1",
+      calendarId: "5e6a70f7-89f4-4eec-afae-c3ebdece9f6b",
     },
     {
       calendarName: "AAAAAA",
@@ -31,9 +31,7 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
   
   const acceptInvite = async (calendarToAccept: CalendarList) => {
     try {
-      const res = await acceptInviteFetcher(calendarToAccept.calendarId);
-      console.log("Invite accepted:", res);
-
+      await acceptInviteFetcher(calendarToAccept.calendarId);
       removeInvite(calendarToAccept);
       addCalendar(calendarToAccept);
     } catch (error) {
