@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, redirect, Navigate } from "react-router-dom";
 
 // Documentation: https://reactrouter.com/en/v6.3.0/getting-started/overview#navigation
 
@@ -10,6 +10,22 @@ import Help from "./pages/Help";
 import Calendar from "./pages/Calendar";
 import { NavigationCotangles } from "@/components/ui/navigation-menu";
 import { ContentWrapper } from "./components/ui/content-wrapper";
+import { FC, ReactNode } from "react";
+import Cookies from "js-cookie"
+
+
+const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
+  const token = Cookies.get("userinfo"); // Retrieve the token cookie
+  console.log(token)
+
+  // If token doesn't exist, redirect to the login page
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Render the children (protected content) if authenticated
+  return children;
+};
 
 function App() {
   return (
@@ -22,9 +38,9 @@ function App() {
             <Route element={<ContentWrapper/>}>
               <Route path="login" element={<Login />}></Route>
               <Route path="/" element={<Login />}></Route>
-              <Route path="my-calendars" element={<MyCalendars />}></Route>
-              <Route path="my-calendars/:calendarId" element={<Calendar />}></Route>
-              <Route path="settings" element={<Settings />}></Route>
+              <Route path="my-calendars" element={<ProtectedRoute><MyCalendars /></ProtectedRoute>}></Route>
+              <Route path="my-calendars/:calendarId" element={<ProtectedRoute><Calendar /></ProtectedRoute>}></Route>
+              <Route path="settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}></Route>
               <Route path="help" element={<Help />}></Route>
             </Route>
           </Routes>
@@ -33,5 +49,6 @@ function App() {
     </>
   );
 }
+
 
 export default App;
