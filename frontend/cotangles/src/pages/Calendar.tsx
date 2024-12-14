@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import getCalendarInfo from "../hooks/getCalendarInfo"
 import { useState } from "react";
 import { CalendarData } from "../types";
+import removeUserFetcher from "@/hooks/removeUserFetcher";
 // import { Button } from "@/components/ui/button";
 // import { Copy } from "lucide-react";
 
@@ -53,21 +54,27 @@ function Calendar() {
     });
   }
 
-  const exampleUsers = [
+  const [users, setUsers] = useState([
     { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
     { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
     { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
     { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
     { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
     { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
-    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" }
-  ];
+    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" },
+  ]);
+
+  const kickUser = async (userId: number) => {
+    // TODO: connect backend to remove user from calendar
+    await removeUserFetcher(params.calendarId!, userId.toString())
+    setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+  };
 
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
       {/* Title */}
-      <CardSidebar users={exampleUsers} calendarId={params.calendarId!}></CardSidebar>
+      <CardSidebar users={users} calendarId={params.calendarId!} onKickUser={kickUser}></CardSidebar>
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>
