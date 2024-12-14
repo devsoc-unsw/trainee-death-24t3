@@ -261,7 +261,8 @@ app.put('/calendar/reject', async (req, res): Promise<any> => {
   }
 
   try {
-    const { calendarId, deleteUserId } = req.body;
+    const deleteUserId = tokenDecoded.userId;
+    const { calendarId } = req.body;
     // delete invite from intive list
     removeInvite(calendarId, deleteUserId);
   } catch (err) {

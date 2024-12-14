@@ -8,27 +8,19 @@ import * as React from "react";
 import { CalendarSetter } from "./calendar-list";
 import { CalendarList } from "@/types";
 import acceptInviteFetcher from "../../hooks/acceptInvite";
+import getInvitesList from "@/hooks/getInvitesList";
+import rejectInvite from "@/hooks/rejectInvite";
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
-  const [calendarInvites, setCalendarInvites] = React.useState<CalendarList[]>([
-    {
-      calendarName: "Gigachad Meetups",
-      calendarId: "5e6a70f7-89f4-4eec-afae-c3ebdece9f6b",
-    },
-    {
-      calendarName: "AAAAAA",
-      calendarId: "yourmother",
-    },
-    {
-      calendarName: "ayo",
-      calendarId: "asdasd",
-    },
-    {
-      calendarName: "Gigachad Meetups",
-      calendarId: "2",
-    },
-  ]);
+  const [calendarInvites, setCalendarInvites] = React.useState<CalendarList[]>([]);
   
+  getInvitesList().response.then((data) => {
+    if (data) {
+      const calendarNames: CalendarList[] = data.calendarNames;
+      setCalendarInvites(calendarNames);
+    }
+  });
+
   const acceptInvite = async (calendarToAccept: CalendarList) => {
     try {
       await acceptInviteFetcher(calendarToAccept.calendarId);
@@ -39,8 +31,15 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
     }
   };
 
-  const removeInvite = (calendarToRemove: CalendarList) => {
-    setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
+  const removeInvite = async (calendarToRemove: CalendarList) => {
+    // setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
+    try {
+      await rejectInvite(calendarToRemove.calendarId);
+      removeInvite(calendarToRemove);
+      addCalendar(calendarToRemove);
+    } catch (error) {
+      console.error("Error accepting invite:", error);
+    }
   }
 
   return(
