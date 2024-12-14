@@ -6,9 +6,9 @@ import { z } from "zod"
 import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react";
-import createCalendar from '../../../hooks/createCalendar';
+import { CalendarSetter } from "./calendar-list";
 
-export function CalendarCreateForm() {
+export function CalendarCreateForm({ addCalendar }: { addCalendar: CalendarSetter }) {
   // valid form
   // cannot have an existing form of the same name
   // calendar names must be at least > 1 character < 20 characters
@@ -27,14 +27,16 @@ export function CalendarCreateForm() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof calendarSchema>) {
-    try {
-      const response = await createCalendar(values.calendarName);
-      console.log("Calendar created successfully:", response);
-      calendarCreateForm.reset();
-    } catch (error) {
-      console.error("Error in creating calendar:", error);
+  function onSubmit(values: z.infer<typeof calendarSchema>) {
+    // Do something with the form values.
+    console.log(values)
+    // Todo get generated id from the backend
+    const newCalendar = {
+      calendarName: values.calendarName,
+      calendarId: 'placeholder'
     }
+    addCalendar(newCalendar)
+    window.location.replace(`./my-calendars/${newCalendar.calendarId}`)
   }
 
   return (
@@ -76,4 +78,3 @@ export function CalendarCreateForm() {
     </AlertDialog>
   )
 }
-

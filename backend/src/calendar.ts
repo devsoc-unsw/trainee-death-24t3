@@ -1,8 +1,9 @@
 import { getData, setData, updateUserCalendarList, calendarsCollection, usersCollection } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
-import { Calendar, UserList, CalendarList, CalendarInfo, User } from './types.ts';
+import { Calendar, UserList, CalendarList, CalendarInfo, User, CalendarUserData } from './types.ts';
 import { generateId } from './utils.ts';
 import HTTPError from 'http-errors';
+import { readIcalLink } from './icalReader.ts';
 
 /**
  * 
@@ -131,6 +132,7 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
     }
     try {
         const exisitingUser = await getData("users", { userId: userId });
+        console.log(exisitingUser);
         // check if user exists
         if (!exisitingUser || exisitingUser.length == 0) {
             throw HTTPError(400, "Invalid request");
@@ -152,24 +154,43 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
  * 
  * @param calendarId 
  */
-export async function calendarInfo(calendarId: string|undefined): Promise<CalendarInfo[]> {
+export async function calendarInfo(calendarId: string|undefined): Promise<CalendarInfo> {
     if (!calendarId) {
         throw HTTPError(400, "Invalid request");
     }
     try {
-        const existingCalendar = await getData('calendars', { calendarId: calendarId });
+        const existingCalendar: Calendar[] = await getData('calendars', { calendarId: calendarId }) as Calendar[];
+
         // check if calendar exists
         if (!existingCalendar || existingCalendar.length == 0) {
             throw HTTPError(400, "Invalid request");
         }
-        
-        const calendarInfo = existingCalendar.map((calendar) => ({
-            name: calendar.name,
-            userList: calendar.userList,
-            ical: calendar.ical
-        }));
 
-        return calendarInfo;
+        const calendarInfo = existingCalendar[0];
+        const users = calendarInfo.userList;
+        const calendarUserData: CalendarUserData[] = [];
+
+
+        for (const user of users) {
+            const calendarUsers: User[] = await getData("users", { userId: user.userId }) as User[];
+            const calendarUser: User = calendarUsers[0];
+            const userData: CalendarUserData = {
+                userId: calendarUser.userId,
+                name: calendarUser.name,
+                calendarData: calendarUser.calendarData
+            }
+            calendarUserData.push(userData);
+        }
+
+        const calendarInfoRet: CalendarInfo = {
+            calendarId: calendarId,
+            name: calendarInfo.name,
+            userList: calendarInfo.userList,
+            calendarUserData: calendarUserData
+        }
+
+        // console.log(calendarInfoRet);
+        return calendarInfoRet;
     } catch (error) {
         throw HTTPError(400, "Bad request");
     }
@@ -237,6 +258,14 @@ export async function updateUser(userId: string, updates: { name?: string; ical?
     }
     if (ical !== undefined) {
         updateFields.ical = ical;
+        readIcalLink(ical, (err, data) => {
+            if (err) {
+                console.error('Failed to read iCal link:', err);
+            }
+            else {
+                updateFields.calendarData = data;
+            }
+        })
     }
 
     try {
