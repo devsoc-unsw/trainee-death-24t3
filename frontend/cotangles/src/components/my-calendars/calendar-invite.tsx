@@ -5,35 +5,41 @@ import { Check, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { CalendarCreateForm } from "./calendar-create-form";
 import * as React from "react";
-import { CalendarProp, CalendarSetter } from "./calendar-list";
+import { CalendarSetter } from "./calendar-list";
+import { CalendarList } from "@/types";
+import acceptInviteFetcher from "../../hooks/acceptInvite";
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
-  // Todo load the below value from the backend
   const [calendarInvites, setCalendarInvites] = React.useState([
     {
       calendarName: "Gigachad Meetups",
-      calendarId: "1"
+      calendarId: "5e6a70f7-89f4-4eec-afae-c3ebdece9f6b",
     },
     {
       calendarName: "AAAAAA",
-      calendarId: "yourmother"
+      calendarId: "yourmother",
     },
     {
       calendarName: "ayo",
-      calendarId: "asdasd"
+      calendarId: "asdasd",
     },
     {
       calendarName: "Gigachad Meetups",
-      calendarId: "2"
+      calendarId: "2",
     },
   ]);
+  
+  const acceptInvite = async (calendarToAccept: CalendarList) => {
+    try {
+      await acceptInviteFetcher(calendarToAccept.calendarId);
+      removeInvite(calendarToAccept);
+      addCalendar(calendarToAccept);
+    } catch (error) {
+      console.error("Error accepting invite:", error);
+    }
+  };
 
-  const acceptInvite = (calendarToAccept: CalendarProp) => {
-    removeInvite(calendarToAccept)
-    addCalendar(calendarToAccept)
-  }
-
-  const removeInvite = (calendarToRemove: CalendarProp) => {
+  const removeInvite = (calendarToRemove: CalendarList) => {
     setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
   }
 

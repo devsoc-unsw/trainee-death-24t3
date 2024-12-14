@@ -1,33 +1,31 @@
-import * as React from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { CardCalendarInvite } from "./calendar-invite";
+import { CalendarList } from "@/types";
 // import { ArrowBigRightDash, Trash2 } from "lucide-react";
 
+export interface CardBodyCalendarProp {
+  calendarList: CalendarList[]
+}
 
-// Components specifically related to the my calendar page
-export type CalendarProp = {
-  calendarName: string; 
-  calendarId: string;
-};
+export type CalendarSetter = (calendarToAdd: CalendarList) => void
 
-export type CalendarSetter = (calendarToAdd: CalendarProp) => void
 
-const CardBodyCalendar = () => {
+const CardBodyCalendar = ({calendarList}: CardBodyCalendarProp) => {
   // Todo set this to use state instead
-  const [calendarList, setCalendarList] = React.useState<CalendarProp[]>([
-    { calendarName: "Test Calendar", calendarId: "6cd6b53c-b84b-43c1-bab4-79cc98770a7d" },
-    { calendarName: "CS Alliance", calendarId: "yourmother" },
-    { calendarName: "COMM1140 Team", calendarId: "asdasd" },
-  ])
+  // const [calendarList, setCalendarList] = React.useState<CalendarProp[]>([
+  //   { calendarName: "Test Calendar", calendarId: "6cd6b53c-b84b-43c1-bab4-79cc98770a7d" },
+  //   { calendarName: "CS Alliance", calendarId: "yourmother" },
+  //   { calendarName: "COMM1140 Team", calendarId: "asdasd" },
+  // ])
 
   // probably better to just add it separately on the frontend and backend than
   // send it to backend and wait for frontend to update
-  const addCalendarToList = (calendarToAdd: CalendarProp) => {
-    // add to frontend
-    setCalendarList(calendarList => [...calendarList, calendarToAdd])
-    // todo: add calendar to backend
-  }
+  // const addCalendarToList = (calendarToAdd: CalendarList) => {
+  //   // add to frontend
+  //   setCalendarList(calendarList => [...calendarList, calendarToAdd])
+  //   // todo: add calendar to backend
+  // }
 
   // invite accepted -> add calendar to list
   // give setter to invite
@@ -38,13 +36,13 @@ const CardBodyCalendar = () => {
 
   return(
     <div className="flex flex-wrap justify-start rounded-[2.5em] bg-transparent text-black w-[70vw] h-[85%] p-5 gap-x-[5%] gap-y-[10%] overflow-auto">
-      <CardCalendarInvite addCalendar={addCalendarToList}/>
+      <CardCalendarInvite addCalendar={() => {}}/>
       <MyCalendarList calendarList={calendarList}/>
     </div>
   )
 }
 
-  const MyCalendarList = ({ calendarList }: { calendarList: CalendarProp[] }) => {
+  const MyCalendarList = ({ calendarList }: { calendarList: CalendarList[] }) => {
     const navigate = useNavigate()
     return (
       <>

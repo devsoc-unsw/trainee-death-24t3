@@ -194,12 +194,9 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px solid black;
-
+  &:focus :focus-visible {
+    outline: 4px solid black;
+  }
 }
 
 @media (prefers-color-scheme: light) {
