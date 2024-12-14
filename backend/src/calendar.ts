@@ -218,18 +218,17 @@ export async function removeUserFromCalendar(calendarId: string, deleteUserId: s
     }
     try {
         // Remove user from the calendar's user list
-        const calendarUpdate = await calendarsCollection.updateOne(
+        await calendarsCollection.updateOne(
             { calendarId },
             { $pull: { userList: { userId: deleteUserId } } }
         );
 
         // Remove calendar from the user's calendars list
-        const userUpdate = await usersCollection.updateOne(
+        await usersCollection.updateOne(
             { userId: deleteUserId },
             { $pull: { calendars: { calendarId } } }
         );
 
-        return { calendarUpdate, userUpdate };
     } catch (error) {
         throw HTTPError(400, "Bad request");
     }

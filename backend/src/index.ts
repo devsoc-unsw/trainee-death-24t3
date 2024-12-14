@@ -260,6 +260,7 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
   }
 
   try {
+    console.log(req.body);
     const { calendarId, deleteUserId } = req.body;
     await removeUserFromCalendar(calendarId, deleteUserId);
     return res.status(200).json({ message: "success" });
