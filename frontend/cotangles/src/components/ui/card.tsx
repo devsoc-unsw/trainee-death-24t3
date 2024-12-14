@@ -2,8 +2,9 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Crown } from 'lucide-react';
-// import { useState } from "react";
-// import { RemoveUserPopup } from "../calendar/calendar-remove-user.tsx";
+import { RemoveUserPopup } from "../calendar/calendar-remove-user.tsx";
+import { InviteUserForm } from "../calendar/calendar-invite-user-form.tsx";
+import { useState } from "react";
 
 const CardTop = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
@@ -102,54 +103,62 @@ type User = {
 
 type CardSidebarProps = {
   users: User[];
+  calendarId: string; 
 };
 
-const CardSidebar = ({ users }: CardSidebarProps) => {
-  // ignore this:
-  // const [selectedUser, setSelectedUser] = useState<User | null>(null); 
-  // const [showModal, setShowModal] = useState(false);
-  // const handleUserClick = (user: User) => {
-  //   setSelectedUser(user);
-  //   setShowModal(true); 
-  // };
+const CardSidebar = ({ users, calendarId }: CardSidebarProps) => {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false); 
+
+  const handleUserClick = (user: User) => {
+    setSelectedUser(user);
+    setShowRemoveModal(true); 
+  };
 
   return (
-    <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] p-5 text-center space-y-4 overflow-y-auto p-y-4">
-      <Button className="w-[100%]" onClick={() => {}}>+</Button> 
-
-      <ul className="flex-col space-y-4 w-full">
+    <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[125px] h-[100%] text-center space-y-4 py-4">
+      <Button className="w-[75%]" onClick={() => setShowInviteModal(true)}>+</Button>
+      <ul className="flex-col space-y-4 overflow-y-auto w-[90%] h-[90%] py-2 px-2">
         {users.map((user) => (
           <li key={user.userId}>
-            <Button className="w-[100%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.userColor }}
-              // ignore this:
-              // onClick={() => handleUserClick(user)}
+            <Button 
+              className="w-[100%] h-[8%] focus:outline-2 focus:outline-black flex items-center gap-1" 
+              style={{ backgroundColor: user.userColor }}
+              onClick={() => handleUserClick(user)}
             >
-              
-
               {user.userName}
               {user.isOwner && <Crown className="w-4 h-4" />}
-              
             </Button>
           </li>
         ))}
       </ul>
 
-      {/* ignore this */}
-      {/* If a user is selected */}
-      {/* {showModal && selectedUser && (
-        <div
-          className="absolute left-[130px] top-[50px]"
-        >
+      {showRemoveModal && selectedUser && (
+        <div className="absolute left-[130px] top-[50px]">
           <RemoveUserPopup
-            userName={selectedUser.userName} userColor={selectedUser.userColor}
-            onClose={() => setShowModal(false)}
+            userName={selectedUser.userName} 
+            userColor={selectedUser.userColor}
+            onClose={() => setShowRemoveModal(false)} 
+            onRemove={() => setShowRemoveModal(false)}
           />
         </div>
-      )} */}
+      )}
+
+      {/* Invite User Modal */}
+      {showInviteModal && (
+        <InviteUserForm
+          onClose={() => setShowInviteModal(false)}
+          calendarId={calendarId} // Pass the calendarId prop
+        />
+      )}
     </div>
   );
 };
+
 CardSidebar.displayName = "CardSidebar";
+
+
 
 const CardGIF = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (

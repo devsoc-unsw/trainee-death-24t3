@@ -155,6 +155,7 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 
   try {
+    console.log(req.body)
     const { inviteEmail, calendarId } = req.body;
     // returns calendarId if successful
     const ret = await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);

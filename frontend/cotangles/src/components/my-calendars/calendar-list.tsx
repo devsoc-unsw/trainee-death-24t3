@@ -4,7 +4,7 @@ import { CardCalendarInvite } from "./calendar-invite";
 import { CalendarList } from "@/types";
 // import { ArrowBigRightDash, Trash2 } from "lucide-react";
 
-interface CardBodyCalendarProp {
+export interface CardBodyCalendarProp {
   calendarList: CalendarList[]
 }
 
