@@ -1,4 +1,4 @@
-import { getData, setData, updateUserCalendarList, calendarsCollection, usersCollection } from './dbInterface.ts';
+import { getData, setData, updateUserCalendarList, calendarsCollection, usersCollection, updateUserInviteList } from './dbInterface.ts';
 import { ObjectId } from 'mongodb';
 import { Calendar, UserList, CalendarList, CalendarInfo, User, CalendarUserData } from './types.ts';
 import { generateId } from './utils.ts';
@@ -66,12 +66,14 @@ export async function inviteCalendar(inviteEmail: string | undefined, userId: st
 
     try {
         const existingCalendar = await getData('calendars', { calendarId: calendarId });
+        const existingUser = await getData("users", { email: inviteEmail }) as User[];
+
         // check if calendar exists
         if (!existingCalendar || existingCalendar.length == 0) {
             throw HTTPError(400, "Invalid request");
         }
         
-        await updateUserCalendarList(calendarId, userId);
+        await updateUserInviteList(calendarId, existingUser[0].userId);
         return calendarId;
     } catch (error) {
         throw HTTPError(400, "Bad request");

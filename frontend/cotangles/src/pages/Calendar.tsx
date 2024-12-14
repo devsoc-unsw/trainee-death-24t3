@@ -48,10 +48,12 @@ function Calendar() {
         const userDataList: CalendarData[] = [];
 
         // console.log(data.calendarInfos.calendarUserData[0].calendarData)
-        data.calendarInfost.calendaruserData.forEach((userData: CalendarUserData) => {
-          userData.calendarData.forEach((data: CalendarData) => {
-            userDataList.push(data);
-          })
+        data.calendarInfos.calendarUserData.forEach((userData: CalendarUserData) => {
+          if (userData) {
+            userData.calendarData.forEach((data: CalendarData) => {
+              userDataList.push(data);
+            })
+          }
         })
         setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
       }

@@ -94,6 +94,8 @@ export async function updateUserInviteList(calendarId: string, userId: string) {
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 
+    console.log(exisitingUser);
+
     const filter = { userId: currentUser.userId };
     const options = {
       upsert: true,
