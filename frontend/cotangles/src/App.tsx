@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, redirect, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Documentation: https://reactrouter.com/en/v6.3.0/getting-started/overview#navigation
 
