@@ -32,23 +32,24 @@ const CardBodyCalendar = () => {
   // invite accepted -> add calendar to list
   // give setter to invite
   // give variable to calendar list
-  const removeCalendarFromlist = (calendarToRemove: CalendarProp) => {
-    setCalendarList(calendarList.filter(calendar => calendar !== calendarToRemove))
-  }
+  // const removeCalendarFromlist = (calendarToRemove: CalendarProp) => {
+  //   setCalendarList(calendarList.filter(calendar => calendar !== calendarToRemove))
+  // }
+  // prop passed into MyCalendar removeCalendar={removeCalendarFromlist}
 
   return(
     <div className="flex flex-wrap justify-start rounded-[2.5em] bg-transparent text-black w-[70vw] h-[85%] p-5 gap-x-[5%] gap-y-[10%] overflow-auto">
       <CardCalendarInvite addCalendar={addCalendarToList}/>
-      <MyCalendarList calendarList={calendarList} removeCalendar={removeCalendarFromlist}/>
+      <MyCalendarList calendarList={calendarList}/>
     </div>
   )
 }
 
 type MyCalendarListProps = {
   calendarList: CalendarProp[], 
-  removeCalendar:CalendarSetter
+  // removeCalendar:CalendarSetter
 }
-  const MyCalendarList = ({ calendarList, removeCalendar }: MyCalendarListProps ) => {
+  const MyCalendarList = ({ calendarList }: MyCalendarListProps ) => {
     const navigate = useNavigate()
     const navigateToCalendar = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, calendar: CalendarProp) => {
       if (e.currentTarget !== e.target) return;
@@ -59,10 +60,10 @@ type MyCalendarListProps = {
       {calendarList.map((calendar) => (
         <Button onClick={(e) => {navigateToCalendar(e, calendar)}} key={calendar.calendarId} className="flex flex-col items-center justify-around rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-[30%] h-[70%] p-5 text-center" >
             <h1 className="break-words w-full">{calendar.calendarName}</h1>
-            <div className="flex w-full justify-center gap-x-[10%]">
+            {/* <div className="flex w-full justify-center gap-x-[10%]">
               <CalendarLeave calendar={calendar} removeCalendar={removeCalendar}/>
               <CalendarDelete calendar={calendar} removeCalendar={removeCalendar}/>
-            </div>
+            </div> */}
             {/* Could add something here like a calendar / person preview , also calendar settings (leave calendar and whatnot) */}
         </Button>
       ))}
