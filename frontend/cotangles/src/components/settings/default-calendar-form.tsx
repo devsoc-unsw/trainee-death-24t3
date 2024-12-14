@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button";
 import { Save } from "lucide-react"
 import { useState } from "react"
+import updateUserInfo from "@/hooks/updateUserInfo"
 
 export function DefaultCalendarForm() {
   const [labelText, setLabelText] = useState("My calendar");
@@ -22,6 +23,8 @@ export function DefaultCalendarForm() {
   })
 
   function onSubmit(values: z.infer<typeof icalSchema>) {
+    updateUserInfo(null, values.defaultIcalLink)
+
     // Do something with the form values.
     console.log(values)
     setLabelText("My calendar - changes saved!")

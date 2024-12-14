@@ -21,33 +21,35 @@ function convertIcalToDate(icalDate: DateWithTimeZone): Date {
 
 }
 
-export function readIcalLink(link: string, callback: (err: string | null, data: CalendarData[] | null) => void): void {
-    const options = { headers: { 'Access-Control-Allow-Origin': '*' } };
-    const calendarData: CalendarData[] = [];
+export function readIcalLink(link: string): Promise<CalendarData[]> {
+    return new Promise((resolve, reject) => {
+        const options = { headers: { 'Access-Control-Allow-Origin': '*' } };
+        const calendarData: CalendarData[] = [];
 
-    ical.async.fromURL(link, options, function (err, webEvents) {
-        if (err) {
-            console.error(err);
-            callback(err, null);
-            return;
-        }
-
-        for (const event of Object.values(webEvents)) {
-            if (event.type === 'VEVENT') {
-                const value: VEvent = event;
-                const startDate = convertIcalToDate(value.start);
-                const endDate = convertIcalToDate(value.end);
-                const formattedData: CalendarData = {
-                    id: generateEventId(),
-                    title: value.summary,
-                    start: startDate,
-                    end: endDate,
-                };
-
-                calendarData.push(formattedData);
+        ical.async.fromURL(link, options, function (err, webEvents) {
+            if (err) {
+                console.error(err);
+                reject(err);
+                return;
             }
-        }
 
-        callback(null, calendarData); // Pass the results to the callback
+            for (const event of Object.values(webEvents)) {
+                if (event.type === 'VEVENT') {
+                    const value: VEvent = event;
+                    const startDate = convertIcalToDate(value.start);
+                    const endDate = convertIcalToDate(value.end);
+                    const formattedData: CalendarData = {
+                        id: generateEventId(),
+                        title: value.summary,
+                        start: startDate,
+                        end: endDate,
+                    };
+
+                    calendarData.push(formattedData);
+                }
+            }
+
+            resolve(calendarData); // Resolve the promise with the results
+        });
     });
 }

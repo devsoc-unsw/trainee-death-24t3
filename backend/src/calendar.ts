@@ -252,30 +252,22 @@ export async function removeInvite(calendarId: string, userId: string) {
 export async function updateUser(userId: string, updates: { name?: string; ical?: string }) {
     const { name, ical } = updates;
     const updateFields: any = {};
-    if (name !== undefined) {
+    if (name !== null) {
         updateFields.name = name;
     }
-    if (ical !== undefined) {
+    if (ical !== null) {
         updateFields.ical = ical;
-        readIcalLink(ical, (err, data) => {
-            if (err) {
-                console.error('Failed to read iCal link:', err);
-            }
-            else {
-                updateFields.calendarData = data;
-            }
-        })
+        const calendarData = await readIcalLink(ical); // Await the calendar data
+        updateFields.calendarData = calendarData;
     }
 
     try {
+        console.log(updateFields);
         const result = await usersCollection.updateOne(
             { userId: userId },
             { $set: updateFields }
         );
         
-        if (result.modifiedCount === 0) {
-            throw HTTPError(400, "Bad request");
-        }
         return result;
     } catch (error) {
         throw HTTPError(400, "Bad request");
