@@ -1,13 +1,14 @@
 import ical, { VEvent, DateWithTimeZone } from 'node-ical';
 import crypto from 'crypto';
 import { CalendarData } from './types.ts';
+import { parse } from 'path';
 
 
-// NOTE: all ical links with webcal protocol should be replaced with http and webcals be replaced with https
-// turns link string from webcal to http for axios request
-// function parseLink(link: string): string {
-//    return link;
-// }
+// NOTE: all ical links with webcal protocol should be replaced with https
+// turns link string from webcal to https for axios request
+function parseLink(link: string): string {
+   return link.replace("webcal://", "https://");
+}
 
 
 function generateEventId(): number {
@@ -23,10 +24,11 @@ function convertIcalToDate(icalDate: DateWithTimeZone): Date {
 
 export function readIcalLink(link: string): Promise<CalendarData[]> {
     return new Promise((resolve, reject) => {
+        const parsedLink = parseLink(link);
         const options = { headers: { 'Access-Control-Allow-Origin': '*' } };
         const calendarData: CalendarData[] = [];
 
-        ical.async.fromURL(link, options, function (err, webEvents) {
+        ical.async.fromURL(parsedLink, options, function (err, webEvents) {
             if (err) {
                 console.error(err);
                 reject(err);

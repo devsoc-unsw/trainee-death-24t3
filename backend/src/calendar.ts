@@ -257,7 +257,7 @@ export async function updateUser(userId: string, updates: { name?: string; ical?
     }
     if (ical !== null) {
         updateFields.ical = ical;
-        const calendarData = await readIcalLink(ical); // Await the calendar data
+        const calendarData = await readIcalLink(ical);
         updateFields.calendarData = calendarData;
     }
 
