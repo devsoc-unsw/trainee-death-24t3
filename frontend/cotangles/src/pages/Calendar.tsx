@@ -4,8 +4,33 @@ import { CardTop, CardBody, CardHeader, CardSidebar } from "@/components/ui/card
 import { useParams } from "react-router-dom";
 import getCalendarInfo from "../hooks/getCalendarInfo"
 import { useState } from "react";
-import {CalendarData} from "../types";
+import { CalendarData } from "../types";
+// import { Button } from "@/components/ui/button";
+// import { Copy } from "lucide-react";
 
+// const CopyLinkButton = () => {
+//   const [isCopied, setIsCopied] = useState(false);
+
+//   const handleCopyLink = async () => {
+//     try {
+//       await navigator.clipboard.writeText(window.location.href);
+//       setIsCopied(true);
+//       setTimeout(() => setIsCopied(false), 1000);
+//     } catch (err) {
+//       console.error('error:', err);
+//     }
+//   };
+
+//   return (
+//     <Button
+//       className="h-[8%] focus:outline-2 focus:outline-black gap-1 align-self-end mt-3 ml-auto mr-5"
+//       onClick={handleCopyLink}
+//     >
+//       {isCopied ? 'Copied!' : 'Copy link'}
+//       <Copy className="w-4 h-4" />
+//     </Button>
+//   );
+// };
 
 function Calendar() {
   const [ calendarData, setCalendarData ] = useState<CalendarData[]>([]);
@@ -24,14 +49,15 @@ function Calendar() {
   }
 
   const exampleUsers = [
-    { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8"}, 
-    { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2"}, 
-    { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58"}, 
-    { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A"}, 
-    { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB"}, 
-    { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF"}, 
-    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2"}
-  ]
+    { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
+    { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
+    { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
+    { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
+    { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
+    { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
+    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" }
+  ];
+
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
@@ -45,7 +71,8 @@ function Calendar() {
           </CardTop>
           {/* Body */}
           <CardBody>
-            <MyCalendar calendarData={calendarData}/>
+            <MyCalendar calendarData={calendarData} />
+            {/* <CopyLinkButton/> */}
           </CardBody>
         </div>
       </div>
