@@ -1,3 +1,4 @@
+/*
 import { ArrowBigRightDash } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
 import { buttonVariants } from "../ui/button-variants";
@@ -27,3 +28,4 @@ export function CalendarLeave({ calendar, removeCalendar }: CalendarRemoveProps)
     </AlertDialog>
   )
 }
+*/

@@ -1,11 +1,12 @@
+/*
 import { Trash2 } from "lucide-react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
-import { CalendarProp, CalendarSetter } from "./calendar-list";
+import { CardBodyCalendarProp, CalendarSetter } from "./calendar-list";
 import { buttonVariants } from "../ui/button-variants";
 
 // { removeCalendar }: { removeCalendar: CalendarSetter }
 export type CalendarRemoveProps = {
-  calendar: CalendarProp, 
+  calendar: CardBodyCalendarProp, 
   removeCalendar: CalendarSetter
 }
 
@@ -17,7 +18,7 @@ export function CalendarDelete({ calendar, removeCalendar }: CalendarRemoveProps
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{`Are sure you want to delete ${calendar.calendarName}?`}</AlertDialogTitle>
+          <AlertDialogTitle>{`Are sure you want to delete ${calendar.calendarList[0].calendarName}?`}</AlertDialogTitle>
           <AlertDialogDescription>
             This action <span className="text-destructive">cannot be undone</span>. This will permanently delete the calendar from our server and remove anyone who has joined.
           </AlertDialogDescription>
@@ -30,3 +31,4 @@ export function CalendarDelete({ calendar, removeCalendar }: CalendarRemoveProps
     </AlertDialog>
   )
 }
+*/
