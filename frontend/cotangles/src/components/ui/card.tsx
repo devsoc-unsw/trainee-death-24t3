@@ -34,7 +34,6 @@ const CardBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 CardBody.displayName = "CardBody";
 
 
-
 const CardAuth = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
@@ -157,7 +156,7 @@ const CardGIF = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
     <div
       ref={ref}
       className={cn(
-        "flex justify-center w-[45%] h-[300px] align-center items-center rounded-[2.5em] shadow-light border-2 border-border bg-gray-200 text-black",
+        "flex justify-center w-[95%] h-[350px] align-center items-center rounded-[2.5em] shadow-light border-2 border-border bg-gray-200 text-black",
         className
       )}
       {...props}

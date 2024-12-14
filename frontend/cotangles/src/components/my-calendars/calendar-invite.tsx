@@ -8,7 +8,6 @@ import * as React from "react";
 import { CalendarSetter } from "./calendar-list";
 import { CalendarList } from "@/types";
 import acceptInviteFetcher from "../../hooks/acceptInvite";
-import { jwtDecode } from "jwt-decode"; 
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
   const [calendarInvites, setCalendarInvites] = React.useState([
@@ -30,26 +29,17 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
     },
   ]);
   
-  // Todo load the below value from the backend
-  function getUserIdFromToken() {
-    const token = localStorage.getItem("authToken"); 
-    console.log(token);
-    if (!token) throw new Error("No token found");
-    const decoded: { userId: string } = jwtDecode(token); 
-    return decoded.userId;
-  }
-
   const acceptInvite = async (calendarToAccept: CalendarList) => {
     try {
-      const userId = getUserIdFromToken(); // Fetch userId from token
-      await acceptInviteFetcher(userId, calendarToAccept.calendarId);
-      removeInvite(calendarToAccept)
-      addCalendar(calendarToAccept)
-    } 
-    catch (error) {
+      const res = await acceptInviteFetcher(calendarToAccept.calendarId);
+      console.log("Invite accepted:", res);
+
+      removeInvite(calendarToAccept);
+      addCalendar(calendarToAccept);
+    } catch (error) {
       console.error("Error accepting invite:", error);
     }
-  }
+  };
 
   const removeInvite = (calendarToRemove: CalendarList) => {
     setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
