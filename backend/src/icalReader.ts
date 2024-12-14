@@ -1,7 +1,6 @@
 import ical, { VEvent, DateWithTimeZone } from 'node-ical';
 import crypto from 'crypto';
 import { CalendarData } from './types.ts';
-import { parse } from 'path';
 
 
 // NOTE: all ical links with webcal protocol should be replaced with https

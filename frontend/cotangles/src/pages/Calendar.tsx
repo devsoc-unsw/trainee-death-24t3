@@ -4,7 +4,7 @@ import { CardTop, CardBody, CardHeader, CardSidebar } from "@/components/ui/card
 import { useParams } from "react-router-dom";
 import getCalendarInfo from "../hooks/getCalendarInfo"
 import { useState } from "react";
-import { CalendarData } from "../types";
+import { CalendarData, CalendarUserData } from "../types";
 // import { Button } from "@/components/ui/button";
 // import { Copy } from "lucide-react";
 
@@ -44,7 +44,15 @@ function Calendar() {
           event.start = new Date(event.start)
           event.end = new Date(event.end)
         })
+
+        const userDataList: CalendarData[] = [];
+
         // console.log(data.calendarInfos.calendarUserData[0].calendarData)
+        data.calendarInfost.calendaruserData.forEach((userData: CalendarUserData) => {
+          userData.calendarData.forEach((data: CalendarData) => {
+            userDataList.push(data);
+          })
+        })
         setCalendarData(data.calendarInfos.calendarUserData[0].calendarData)
       }
       else {
