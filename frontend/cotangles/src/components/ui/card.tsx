@@ -165,7 +165,7 @@ const CardGIF = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
     <div
       ref={ref}
       className={cn(
-        "flex justify-center w-[95%] h-[350px] align-center items-center rounded-[2.5em] shadow-light border-2 border-border bg-gray-200 text-black",
+        "flex justify-center w-[95%] h-full align-center items-center rounded-[2.5em] shadow-light border-2 border-border bg-gray-200 text-black",
         className
       )}
       {...props}
