@@ -151,6 +151,29 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
     }
 }
 
+export async function inviteList(userId: string|undefined): Promise<CalendarList[]> {
+    if (!userId) {
+        throw HTTPError(403, "Unauthorized access");  
+    }
+    try {
+        const exisitingUser = await getData("users", { userId: userId });
+        // check if user exists
+        if (!exisitingUser || exisitingUser.length == 0) {
+            throw HTTPError(400, "Invalid request");
+        }
+
+        const user = exisitingUser[0];
+        const calendarNames = user.invites.map((calendar: CalendarList) => ({
+            calendarName: calendar.calendarName,
+            calendarId: calendar.calendarId,
+        }));
+
+        return calendarNames;
+    } catch (error) {
+        throw HTTPError(400, "Bad request");
+    }
+}
+
 /**
  * 
  * @param calendarId 

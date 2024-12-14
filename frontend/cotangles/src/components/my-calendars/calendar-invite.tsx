@@ -10,7 +10,7 @@ import { CalendarList } from "@/types";
 import acceptInviteFetcher from "../../hooks/acceptInvite";
 
 const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
-  const [calendarInvites, setCalendarInvites] = React.useState([
+  const [calendarInvites, setCalendarInvites] = React.useState<CalendarList[]>([
     {
       calendarName: "Gigachad Meetups",
       calendarId: "5e6a70f7-89f4-4eec-afae-c3ebdece9f6b",
