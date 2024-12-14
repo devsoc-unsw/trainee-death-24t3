@@ -104,20 +104,17 @@ type User = {
 
 type CardSidebarProps = {
   users: User[];
+  onKickUser: (userId: number) => void;
+  onInviteUser: (email: string) => void;
 };
 
-const CardSidebar = ({ users }: CardSidebarProps) => {
+const CardSidebar = ({ users, onKickUser, onInviteUser }: CardSidebarProps) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null); 
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false); 
   const handleUserClick = (user: User) => {
     setSelectedUser(user);
     setShowRemoveModal(true); 
-  };
-
-  const handleInviteUser = async (email: string) => {
-    // Add backend logic to invite user via email
-    console.log("Inviting user with email:", email);
   };
 
   return (
@@ -127,8 +124,7 @@ const CardSidebar = ({ users }: CardSidebarProps) => {
         {users.map((user) => (
           <li key={user.userId}>
             <Button className="w-[100%] h-[8%] focus:outline-2 focus:outline-black flex items-center gap-1" style={{ backgroundColor: user.userColor }}
-              onClick={() => handleUserClick(user)}
-            >
+              onClick={() => handleUserClick(user)}>
 
               {user.userName}
               {user.isOwner && <Crown className="w-4 h-4" />}
@@ -139,21 +135,22 @@ const CardSidebar = ({ users }: CardSidebarProps) => {
       </ul>
 
       {showRemoveModal && selectedUser && (
-        <div
-          className="absolute left-[130px] top-[50px]"
-        >
-          <RemoveUserPopup
-            userName={selectedUser.userName} userColor={selectedUser.userColor}
-            onClose={() => setShowRemoveModal(false)} onRemove={() => setShowRemoveModal(false)}
-          />
-        </div>
+        <RemoveUserPopup
+          userName={selectedUser.userName}
+          userColor={selectedUser.userColor}
+          onClose={() => setShowRemoveModal(false)}
+          onRemove={() => {
+            // ! TODO: CHECK IF USER IS AN OWNER
+            onKickUser(selectedUser.userId);
+            setShowRemoveModal(false);
+          }}
+        />
       )}
 
-     {/* Invite User Modal */}
-     {showInviteModal && (
+    {showInviteModal && (
         <InviteUserForm
           onClose={() => setShowInviteModal(false)}
-          onInvite={handleInviteUser}
+          onInvite={onInviteUser}
         />
       )}
     </div>

@@ -33,7 +33,18 @@ import { CalendarData } from "../types";
 // };
 
 function Calendar() {
-  const [ calendarData, setCalendarData ] = useState<CalendarData[]>([]);
+  const [calendarData, setCalendarData] = useState<CalendarData[]>([]);
+  
+  const [users, setUsers] = useState([
+    { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
+    { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
+    { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
+    { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
+    { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
+    { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
+    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" },
+  ]);
+
   const params = useParams();
   if (params.calendarId) {
     // TODO: change to all users
@@ -48,21 +59,32 @@ function Calendar() {
     });
   }
 
-  const exampleUsers = [
-    { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
-    { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
-    { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
-    { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
-    { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
-    { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
-    { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" }
-  ];
+  // const [users, setUsers] = useState([
+  //   { userId: 1, userName: "Aron", isOwner: true, userColor: "#A7DBD8" },
+  //   { userId: 2, userName: "Bron", isOwner: false, userColor: "#BAFCA2" },
+  //   { userId: 3, userName: "Cron", isOwner: false, userColor: "#FFDB58" },
+  //   { userId: 4, userName: "Dron", isOwner: false, userColor: "#FFA07A" },
+  //   { userId: 5, userName: "Eron", isOwner: false, userColor: "#FFC0CB" },
+  //   { userId: 6, userName: "Fron", isOwner: false, userColor: "#C4A1FF" },
+  //   { userId: 7, userName: "Chad", isOwner: false, userColor: "#BAFCA2" },
+  // ]);
+
+  const kickUser = (userId: number) => {
+    // TODO: connect backend to remove user from calendar
+    setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+  };
+
+  // Function to invite a user
+  const inviteUser = (email: string) => {
+    // TODO: connect backend to send user invite
+    console.log(`Inviting user with email: ${email}`); //
+  };
 
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
       {/* Title */}
-      <CardSidebar users={exampleUsers}></CardSidebar>
+      <CardSidebar users={users} onKickUser={kickUser} onInviteUser={inviteUser}></CardSidebar>
         <div className="flex flex-col gap-y-5">
           <CardTop>
             <CardHeader>

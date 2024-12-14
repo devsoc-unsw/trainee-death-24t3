@@ -11,8 +11,7 @@ import {
     userName: string;
     userColor: string;
     onClose: () => void;
-    // onRemove: () => Promise<void>;
-    onRemove: () => void; // void for now to silence errors
+    onRemove: () => void;
   };
   
   export function RemoveUserPopup({ userName, userColor, onClose, onRemove }: RemoveUserPopupProps) {
@@ -31,7 +30,7 @@ import {
                 <Button variant="destructive" onClick={onClose}
                     >Cancel</Button>
               </AlertDialogCancel>
-              <Button variant="affirmative" onClick={() => onRemove}>Confirm</Button>
+              <Button variant="affirmative" onClick={onRemove}>Confirm</Button>
           </div>
         </AlertDialogContent>
       </AlertDialog>
