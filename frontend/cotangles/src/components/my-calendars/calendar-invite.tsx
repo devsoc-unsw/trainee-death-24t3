@@ -11,7 +11,7 @@ import acceptInviteFetcher from "../../hooks/acceptInvite";
 import getInvitesList from "@/hooks/getInvitesList";
 import rejectInvite from "@/hooks/rejectInvite";
 
-const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
+const CalendarInvites = () => {
   const [calendarInvites, setCalendarInvites] = React.useState<CalendarList[]>([]);
   
   getInvitesList().response.then((data) => {
@@ -24,8 +24,6 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
   const acceptInvite = async (calendarToAccept: CalendarList) => {
     try {
       await acceptInviteFetcher(calendarToAccept.calendarId);
-      removeInvite(calendarToAccept);
-      addCalendar(calendarToAccept);
     } catch (error) {
       console.error("Error accepting invite:", error);
     }
@@ -35,8 +33,6 @@ const CalendarInvites = ({ addCalendar }: { addCalendar: CalendarSetter }) => {
     // setCalendarInvites(calendarInvites.filter(calendar => calendar !== calendarToRemove))
     try {
       await rejectInvite(calendarToRemove.calendarId);
-      removeInvite(calendarToRemove);
-      addCalendar(calendarToRemove);
     } catch (error) {
       console.error("Error accepting invite:", error);
     }
@@ -61,7 +57,7 @@ export const CardCalendarInvite = ({ addCalendar }: { addCalendar: CalendarSette
         <div className="flex flex-col items-center justify-start rounded-[2.5em] shadow-light border-2 border-border bg-secondary text-black w-full h-[70%]">
           <h2 className="w-full text-md py-2 break-words">Pending</h2>
           <div className="overflow-y-auto h-[90%] w-[80%]">
-            <CalendarInvites addCalendar={addCalendar}/>
+            <CalendarInvites/>
           </div>
         </div>
     </div>
