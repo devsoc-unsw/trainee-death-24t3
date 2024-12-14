@@ -15,7 +15,10 @@ function Login() {
     } catch (error) {
       console.error("Registration failed:", error);
     }
-    navigate('/my-calendars');
+    setTimeout(() => {
+      navigate('/my-calendars');
+    }, 500);
+
   };
   return (
     <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}>
