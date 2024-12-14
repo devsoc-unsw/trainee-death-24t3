@@ -6,8 +6,8 @@ import doLogout from '@/hooks/logout';
 export const logout = async () => {
     // Do backend stuff here to logout
     try {
-        await doLogout();
-        console.log("Logged out successfully");
+        const response = await doLogout();
+        console.log("Server Response:", response);
         window.location.replace("../login");
       } catch (error) {
         console.error("Logout failed:", error);
