@@ -98,12 +98,8 @@ app.put('/user/update', async (req, res): Promise<any> => {
     })
   }
 
-  const { userId, name, ical } = req.body;
-  if (tokenDecoded.userId !== userId) {
-    return res.status(403).json({ 
-      error: "Unauthorized request" 
-    });
-  }
+  const { name, ical } = req.body;
+  const userId = tokenDecoded.userId;
 
   try {
     await updateUser(userId, { name, ical });
