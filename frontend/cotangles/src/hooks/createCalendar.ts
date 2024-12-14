@@ -1,14 +1,16 @@
-import { fetcher, API_URL } from "./helpers";
+import axios from "axios";
+import { API_URL } from "./helpers";
 
-async function createCalendar(calendarName: string) {
-  try {
-    const payload = {calendarName: calendarName};
-    const response = fetcher(API_URL + "/calendar/new", "POST", null, payload);
-    return { response };
-  } catch (error) {
-    console.error("Registration failed:", error);
-    throw error;
-  }
+const fetcher = (url: string, payload: {calendarName: string}) =>
+  axios.post(url, payload).then((res) => res.data);
+
+function createCalendar(calendarName: string) {
+  const payload = {calendarName: calendarName};
+  const response = fetcher(API_URL + "/calendar/new", payload);
+
+  return {
+    response
+  };
 }
 
 export default createCalendar;

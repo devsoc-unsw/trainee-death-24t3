@@ -139,6 +139,7 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
   try {
     const { calendarName } = req.body;
     const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    console.log(calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
     console.error("error:", err);
