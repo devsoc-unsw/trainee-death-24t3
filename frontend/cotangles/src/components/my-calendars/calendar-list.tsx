@@ -2,8 +2,8 @@ import * as React from "react";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { CardCalendarInvite } from "./calendar-invite";
-import { CalendarDelete } from "./calendar-delete";
-import { CalendarLeave } from "./calendar-leave";
+// import { CalendarDelete } from "./calendar-delete";
+// import { CalendarLeave } from "./calendar-leave";
 
 
 // Components specifically related to the my calendar page
