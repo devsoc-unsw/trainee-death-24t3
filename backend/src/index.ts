@@ -155,6 +155,7 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 
   try {
+    console.log(req.body)
     const { inviteEmail, calendarId } = req.body;
     // returns calendarId if successful
     const ret = await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
@@ -165,15 +166,17 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 });
 
-app.get('/calendar/list/:userId', async (req, res): Promise<any> => {
+app.get('/calendar/list/', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  const userId = tokenDecoded.userId;
+
   if (tokenDecoded == null) {
     return res.status(403).json({
       error: "Unauthorized request"
     })
   }
+
   try {
-    const userId = req.params.userId;
     const calendarNames = await calendarList(userId);
     return res.status(200).json({ message: "success", calendarNames });
   } catch (err) {
@@ -202,21 +205,25 @@ app.get('/calendar/info/:calendarId', async (req, res): Promise<any> => {
 
 app.put('/calendar/accept', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
-  if (tokenDecoded == null) {
-    return res.status(403).json({
-      error: "Unauthorized request"
-    })
+  if (!tokenDecoded) {
+    return res.status(403).json({ error: "Unauthorized request" });
   }
+
+  const userId = tokenDecoded.userId;
+  console.log(userId);
+
   try {
-    const { userId, calendarId } = req.body;
-    // returns calendarId if successful
-    const ret = await acceptCalendar(userId, calendarId)
+    console.log(req.body);
+    const { calendarId } = req.body;
+
+    const ret = await acceptCalendar(userId, calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
-    console.error("error:", err);
+    console.error("Error:", err);
     return res.status(400).json({ error: "failed", details: err.message });
   }
 });
+
 
 app.put('/calendar/reject', async (req, res): Promise<any> => {
   const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
@@ -253,6 +260,7 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
     return res.status(400).json({ error: "failed", details: err.message });
   }
 });
+
 
 app.listen(EXPRESS_PORT, () => {
   console.log(
