@@ -11,8 +11,8 @@ import inviteCalendar from "@/hooks/inviteCalendar";
 type User = {
   userName: string;
   userId: string;
-  userColor: string; 
-  isOwner: boolean; 
+  userColor: string;
+  isOwner: boolean;
 };
 
 function Calendar() {
@@ -53,6 +53,7 @@ function Calendar() {
               data.start = new Date(data.start);
               data.end = new Date(data.end);
               userDataList.push(data);
+              data.color = color;
             })
           }
         })
@@ -78,7 +79,7 @@ function Calendar() {
     console.log(`Inviting user with email: ${email}`); //
   };
 
- 
+
   return (
     <>
       <div className="max-w-full min-w-full h-full flex gap-x-10">
@@ -92,7 +93,7 @@ function Calendar() {
           </CardTop>
           {/* Body */}
           <CardBody>
-            <MyCalendar calendarData={calendarData} />
+            <MyCalendar calendarData={calendarData}/>
             {/* <CopyLinkButton/> */}
           </CardBody>
         </div>

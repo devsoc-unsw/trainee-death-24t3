@@ -12,16 +12,25 @@ interface MyCalendarProps {
   calendarData: Event[]
 }
 
+interface MyEvent extends Event {
+  color?: string;
+}
+
+
 
 const MyCalendar: React.FC<MyCalendarProps> = ({ calendarData }) => {
   return (
     <div className="w-[95%] h-[90%]">
-      <Calendar 
-        localizer={localizer} 
-        events={calendarData} 
-        startAccessor="start" 
+      <Calendar
+        localizer={localizer}
+        events={calendarData}
+        startAccessor="start"
         endAccessor="end"
         views={[views.MONTH, views.WEEK, views.DAY]}
+        eventPropGetter={(event: MyEvent) => {
+          const color = event.color ?? "";
+          return { style: { backgroundColor: color, color: "black" } };
+        }}
         selectable
         />
     </div>
