@@ -13,6 +13,7 @@ export function DefaultCalendarForm() {
   // valid ical link
   const icalSchema = z.object({
     defaultIcalLink: z.string()
+    .endsWith('.ics')
   })
 
   const DefaultCalendarForm = useForm<z.infer<typeof icalSchema>>({
@@ -48,7 +49,7 @@ export function DefaultCalendarForm() {
               <FormControl>
                 <Input placeholder="webcal://my.unsw.edu.au/cal/pttd/example.ics" {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage className="text-left"/>
             </FormItem>
           )}
         />

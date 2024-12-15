@@ -54,7 +54,7 @@ export function ChangeNameForm() {
               <FormControl>
                 <Input placeholder="Your name here" {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage className="text-left"/>
             </FormItem>
           )}
         />

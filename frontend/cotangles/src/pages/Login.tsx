@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import getAuth from '../hooks/getAuth';
 import sparkle from "@/assets/svg/sparkle.svg";
 import squiggle_arrow from "@/assets/svg/squiggle_arrow.svg"
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 function Login() {
   const navigate = useNavigate();
@@ -20,6 +22,13 @@ function Login() {
     }, 500);
 
   };
+  useEffect(() => {
+    const token = Cookies.get("userinfo")
+    console.log(token)
+    if (token) {
+      navigate('/my-calendars')
+    }
+  })
   return (
     <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}>
         {/* Title */}
