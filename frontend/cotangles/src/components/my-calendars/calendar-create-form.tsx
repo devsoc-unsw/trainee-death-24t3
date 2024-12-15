@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { Plus } from "lucide-react";
 import { CalendarSetter } from "./calendar-list";
+import createCalendar from "@/hooks/createCalendar";
 
 export function CalendarCreateForm({ addCalendar }: { addCalendar: CalendarSetter }) {
   // valid form
@@ -28,15 +29,16 @@ export function CalendarCreateForm({ addCalendar }: { addCalendar: CalendarSette
   })
 
   function onSubmit(values: z.infer<typeof calendarSchema>) {
-    // Do something with the form values.
-    console.log(values)
-    // Todo get generated id from the backend
-    const newCalendar = {
-      calendarName: values.calendarName,
-      calendarId: 'placeholder'
-    }
-    addCalendar(newCalendar)
-    window.location.replace(`./my-calendars/${newCalendar.calendarId}`)
+    createCalendar(values.calendarName).response.then((data) => {
+      if (data) {
+        const newCalendar = {
+          calendarName: values.calendarName,
+          calendarId: data.calendarId
+        }
+        addCalendar(newCalendar)
+        window.location.replace(`./my-calendars/${newCalendar.calendarId}`)
+      }
+    });
   }
 
   return (

@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { UserToken } from "./types.ts";
 import { verifySessionToken } from "./utils.ts";
-import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo, removeInvite, acceptCalendar } from "./calendar.ts";
+import { createCalendar, inviteCalendar, calendarList, removeUserFromCalendar, updateUser, calendarInfo, removeInvite, acceptCalendar, inviteList } from "./calendar.ts";
 
 
 dotenv.config();
@@ -53,9 +53,10 @@ app.post('/register', async (req, res): Promise<any> => {
     }
 
     const { email, name, sub: googleId } = payload;
+    console.log(payload);
 
     // Fetch or create the user using Google ID
-    const user = await fetchOrCreateByGoogleId(googleId, email);
+    const user = await fetchOrCreateByGoogleId(googleId, email, name);
 
     if (!user) {
       return res.status(500).json({ error: "no user" });
@@ -108,12 +109,9 @@ app.put('/user/update', async (req, res): Promise<any> => {
     })
   }
 
-  const { userId, name, ical } = req.body;
-  if (tokenDecoded.userId !== userId) {
-    return res.status(403).json({
-      error: "Unauthorized request"
-    });
-  }
+  const userId = tokenDecoded.userId;
+
+  const { name, ical } = req.body;
 
   try {
     await updateUser(userId, { name, ical });
@@ -149,6 +147,7 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
   try {
     const { calendarName } = req.body;
     const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
+    console.log(calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
     console.error("error:", err);
@@ -168,8 +167,27 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
     console.log(req.body)
     const { inviteEmail, calendarId } = req.body;
     // returns calendarId if successful
-    const ret = await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
+    await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
+  } catch (err) {
+    console.error("error:", err);
+    return res.status(400).json({ error: "failed", details: err.message });
+  }
+});
+
+app.get('/calendar/invite/list', async (req, res): Promise<any> => {
+  const tokenDecoded: UserToken = verifySessionToken(req.cookies.token);
+  const userId = tokenDecoded.userId;
+
+  if (tokenDecoded == null) {
+    return res.status(403).json({
+      error: "Unauthorized request"
+    })
+  }
+
+  try {
+    const calendarNames = await inviteList(userId);
+    return res.status(200).json({ message: "success", calendarNames });
   } catch (err) {
     console.error("error:", err);
     return res.status(400).json({ error: "failed", details: err.message });
@@ -244,7 +262,8 @@ app.put('/calendar/reject', async (req, res): Promise<any> => {
   }
 
   try {
-    const { calendarId, deleteUserId } = req.body;
+    const deleteUserId = tokenDecoded.userId;
+    const { calendarId } = req.body;
     // delete invite from intive list
     removeInvite(calendarId, deleteUserId);
   } catch (err) {
@@ -262,6 +281,7 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
   }
 
   try {
+    console.log(req.body);
     const { calendarId, deleteUserId } = req.body;
     await removeUserFromCalendar(calendarId, deleteUserId);
     return res.status(200).json({ message: "success" });

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button"
 import { Save } from "lucide-react";
 import { useState } from "react"
+import updateUserInfo from "./../../hooks/updateUserInfo"
 
 export function ChangeNameForm() {
   const [labelText, setLabelText] = useState("Display name");
@@ -30,6 +31,7 @@ export function ChangeNameForm() {
 
   function onSubmit(values: z.infer<typeof nameSchema>) {
     // Do something with the form values.
+    updateUserInfo(values.displayName, null)
     console.log(values)
     setLabelText("Display name - changes saved!")
     setTimeout(() => {
@@ -52,7 +54,7 @@ export function ChangeNameForm() {
               <FormControl>
                 <Input placeholder="Your name here" {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage className="text-left"/>
             </FormItem>
           )}
         />

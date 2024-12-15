@@ -96,17 +96,19 @@ CardFooter.displayName = "CardFooter";
 
 type User = {
   userName: string;
-  userId: number;
+  userId: string;
   userColor: string; 
   isOwner: boolean; 
 };
 
 type CardSidebarProps = {
   users: User[];
-  calendarId: string; 
+  onKickUser: (userId: string) => void;
+  onInviteUser: (email: string) => void;
 };
 
-const CardSidebar = ({ users, calendarId }: CardSidebarProps) => {
+
+const CardSidebar = ({ users, onInviteUser, onKickUser }: CardSidebarProps) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [showInviteModal, setShowInviteModal] = useState(false); 
@@ -135,21 +137,23 @@ const CardSidebar = ({ users, calendarId }: CardSidebarProps) => {
       </ul>
 
       {showRemoveModal && selectedUser && (
-        <div className="absolute left-[130px] top-[50px]">
-          <RemoveUserPopup
-            userName={selectedUser.userName} 
-            userColor={selectedUser.userColor}
-            onClose={() => setShowRemoveModal(false)} 
-            onRemove={() => setShowRemoveModal(false)}
-          />
-        </div>
+        <RemoveUserPopup
+          userName={selectedUser.userName}
+          userColor={selectedUser.userColor}
+          onClose={() => setShowRemoveModal(false)}
+          onRemove={() => {
+            // ! TODO: CHECK IF USER IS AN OWNER
+            onKickUser(selectedUser.userId);
+            setShowRemoveModal(false);
+          }}
+        />
       )}
 
       {/* Invite User Modal */}
       {showInviteModal && (
         <InviteUserForm
           onClose={() => setShowInviteModal(false)}
-          calendarId={calendarId} // Pass the calendarId prop
+          onInvite={onInviteUser}
         />
       )}
     </div>

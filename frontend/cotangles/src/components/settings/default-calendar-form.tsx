@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from "../ui/button";
 import { Save } from "lucide-react"
 import { useState } from "react"
+import updateUserInfo from "@/hooks/updateUserInfo"
 
 export function DefaultCalendarForm() {
   const [labelText, setLabelText] = useState("My calendar");
   // valid ical link
   const icalSchema = z.object({
     defaultIcalLink: z.string()
+    .endsWith('.ics')
   })
 
   const DefaultCalendarForm = useForm<z.infer<typeof icalSchema>>({
@@ -22,6 +24,8 @@ export function DefaultCalendarForm() {
   })
 
   function onSubmit(values: z.infer<typeof icalSchema>) {
+    updateUserInfo(null, values.defaultIcalLink)
+
     // Do something with the form values.
     console.log(values)
     setLabelText("My calendar - changes saved!")
@@ -45,7 +49,7 @@ export function DefaultCalendarForm() {
               <FormControl>
                 <Input placeholder="webcal://my.unsw.edu.au/cal/pttd/example.ics" {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage className="text-left"/>
             </FormItem>
           )}
         />
