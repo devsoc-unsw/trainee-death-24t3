@@ -6,10 +6,10 @@ import HTTPError from 'http-errors';
 import { readIcalLink } from './icalReader.ts';
 
 /**
- * 
- * @param userId 
- * @param calendarName 
- * @returns 
+ *
+ * @param userId
+ * @param calendarName
+ * @returns
  */
 export async function createCalendar(userId: string | undefined, calendarName: string | undefined): Promise<string>{
     if (!userId) {
@@ -30,7 +30,7 @@ export async function createCalendar(userId: string | undefined, calendarName: s
         userList: [],
         name: calendarName,
     };
-    
+
     try {
         const newUserList: UserList = {
             userId: userId,
@@ -38,7 +38,7 @@ export async function createCalendar(userId: string | undefined, calendarName: s
         }
 
         newCalendar.userList.push(newUserList);
-        await setData('calendars', newCalendar); 
+        await setData('calendars', newCalendar);
 
         // add this newly added calendar to user's calendar list
         await updateUserCalendarList(newCalendar.calendarId, userId);
@@ -50,14 +50,14 @@ export async function createCalendar(userId: string | undefined, calendarName: s
 }
 
 /**
- * 
- * @param inviteEmail 
- * @param userId 
- * @param calendarId 
+ *
+ * @param inviteEmail
+ * @param userId
+ * @param calendarId
  */
 export async function inviteCalendar(inviteEmail: string | undefined, userId: string | undefined, calendarId: string | undefined) {
     if (!userId) {
-        throw HTTPError(403, "Unauthorized access");  
+        throw HTTPError(403, "Unauthorized access");
     }
 
     if (!inviteEmail || !calendarId) {
@@ -72,7 +72,7 @@ export async function inviteCalendar(inviteEmail: string | undefined, userId: st
         if (!existingCalendar || existingCalendar.length == 0) {
             throw HTTPError(400, "Invalid request");
         }
-        
+
         await updateUserInviteList(calendarId, existingUser[0].userId);
         return calendarId;
     } catch (error) {
@@ -81,14 +81,14 @@ export async function inviteCalendar(inviteEmail: string | undefined, userId: st
 }
 
 /**
- * 
- * @param inviteEmail 
- * @param userId 
- * @param calendarId 
+ *
+ * @param inviteEmail
+ * @param userId
+ * @param calendarId
  */
 export async function acceptCalendar(userId: string | undefined, calendarId: string | undefined) {
     if (!userId) {
-        throw HTTPError(403, "Unauthorized access");  
+        throw HTTPError(403, "Unauthorized access");
     }
 
     if (!calendarId) {
@@ -118,19 +118,28 @@ export async function acceptCalendar(userId: string | undefined, calendarId: str
             { calendarId },
             { $push: { userList: { userId: existingUser[0].userId, color: color } } }
         );
+        usersCollection.updateOne(
+            { userId }, // Match the document by its _id
+            { $pull: { invites: { calendarId: calendarId } } } // Remove the invite with the specified calendarId
+        )
+        usersCollection.updateOne(
+            { userId },
+            { $push: { calendars: { calendarId: calendarId, calendarName: existingCalendar[0].name } } }
+        )
+
         return calendarId;
     } catch (error) {
-        throw HTTPError(400, "Bad request");
+        throw HTTPError(400, error);
     }
 }
 
 /**
- * 
- * @param userId 
+ *
+ * @param userId
  */
 export async function calendarList(userId: string|undefined): Promise<CalendarList[]> {
     if (!userId) {
-        throw HTTPError(403, "Unauthorized access");  
+        throw HTTPError(403, "Unauthorized access");
     }
     try {
         const exisitingUser = await getData("users", { userId: userId });
@@ -153,7 +162,7 @@ export async function calendarList(userId: string|undefined): Promise<CalendarLi
 
 export async function inviteList(userId: string|undefined): Promise<CalendarList[]> {
     if (!userId) {
-        throw HTTPError(403, "Unauthorized access");  
+        throw HTTPError(403, "Unauthorized access");
     }
     try {
         const exisitingUser = await getData("users", { userId: userId });
@@ -175,8 +184,8 @@ export async function inviteList(userId: string|undefined): Promise<CalendarList
 }
 
 /**
- * 
- * @param calendarId 
+ *
+ * @param calendarId
  */
 export async function calendarInfo(calendarId: string|undefined): Promise<CalendarInfo> {
     if (!calendarId) {
@@ -291,7 +300,7 @@ export async function updateUser(userId: string, updates: { name?: string; ical?
             { userId: userId },
             { $set: updateFields }
         );
-        
+
         return result;
     } catch (error) {
         throw HTTPError(400, "Bad request");
