@@ -16,7 +16,6 @@ import Cookies from "js-cookie"
 
 const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
   const token = Cookies.get("userinfo"); // Retrieve the token cookie
-  console.log(token)
 
   // If token doesn't exist, redirect to the login page
   if (!token) {
@@ -32,7 +31,7 @@ function App() {
     <>
       <BrowserRouter>
         <div>
-          <NavigationCotangles />
+          <NavigationCotangles/>
           <Routes>
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
             <Route element={<ContentWrapper/>}>

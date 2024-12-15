@@ -11,11 +11,14 @@ function Login() {
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     try {
       const response = await getAuth(credentialResponse);
-      navigate('/my-calendars');
       console.log("Server Response:", response);
     } catch (error) {
       console.error("Registration failed:", error);
     }
+    setTimeout(() => {
+      navigate('/my-calendars');
+    }, 500);
+
   };
   return (
     <GoogleOAuthProvider clientId={"899796014325-caos2u0vn8g0qrij96kcpvdi4hifq18d.apps.googleusercontent.com"}>

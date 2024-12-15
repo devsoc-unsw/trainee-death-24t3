@@ -1,11 +1,19 @@
 import { CredentialResponse } from '@react-oauth/google';
 import getAuth from '../hooks/getAuth';
+import doLogout from '@/hooks/logout';
+import Cookies from 'js-cookie';
 
 
-export const logout = () => {
+export const logout = async () => {
     // Do backend stuff here to logout
-    console.log("logged out")
-    window.location.replace('../login')
+    try {
+        const response = await doLogout();
+        console.log("Server Response:", response);
+        Cookies.remove("userinfo")
+        window.location.replace("../login");
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
 }
 
 export const login = async (credentialResponse: CredentialResponse) => {
@@ -15,5 +23,4 @@ export const login = async (credentialResponse: CredentialResponse) => {
     } catch (error) {
     console.error("Registration failed:", error);
     }
-    window.location.replace('../my-calendars')
 }
