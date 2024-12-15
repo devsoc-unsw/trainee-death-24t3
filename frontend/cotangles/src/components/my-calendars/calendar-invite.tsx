@@ -13,7 +13,7 @@ import rejectInvite from "@/hooks/rejectInvite";
 
 const CalendarInvites = () => {
   const [calendarInvites, setCalendarInvites] = React.useState<CalendarList[]>([]);
-  
+
   getInvitesList().response.then((data) => {
     if (data) {
       const calendarNames: CalendarList[] = data.calendarNames;
@@ -36,6 +36,10 @@ const CalendarInvites = () => {
     } catch (error) {
       console.error("Error accepting invite:", error);
     }
+  }
+
+  if (calendarInvites.length == 0) {
+    return <span>No pending invites 😔</span>
   }
 
   return(
