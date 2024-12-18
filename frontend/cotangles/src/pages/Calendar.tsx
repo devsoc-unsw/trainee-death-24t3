@@ -35,7 +35,6 @@ function Calendar() {
 
         setCalendarName(data.calendarInfos.name);
 
-        // console.log(data.calendarInfos.calendarUserData[0].calendarData)
         data.calendarInfos.calendarUserData.forEach((userData: CalendarUserData) => {
           const color = userColors[count % userColors.length];
           const newUser: User = {
@@ -76,7 +75,6 @@ function Calendar() {
   const inviteUser = async (email: string) => {
     // TODO: connect backend to send user invite
     await inviteCalendar(params.calendarId!, email);
-    console.log(`Inviting user with email: ${email}`); //
   };
 
 

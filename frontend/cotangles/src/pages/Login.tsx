@@ -12,8 +12,7 @@ function Login() {
   const navigate = useNavigate();
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      const response = await getAuth(credentialResponse);
-      console.log("Server Response:", response);
+      await getAuth(credentialResponse);
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -24,7 +23,6 @@ function Login() {
   };
   useEffect(() => {
     const token = Cookies.get("userinfo")
-    console.log(token)
     if (token) {
       navigate('/my-calendars')
     }

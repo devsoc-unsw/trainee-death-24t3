@@ -33,7 +33,7 @@ export function DeleteAccountForm() {
 
   function onSubmit(values: z.infer<typeof emailSchema>) {
     // Do something with the form values.
-    console.log(values)
+    console.log(values);
   }
 
   return (

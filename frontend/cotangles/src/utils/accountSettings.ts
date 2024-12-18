@@ -7,8 +7,7 @@ import Cookies from 'js-cookie';
 export const logout = async () => {
     // Do backend stuff here to logout
     try {
-        const response = await doLogout();
-        console.log("Server Response:", response);
+        await doLogout();
         Cookies.remove("userinfo")
         window.location.replace("../login");
       } catch (error) {
@@ -18,9 +17,8 @@ export const logout = async () => {
 
 export const login = async (credentialResponse: CredentialResponse) => {
     try {
-        const response = await getAuth(credentialResponse);
-        console.log("Server Response:", response);
+      await getAuth(credentialResponse);
     } catch (error) {
-    console.error("Registration failed:", error);
+      console.error("Registration failed:", error);
     }
 }

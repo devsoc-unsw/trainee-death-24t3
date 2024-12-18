@@ -295,7 +295,6 @@ export async function updateUser(userId: string, updates: { name?: string; ical?
     }
 
     try {
-        console.log(updateFields);
         const result = await usersCollection.updateOne(
             { userId: userId },
             { $set: updateFields }

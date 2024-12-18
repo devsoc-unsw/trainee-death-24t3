@@ -27,7 +27,6 @@ export function DefaultCalendarForm() {
     updateUserInfo(null, values.defaultIcalLink)
 
     // Do something with the form values.
-    console.log(values)
     setLabelText("My calendar - changes saved!")
     setTimeout(() => {
       setLabelText("My calendar")

@@ -58,7 +58,6 @@ export async function updateUserCalendarList(calendarId: string, userId: string)
       calendarId: currentCalendar.calendarId
     }
 
-    console.log("test", userId);
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 
@@ -94,7 +93,6 @@ export async function updateUserInviteList(calendarId: string, userId: string) {
     const exisitingUser: any[] = await getData('users', { userId: userId });
     const currentUser: User = exisitingUser[0];
 
-    console.log(exisitingUser);
 
     const filter = { userId: currentUser.userId };
     const options = {
@@ -136,6 +134,5 @@ export async function getData(collectionName: string, query = {}) {
 
 process.on("SIGINT", async () => {
   await client.close();
-  console.log("MongoDB connection closed");
   process.exit(0);
 });

@@ -53,7 +53,6 @@ app.post('/register', async (req, res): Promise<any> => {
     }
 
     const { email, name, sub: googleId } = payload;
-    console.log(payload);
 
     // Fetch or create the user using Google ID
     const user = await fetchOrCreateByGoogleId(googleId, email, name);
@@ -147,7 +146,6 @@ app.post('/calendar/new', async (req, res): Promise<any> => {
   try {
     const { calendarName } = req.body;
     const calendarId = await createCalendar(tokenDecoded.userId, calendarName);
-    console.log(calendarId);
     return res.status(200).json({ message: "success", calendarId: calendarId });
   } catch (err) {
     console.error("error:", err);
@@ -164,7 +162,6 @@ app.post('/calendar/invite', async (req, res): Promise<any> => {
   }
 
   try {
-    console.log(req.body)
     const { inviteEmail, calendarId } = req.body;
     // returns calendarId if successful
     await inviteCalendar(inviteEmail, tokenDecoded.userId, calendarId);
@@ -238,10 +235,8 @@ app.put('/calendar/accept', async (req, res): Promise<any> => {
   }
 
   const userId = tokenDecoded.userId;
-  console.log(userId);
 
   try {
-    console.log(req.body);
     const { calendarId } = req.body;
 
     const ret = await acceptCalendar(userId, calendarId);
@@ -281,7 +276,6 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
   }
 
   try {
-    console.log(req.body);
     const { calendarId, deleteUserId } = req.body;
     await removeUserFromCalendar(calendarId, deleteUserId);
     return res.status(200).json({ message: "success" });

@@ -32,7 +32,6 @@ export function ChangeNameForm() {
   function onSubmit(values: z.infer<typeof nameSchema>) {
     // Do something with the form values.
     updateUserInfo(values.displayName, null)
-    console.log(values)
     setLabelText("Display name - changes saved!")
     setTimeout(() => {
       setLabelText("Display name")
