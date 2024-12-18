@@ -1,0 +1,17 @@
+{
+  "name": "trainee-death-24t3",
+  "version": "1.0.0",
+  "description": "A social timetable web-app where users can share their schedules via iCal links",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm start --prefix backend && npm run dev --prefix frontend/cotangles",
+    "build": "npm install --prefix backend && npm install --prefix frontend/cotangles && npm run build --prefix frontend/cotangles",
+    "start": "NODE_ENV=production npx tsx backend/src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2"
+  }
+}

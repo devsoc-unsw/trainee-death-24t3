@@ -1,5 +1,6 @@
 import express from "express";
 import cors from 'cors';
+import path from "path";
 import { OAuth2Client } from 'google-auth-library';
 import { fetchOrCreateByGoogleId } from './dbInterface.ts';
 import cookieParser from "cookie-parser";
@@ -26,10 +27,6 @@ app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
 }));
-
-app.get('/', (req, res) => {
-  res.send('cotangles backend says hello');
-});
 
 
 app.post('/register', async (req, res): Promise<any> => {
@@ -284,6 +281,16 @@ app.delete('/calendar/remove', async (req, res): Promise<any> => {
     return res.status(400).json({ error: "failed", details: err.message });
   }
 });
+
+const __dirname = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "frontend/cotangles/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "cotangles", "dist", "index.html"));
+  })
+}
 
 
 app.listen(EXPRESS_PORT, () => {

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { Calendar, CalendarList, User } from './types.ts'
 import { generateId } from "./utils.ts";
 
-dotenv.config({ path: "src/.env.local" });
+dotenv.config();
 
 // get mongo db uri string from enviroment file
 const uri: string | undefined = process.env.MONGODB_URI;
