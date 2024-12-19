@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 // TODO: change this if deployed
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://cotangles.onrender.com",
   credentials: true,
 }));
 

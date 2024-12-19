@@ -2,7 +2,7 @@ import axios, { AxiosHeaderValue } from "axios"
 
 axios.defaults.withCredentials = true;
 
-export const API_URL = "http://localhost:3000";
+export const API_URL = "https://cotangles.onrender.com";
 
 
 // TODO: check if this works for get, delete, put
